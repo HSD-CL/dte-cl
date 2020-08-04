@@ -1,0 +1,54 @@
+{
+    "name": "hsd-cl/dte-cl",
+    "description": "Laravel Package for Chile DTE",
+    "keywords": [
+        "hsd-cl",
+        "dte-cl"
+    ],
+    "homepage": "https://github.com/hsd-cl/dte-cl",
+    "license": "GNU AGPLv",
+    "type": "library",
+    "authors": [
+        {
+            "name": "David Lopez",
+            "email": "dleo.lopez@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "illuminate/support": "^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "HSDCL\\DteCl\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HSDCL\\DteCl\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "HSDCL\\DteCl\\DteClServiceProvider"
+            ],
+            "aliases": {
+                "DteCl": "HSDCL\\DteCl\\DteClFacade"
+            }
+        }
+    }
+}
