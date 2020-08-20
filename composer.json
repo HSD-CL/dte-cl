@@ -17,7 +17,8 @@
     ],
     "require": {
         "php": "^7.4",
-        "illuminate/support": "^6.0"
+        "illuminate/support": "^6.0",
+        "sasco/libredte": "^20.7"
     },
     "require-dev": {
         "orchestra/testbench": "^4.0",

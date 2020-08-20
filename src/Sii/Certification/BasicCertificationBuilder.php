@@ -1,0 +1,146 @@
+<?php
+/**
+ * @author David Lopez <dleo.lopez@gmail.com>
+ * @version 6/8/20 3:23 p. m.
+ */
+
+namespace HSDCL\DteCl\Sii\Certification;
+
+use HSDCL\DteCl\Util\Exception;
+use phpDocumentor\Reflection\Types\Boolean;
+use sasco\LibreDTE\FirmaElectronica;
+use sasco\LibreDTE\Sii\Dte;
+use sasco\LibreDTE\Sii\EnvioDte;
+use sasco\LibreDTE\Sii\Folios;
+use \HSDCL\DteCl\Sii\Base\Dte as HsdDte;
+
+/**
+ * Class BasicCertificationBuilder
+ * @package HSDCL\DteCl\Sii\CertificationBuilder
+ * @author David Lopez <dleo.lopez@gmail.com>
+ */
+class BasicCertificationBuilder extends CertificationBuilder
+{
+    /**
+     * @param FirmaElectronica $firma
+     * @param array $folios
+     * @param \HSDCL\DteCl\Sii\Certification\Source $source
+     * @param array $issuing
+     * @param array $receiver
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function __construct(FirmaElectronica $firma, array $folios, Source $source, array $issuing, array $receiver)
+    {
+        $this->firma = $firma;
+        $this->folios = $folios;
+        $this->source = $source;
+        $this->issuing = $issuing;
+        $this->receiver = $receiver;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function parse(array $startFolio): CertificationBuilder
+    {
+        $this->parsed = $this->source->getCases($startFolio);
+
+        return $this;
+    }
+
+    /**
+     * Funcion que generar cada DTE, timbrar, firmar y agregar al sobre de EnvioDTE
+     * @param int|null $startFolio
+     * @return bool
+     * @throws Exception
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function setStampAndSign(array $startFolio = null): CertificationBuilder
+    {
+        $this->agent = new EnvioDte();
+        foreach ($this->parsed as $document) {
+            # TODO Utilizar una estrategia como prototype para validar que el documento parseado
+            # sea standar al diseño
+            $typeDte = $document['Encabezado']['IdDoc']['TipoDTE'];
+            # Agregar emisor
+            $document['Encabezado']['Emisor'] = $this->issuing;
+            # Agregar el receptor
+            $document['Encabezado']['Receptor'] = $this->receiver;
+            # TODO Agregar emisor
+            if (!empty($startFolio)) {
+                $document['Encabezado']['IdDoc']['Folio'] = $startFolio[$typeDte] ?: 0;
+                $startFolio[$typeDte]++;
+            }
+            $dte = new Dte($document);
+            if (!$dte->timbrar($this->folios[$typeDte])) {
+                throw new Exception('No se pudo timbrar el dte');
+            }
+            if (!$dte->firmar($this->firma)) {
+                throw new Exception('No se pudo firmar el dte');
+            }
+            if (!$this->agent->agregar($dte)) {
+                throw new Exception('No se pudo agregar el dte');
+            };
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this|CertificationBuilder
+     * @author David Lopez <dleo.lopez@gmail.com>
+     */
+    public function setSign(): CertificationBuilder
+    {
+        $this->agent->setFirma($this->firma);
+
+        return $this;
+    }
+
+    /**
+     * @param array $caratula
+     * @return $this|CertificationBuilder
+     * @author David Lopez <dleo.lopez@gmail.com>
+     */
+    public function setCaratula(array $caratula): CertificationBuilder
+    {
+        # TODO Investigar formato caratula correcta
+        $this->agent->setCaratula($caratula);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function send(): bool
+    {
+        return $this->agent->enviar();
+    }
+
+    /**
+     * @param array $startFolio
+     * @param array $caratula
+     * @return CertificationBuilder
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function build(array $startFolio, array $caratula): CertificationBuilder
+    {
+        $this->parse($startFolio)
+            ->setStampAndSign($startFolio)
+            ->setCaratula($caratula)
+            ->setSign();
+
+        return $this;
+    }
+
+    /**
+     * @param string $filename
+     * @return false|int
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function export(string $filename)
+    {
+        return file_put_contents($filename, $this->agent->generar());
+    }
+}
