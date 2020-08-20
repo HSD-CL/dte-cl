@@ -47,7 +47,7 @@ class SaleCertificationTest extends TestCase
         parent::setUp();
         $this->config = Configuration::getInstance('folios-33', __DIR__ . '/../resources/assets/xml/folios/33.xml');
         # TODO Ocultar en un archivo de configuracion
-        $this->firma = new FirmaElectronica(['file' => __DIR__ . '/../resources/assets/certs/cert.pfx', 'pass' => 'Aaraneda1*']);
+        $this->firma = new FirmaElectronica(['file' => __DIR__ . '/../resources/assets/certs/cert.pfx', 'pass' => env('FIRMA_PASS')]);
         $this->folios = new Folios(file_get_contents($this->config->getFilename()));
         $this->certification = new BasicCertificationBuilder($this->firma, $this->folios, new FileSource(__DIR__ . '/../resources/assets/set_pruebas/001-basico.txt'));
     }

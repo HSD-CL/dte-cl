@@ -18,7 +18,7 @@ class DteCl
     {
         $token = Autenticacion::getToken([
             'file' => __DIR__ . '/../resources/assets/cert.pfx',
-            'pass' => 'Aaraneda1*'
+            'pass' => env('FIRMA_PASS')
         ]);
 
         return $token;
