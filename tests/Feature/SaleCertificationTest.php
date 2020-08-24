@@ -1,13 +1,13 @@
 <?php
 
-namespace HSDCL\DteCl\Tests;
+namespace HSDCL\DteCl\Tests\Feature;
 
 use HSDCL\DteCl\DteCl;
 use HSDCL\DteCl\Sii\Certification\CertificationBuilder;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Util\Configuration;
-use Orchestra\Testbench\TestCase;
+use HSDCL\DteCl\Tests\TestCase;
 use HSDCL\DteCl\DteClServiceProvider;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Folios;
@@ -45,11 +45,11 @@ class SaleCertificationTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->config = Configuration::getInstance('folios-33', __DIR__ . '/../resources/assets/xml/folios/33.xml');
+        $this->config = Configuration::getInstance('folios-33', __DIR__ . '/../../resources/assets/xml/folios/33.xml');
         # TODO Ocultar en un archivo de configuracion
         $this->firma = new FirmaElectronica(['file' => __DIR__ . '/../resources/assets/certs/cert.pfx', 'pass' => env('FIRMA_PASS')]);
-        $this->folios = new Folios(file_get_contents($this->config->getFilename()));
-        $this->certification = new BasicCertificationBuilder($this->firma, $this->folios, new FileSource(__DIR__ . '/../resources/assets/set_pruebas/001-basico.txt'));
+        $this->folios = [33 => new Folios(file_get_contents($this->config->getFilename()))];
+        $this->certification = new BasicCertificationBuilder($this->firma, $this->folios, new FileSource(__DIR__ . '/../../resources/assets/set_pruebas/001-basico.txt'), [], []);
     }
 
     /**
@@ -93,5 +93,14 @@ class SaleCertificationTest extends TestCase
             'NroResol'    => 0,
         ];
         $this->assertInstanceOf(CertificationBuilder::class, $this->certification->build(56, $caratula));
+    }
+
+    /**
+     * @test
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function canExportToPdf()
+    {
+        $this->assertTrue(BasicCertificationBuilder::exportToPdf('/home/dlopez/Projects/Php/dte-cl/resources/assets/xml/set_basico/1.xml'));
     }
 }

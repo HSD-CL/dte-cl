@@ -1,7 +1,10 @@
 <?php
 namespace HSDCL\DteCl\Sii\Certification;
 
+use HSDCL\DteCl\Util\Exception;
+use sasco\LibreDTE\File;
 use sasco\LibreDTE\FirmaElectronica;
+use sasco\LibreDTE\Sii\Dte\PDF\Dte;
 use sasco\LibreDTE\Sii\EnvioDte;
 use sasco\LibreDTE\Sii\Folios;
 

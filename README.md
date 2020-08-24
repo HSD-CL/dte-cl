@@ -1,15 +1,21 @@
-# Very short description of the package
+# HSD-CL DTE
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/hsd-cl/dte-cl.svg?style=flat-square)](https://packagist.org/packages/hsd-cl/dte-cl)
 [![Build Status](https://img.shields.io/travis/hsd-cl/dte-cl/master.svg?style=flat-square)](https://travis-ci.org/hsd-cl/dte-cl)
 [![Quality Score](https://img.shields.io/scrutinizer/g/hsd-cl/dte-cl.svg?style=flat-square)](https://scrutinizer-ci.com/g/hsd-cl/dte-cl)
 [![Total Downloads](https://img.shields.io/packagist/dt/hsd-cl/dte-cl.svg?style=flat-square)](https://packagist.org/packages/hsd-cl/dte-cl)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+[Package para Laravel](https://laravel.com/docs/7.x/packages) que incluye las funciones de la [facturación electronica de Chile](http://www.sii.cl/servicios_online/1039-1182.html).
 
-## Installation
+Utilizamos la librería [LibreDTE](https://github.com/LibreDTE/libredte-lib) para PHP y la interacción con el Servicio de Impuestos Internos (SII).
 
-You can install the package via composer:
+El objetivo es poder usada en desarrollos del framework [Laravel](https://laravel.com/).
+
+
+
+## Instalación
+
+Para comenzar debera instalar directamente desde composer:
 
 ```bash
 composer require hsd-cl/dte-cl
@@ -17,6 +23,7 @@ composer require hsd-cl/dte-cl
 
 ## Usage
 
+Debería estar disponibles las funcionabilidades de la libreria
 ``` php
 // Usage description here
 ```
@@ -29,25 +36,21 @@ composer test
 
 ### Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Por favor ver [CHANGELOG](CHANGELOG.md) para mas información de los cambios recientes.
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Por favor ver [CONTRIBUTING](CONTRIBUTING.md) para más detalles.
 
 ### Security
 
-If you discover any security related issues, please email dleo.lopez@gmail.com instead of using the issue tracker.
+If descubre algún problema de seguridad, por favor escribir a dlopez@hsd.cl.
 
 ## Credits
 
-- [David Lopez](https://github.com/hsd-cl)
+- [David Lopez](https://github.com/dleo)
 - [All Contributors](../../contributors)
 
 ## License
 
 The GNU AGPLv. Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).

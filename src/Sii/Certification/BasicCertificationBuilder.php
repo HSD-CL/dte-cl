@@ -8,6 +8,7 @@ namespace HSDCL\DteCl\Sii\Certification;
 
 use HSDCL\DteCl\Util\Exception;
 use phpDocumentor\Reflection\Types\Boolean;
+use sasco\LibreDTE\File;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Dte;
 use sasco\LibreDTE\Sii\EnvioDte;
@@ -142,5 +143,50 @@ class BasicCertificationBuilder extends CertificationBuilder
     public function export(string $filename)
     {
         return file_put_contents($filename, $this->agent->generar());
+    }
+
+    /**
+     * @param string $filename
+     * @param string $logoFileName
+     * @param string $dirOutput
+     * @throws Exception
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public static function exportToPdf(string $filename, string $logoFileName = '../../../resources/assets/img/logo.png', string $dirOutput = '/tmp/set_prueba/'): bool
+    {
+        # Read the XML
+        $agent = new EnvioDte();
+        $agent->loadXML(file_get_contents($filename));
+        # Prepare the directory
+        if (is_dir($dirOutput)) {
+            File::rmdir($dirOutput);
+        }
+        if (!mkdir($dirOutput)) {
+            throw new Exception("No se pudo crear el directorio temporal para DTEs");
+        }
+        # Transform to PDF
+        $caratula = $agent->getCaratula();
+        foreach ($agent->getDocumentos() as $dte) {
+            if (!$dte->getDatos()) {
+                throw new Exception("No se pudo obtener los datos del DTE");
+            }
+            $pdf = new \sasco\LibreDTE\Sii\Dte\PDF\Dte(false);
+            $pdf->setFooterText();
+            $pdf->setLogo($logoFileName);
+            $pdf->setResolucion([
+                    'FchResol' => $caratula['FchResol'],
+                    'NroResol' => $caratula['NroResol']]
+            );
+            $pdf->agregar($dte->getDatos(), $dte->getTED());
+            $pdf->Output($dirOutput . '/dte_' . $caratula['RutEmisor'] . '_' . $dte->getID() . '.pdf', 'F');
+        }
+        # Export to director
+        File::compress($dirOutput, [
+            'format' => 'zip',
+            'delete' => true,
+            'download' => false
+        ]);
+
+        return true;
     }
 }
