@@ -2,6 +2,7 @@
 
 namespace HSDCL\DteCl;
 
+use HSDCL\DteCl\Console\Commands\PurchaseBookCertificationCommand;
 use HSDCL\DteCl\Console\Commands\SaleCertificationCommand;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,7 +42,10 @@ class DteClServiceProvider extends ServiceProvider
             ], 'lang');*/
 
             // Registering package commands.
-            $this->commands([SaleCertificationCommand::class]);
+            $this->commands([
+                SaleCertificationCommand::class,
+                PurchaseBookCertificationCommand::class
+            ]);
         }
     }
 

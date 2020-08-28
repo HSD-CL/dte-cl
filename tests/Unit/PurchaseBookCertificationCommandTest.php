@@ -2,7 +2,6 @@
 
 namespace HSDCL\DteCl\Tests\Unit;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use HSDCL\DteCl\Tests\TestCase;
 
@@ -11,7 +10,7 @@ use HSDCL\DteCl\Tests\TestCase;
  * @package HSDCL\DteCl\Tests
  * @author David Lopez <dleo.lopez@gmail.com>
  */
-class SaleCertificationCommandTest extends TestCase
+class PurchaseBookCertificationCommandTest extends TestCase
 {
     /**
      * @test
@@ -23,19 +22,12 @@ class SaleCertificationCommandTest extends TestCase
         if (File::exists('/tmp/file.xml')) {
             unlink('/tmp/file.xml');
         }
-        dd(env('FIRMA_PASS'));
         $this->assertFalse(File::exists('/tmp/file.xml'));
-        $this->artisan('dte:sale-certification', [
-            '--folios-fe' => base_path() . '/../../../../resources/assets/xml/folios/33.xml',
-            '--folios-nc' => base_path() . '/../../../../resources/assets/xml/folios/61.xml',
-            '--folios-nd' => base_path() . '/../../../../resources/assets/xml/folios/56.xml',
+        $this->artisan('dte:purchase-book-certification', [
             '--firma'     => base_path() . '/../../../../resources/assets/certs/cert.pfx',
-            '--source'    => base_path() . '/../../../../resources/assets/set_pruebas/001-basico.txt',
+            '--source'    => base_path() . '/../../../../resources/assets/set_pruebas/003-compras.txt',
             '--output'    => '/tmp/file.xml',
-            '--pass'      => env('FIRMA_PASS'),
-            '--start-fe'  => '1',
-            '--start-nd'  => '1',
-            '--start-nc'  => '1',
+            '--pass'      => env('PASS')
         ])->assertExitCode(0);
 
         $this->assertTrue(File::exists('/tmp/file.xml'));
