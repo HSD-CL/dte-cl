@@ -15,6 +15,7 @@ class FileSource implements Source
      * @var Configuration
      */
     private $config;
+
     /**
      * FileSource constructor.
      * @param string $filename
@@ -41,4 +42,12 @@ class FileSource implements Source
         return $cases;
     }
 
+    /**
+     * @author David Lopez <dlopez@hsd.cl>
+     * @version
+     */
+    public function getInput()
+    {
+        return $this->config->getFilename();
+    }
 }

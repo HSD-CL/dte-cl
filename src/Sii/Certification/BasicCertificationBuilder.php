@@ -17,6 +17,8 @@ use \HSDCL\DteCl\Sii\Base\Dte as HsdDte;
 
 /**
  * Class BasicCertificationBuilder
+ * Funciones para la certificación del set de pruebas
+ *
  * @package HSDCL\DteCl\Sii\CertificationBuilder
  * @author David Lopez <dleo.lopez@gmail.com>
  */
@@ -30,19 +32,17 @@ class BasicCertificationBuilder extends CertificationBuilder
      * @param array $receiver
      * @author David Lopez <dlopez@hsd.cl>
      */
-    public function __construct(FirmaElectronica $firma, array $folios, Source $source, array $issuing, array $receiver)
+    public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null, array $receiver = null)
     {
-        $this->firma = $firma;
-        $this->folios = $folios;
-        $this->source = $source;
-        $this->issuing = $issuing;
-        $this->receiver = $receiver;
+        parent::__construct($firma, $source, $folios, $issuing, $receiver);
     }
 
     /**
-     * @inheritDoc
+     * @param array $startFolio
+     * @return $this|CertificationBuilder
+     * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function parse(array $startFolio): CertificationBuilder
+    public function parse(array $startFolio = null): CertificationBuilder
     {
         $this->parsed = $this->source->getCases($startFolio);
 

@@ -57,7 +57,14 @@ abstract class CertificationBuilder
      * @param array $issuing
      * @param array $receiver
      */
-    abstract public function __construct(FirmaElectronica $firma, array $folios, Source $source, array $issuing, array $receiver);
+    public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null, array $receiver = null)
+    {
+        $this->firma = $firma;
+        $this->folios = $folios;
+        $this->source = $source;
+        $this->issuing = $issuing;
+        $this->receiver = $receiver;
+    }
 
     /**
      * Funcion que convierte desde un origen los datos a un array de documentos
