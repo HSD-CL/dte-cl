@@ -35,7 +35,11 @@ class FileSource implements Source
      */
     public function getCases(array $folios = []): array
     {
-        if (empty($cases = json_decode(SetPruebas::getJSON(file_get_contents($this->config->getFilename()), $folios), true))) {
+        if (empty($cases = mb_convert_encoding(
+            json_decode(SetPruebas::getJSON(file_get_contents($this->config->getFilename()), $folios), true),
+            'UTF-8',
+            'ISO-8859-1')
+        )) {
             return [];
         }
 

@@ -45,6 +45,7 @@ class PurchaseBookCertificactionBuilder extends CertificationBuilder
     {
         // EN FACTURA CON IVA USO COMUN CONSIDERE QUE EL FACTOR DE PROPORCIONALIDAD
         // DEL IVA ES DE 0.60
+        /**
         $factor_proporcionalidad_iva = 60;
         $detalles = [
             // FACTURA DEL GIRO CON DERECHO A CREDITO
@@ -129,6 +130,8 @@ class PurchaseBookCertificactionBuilder extends CertificationBuilder
             $this->agent->agregar($detalle);
         }
         $this->agent->generar();
+         */
+        $this->agent->agregarComprasCSV($this->source->getInput());
 
         return $this;
     }
@@ -190,10 +193,11 @@ class PurchaseBookCertificactionBuilder extends CertificationBuilder
      */
     public function build(array $startFolio, array $caratula): CertificationBuilder
     {
-        $this->setCaratula($caratula)
-            ->parse()
-            ->setStampAndSign()
-        ;
+        $this->parse()
+            ->setCaratula($caratula);
+        # Generar XML sin firma
+        $this->agent->generar();
+        $this->setStampAndSign();
 
         return $this;
     }

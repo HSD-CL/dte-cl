@@ -8,6 +8,7 @@ use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Sii\Certification\PurchaseBookCertificactionBuilder;
 use HSDCL\DteCl\Util\Configuration;
 use HSDCL\DteCl\Tests\TestCase;
+use Illuminate\Support\Str;
 use sasco\LibreDTE\FirmaElectronica;
 
 /**
@@ -35,7 +36,7 @@ class PurchaseBookCertificationTest extends TestCase
         parent::setUp();
         # TODO Ocultar en un archivo de configuracion
         $this->firma = new FirmaElectronica(['file' => __DIR__ . '/../resources/assets/certs/cert.pfx', 'pass' => env('PASS')]);
-        $this->certification = new PurchaseBookCertificactionBuilder($this->firma, new FileSource(__DIR__ . '/../../resources/assets/set_pruebas/003-compras.txt'));
+        $this->certification = new PurchaseBookCertificactionBuilder($this->firma, new FileSource(__DIR__ . '/../../resources/assets/set_pruebas/002-compras.csv'));
     }
 
     /**
@@ -96,7 +97,11 @@ class PurchaseBookCertificationTest extends TestCase
      */
     public function canExport()
     {
-        unlink('/tmp/file.xml');
+        $uuid = Str::uuid();
+        $file = "/tmp/{$uuid}.xml";
+        if (file_exists($file)) {
+            unlink($file);
+        }
         // caratula del libro
         $caratula = [
             'RutEmisorLibro' => '76192083-9',
@@ -110,8 +115,8 @@ class PurchaseBookCertificationTest extends TestCase
             'FolioNotificacion' => 102006,
         ];
         $this->certification->build([], $caratula);
-        $this->assertIsInt($this->certification->export('/tmp/file.xml'));
-        $this->assertFileExists('/tmp/file.xml');
-        unlink('/tmp/file.xml');
+        $this->assertIsInt($this->certification->export($file));
+        $this->assertFileExists($file);
+        //unlink('/tmp/file.xml');
     }
 }

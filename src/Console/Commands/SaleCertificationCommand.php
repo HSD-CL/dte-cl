@@ -22,7 +22,7 @@ class SaleCertificationCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'dte:sale-certification {--folios-fe} {--folios-nc} {--folios-nd} {--start-fe=1} {--start-nc=1} {--start-nd=1} {--firma} {--source} {--pass} {--output}';
+    protected $signature = 'dte:sale-certification {--resolucion} {--folios-fe} {--folios-nc} {--folios-nd} {--start-fe=1} {--start-nc=1} {--start-nd=1} {--firma} {--source} {--pass} {--output}';
 
     /**
      * The console command description.
@@ -73,11 +73,11 @@ class SaleCertificationCommand extends Command
             'DirRecep'    => 'BENAVENTE 516',
             'CmnaRecep'   => 'OVALLE',
         ];
-        $builder = new BasicCertificationBuilder($firma, $folios, new FileSource($this->option('source')), $emisor, $receptor);
+        $builder = new BasicCertificationBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
         $caratula = [
             'RutEnvia'    => '12021283-4',
             'RutReceptor' => '60803000-K',
-            'FchResol'    => '2020-07-27',
+            'FchResol'    => $this->option('resolucion'),
             'NroResol'    => 0,
         ];
         $startFolios = [
