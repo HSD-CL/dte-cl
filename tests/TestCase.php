@@ -2,8 +2,9 @@
 namespace HSDCL\DteCl\Tests;
 
 use HSDCL\DteCl\DteClServiceProvider;
+use Orchestra\Testbench\TestCase as Test;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends Test
 {
     public function setUp(): void
     {

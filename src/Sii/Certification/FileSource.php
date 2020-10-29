@@ -39,7 +39,7 @@ class FileSource implements Source
             return [];
         }
 
-        return $cases;
+        return $this->sanatize($cases);
     }
 
     /**
@@ -49,5 +49,34 @@ class FileSource implements Source
     public function getInput()
     {
         return $this->config->getFilename();
+    }
+
+    /**
+     * @param array $cases
+     * @return array
+     * @version 28/10/20
+     * @author  David Lopez <dlopez@hsd.cl>
+     */
+    private function sanatize(array $cases): array
+    {
+        foreach ($cases as &$case) {
+            if (isset($case['Referencia'][1]['RazonRef']) &&
+                (strpos($case['Referencia'][1]['RazonRef'], 'CORRIGE GIRO')===0 ||
+                    strpos($case['Referencia'][1]['RazonRef'], 'ANULA NOTA DE CREDITO')===0)) {
+                $case['Detalle'][0]['NmbItem'] = 'CORRIGE DATO';
+                continue;
+            }
+
+            foreach ($case['Detalle'] as $index => $details) {
+                foreach ($details as $key => $detail) {
+                    if (is_string($detail)) {
+                        $details[$key] = mb_convert_encoding($detail, 'ISO-8859-1', 'UTF-8');
+                    }
+                }
+                $case['Detalle'][$index] = $details;
+            }
+        }
+
+        return $cases;
     }
 }

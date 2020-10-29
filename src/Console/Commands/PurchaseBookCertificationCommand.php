@@ -31,7 +31,6 @@ class PurchaseBookCertificationCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return
      */
     public function handle()
     {
@@ -41,7 +40,7 @@ class PurchaseBookCertificationCommand extends Command
         $caratula = [
             'RutEmisorLibro' => '78465260-2',
             'RutEnvia' => '12021283-4',
-            'PeriodoTributario' => '2000-03',
+            'PeriodoTributario' => '2000-07',
             'FchResol' => '2020-07-27',
             'NroResol' => 102006,
             'TipoOperacion' => 'COMPRA',
