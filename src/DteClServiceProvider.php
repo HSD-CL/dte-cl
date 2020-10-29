@@ -3,7 +3,7 @@
 namespace HSDCL\DteCl;
 
 use HSDCL\DteCl\Console\Commands\PurchaseBookCertificationCommand;
-use HSDCL\DteCl\Console\Commands\SaleCertificationCommand;
+use HSDCL\DteCl\Console\Commands\BasicCertificationCommand;
 use Illuminate\Support\ServiceProvider;
 
 class DteClServiceProvider extends ServiceProvider
@@ -43,7 +43,7 @@ class DteClServiceProvider extends ServiceProvider
 
             // Registering package commands.
             $this->commands([
-                SaleCertificationCommand::class,
+                BasicCertificationCommand::class,
                 PurchaseBookCertificationCommand::class
             ]);
         }

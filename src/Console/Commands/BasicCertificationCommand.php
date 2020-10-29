@@ -15,21 +15,25 @@ use sasco\LibreDTE\Sii\Folios;
  * @author David Lopez <dleo.lopez@gmail.com>
  * @version 11/8/20 7:35 p. m.
  */
-class SaleCertificationCommand extends Command
+class BasicCertificationCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'dte:sale-certification {--resolucion} {--folios-fe} {--folios-nc} {--folios-nd} {--start-fe=1} {--start-nc=1} {--start-nd=1} {--firma} {--source} {--pass} {--output}';
+    protected $signature = "dte:basic-certification {--resolucion} {--folios-fe} {--folios-nc} {--folios-nd}
+        {--start-fe=1} {--start-nc=1} {--start-nd=1} {--firma} {--source} {--pass} {--output}
+        {--RUTEmisor} {--RznSoc} {--GiroEmis} {--Acteco} {--DirOrigen} {--CmnaOrigen} {--RUTRecep} {--RznSocRecep}
+        {--GiroRecep} {--DirRecep} {--CmnaRecep} {--RutEnvia} {--RutReceptor}
+    ";
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sale Certification Proccess';
+    protected $description = 'Proceso de certificación básico';
 
     /**
      * Execute the console command.
@@ -59,24 +63,24 @@ class SaleCertificationCommand extends Command
             )
         );
         $emisor = [
-            'RUTEmisor'  => '78465260-2',
-            'RznSoc'     => 'INVERSIONES ANTUMALAL LIMITADA',
-            'GiroEmis'   => 'AGRICOLA',
-            'Acteco'     => 726000,
-            'DirOrigen'  => 'FUNDO POTRERILLOS S N',
-            'CmnaOrigen' => 'Monte Patria',
+            'RUTEmisor'  => $this->option('RUTEmisor'),
+            'RznSoc'     => $this->option('RznSoc'),
+            'GiroEmis'   => $this->option('GiroEmis'),
+            'Acteco'     => $this->option('Acteco'),
+            'DirOrigen'  => $this->option('DirOrigen'),
+            'CmnaOrigen' => $this->option('CmnaOrigen') #'Monte Patria',
         ];
         $receptor = [
-            'RUTRecep'    => '81515100-3',
-            'RznSocRecep' => 'SELIM DABED SPA.',
-            'GiroRecep'   => 'BARRACA Y FERRETERIA',
-            'DirRecep'    => 'BENAVENTE 516',
-            'CmnaRecep'   => 'OVALLE',
+            'RUTRecep'    => $this->option('RUTRecep'),    #'81515100-3',
+            'RznSocRecep' => $this->option('RznSocRecep'), #'SELIM DABED SPA.',
+            'GiroRecep'   => $this->option('GiroRecep'),   #'BARRACA Y FERRETERIA',
+            'DirRecep'    => $this->option('DirRecep'),    #'BENAVENTE 516',
+            'CmnaRecep'   => $this->option('CmnaRecep')    #'OVALLE',
         ];
         $builder = new BasicCertificationBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
         $caratula = [
-            'RutEnvia'    => '12021283-4',
-            'RutReceptor' => '60803000-K',
+            'RutEnvia'    => $this->option('RutEnvia'),    #'12021283-4',
+            'RutReceptor' => $this->option('RutReceptor'), #'60803000-K',
             'FchResol'    => $this->option('resolucion'),
             'NroResol'    => 0,
         ];
