@@ -44,7 +44,10 @@ class DteClServiceProvider extends ServiceProvider
             // Registering package commands.
             $this->commands([
                 BasicCertificationCommand::class,
-                PurchaseBookCertificationCommand::class
+                PurchaseBookCertificationCommand::class,
+                OfficeGuideCertificactionCommand::class,
+                SalesBookCertificationCommand::class,
+                OfficeGuideBookCertificactionCommand::class
             ]);
         }
     }
