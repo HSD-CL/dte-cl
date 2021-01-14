@@ -2,8 +2,11 @@
     "name": "hsd-cl/dte-cl",
     "description": "Laravel Package for Chile DTE",
     "keywords": [
-        "hsd-cl",
-        "dte-cl"
+        "sii",
+        "hsd",
+        "dte-cl",
+        "chile",
+        "laravel"
     ],
     "homepage": "https://github.com/hsd-cl/dte-cl",
     "license": "GNU AGPLv",
