@@ -49,7 +49,7 @@ If descubre algún problema de seguridad, por favor escribir a dlopez@hsd.cl.
 ## Credits
 
 - [David Lopez](https://github.com/dleo)
-- [All Contributors](../../contributors)
+- [Danilo Vasquez]
 
 ## License
 

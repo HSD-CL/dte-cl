@@ -2,6 +2,8 @@
 
 namespace HSDCL\DteCl;
 
+use HSDCL\DteCl\Console\Commands\PurchaseBookCertificationCommand;
+use HSDCL\DteCl\Console\Commands\BasicCertificationCommand;
 use Illuminate\Support\ServiceProvider;
 
 class DteClServiceProvider extends ServiceProvider
@@ -40,7 +42,13 @@ class DteClServiceProvider extends ServiceProvider
             ], 'lang');*/
 
             // Registering package commands.
-            // $this->commands([]);
+            $this->commands([
+                BasicCertificationCommand::class,
+                PurchaseBookCertificationCommand::class,
+                OfficeGuideCertificactionCommand::class,
+                SalesBookCertificationCommand::class,
+                OfficeGuideBookCertificactionCommand::class
+            ]);
         }
     }
 

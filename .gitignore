@@ -3,3 +3,7 @@ composer.lock
 docs
 vendor
 coverage
+resources/assets/*
+.env
+xml
+.phpunit.result.cache
