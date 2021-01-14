@@ -2,13 +2,11 @@
 
 namespace HSDCL\DteCl\Tests\Feature;
 
-use HSDCL\DteCl\DteCl;
 use HSDCL\DteCl\Sii\Certification\CertificationBuilder;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Util\Configuration;
 use HSDCL\DteCl\Tests\TestCase;
-use HSDCL\DteCl\DteClServiceProvider;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Folios;
 
@@ -17,7 +15,7 @@ use sasco\LibreDTE\Sii\Folios;
  * @package HSDCL\DteCl\Tests
  * @author David Lopez <dleo.lopez@gmail.com>
  */
-class SaleCertificationTest extends TestCase
+class BasicCertificationTest extends TestCase
 {
     /**
      * @var Configuration

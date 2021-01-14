@@ -29,7 +29,7 @@ class PurchaseBookCertificationCommandTest extends TestCase
             '--firma'     => base_path() . '/../../../../resources/assets/certs/cert.pfx',
             '--source'    => base_path() . '/../../../../resources/assets/set_pruebas/002-compras.csv',
             '--output'    => $file,
-            '--pass'      => 'Aaraneda1*'
+            '--pass'      => ''
         ])->assertExitCode(0);
 
         $this->assertTrue(File::exists($file));

@@ -104,19 +104,18 @@ class PurchaseBookCertificationTest extends TestCase
         }
         // caratula del libro
         $caratula = [
-            'RutEmisorLibro' => '76192083-9',
-            'RutEnvia' => '11222333-4',
-            'PeriodoTributario' => '2000-03',
-            'FchResol' => '2006-01-20',
-            'NroResol' => 102006,
-            'TipoOperacion' => 'COMPRA',
-            'TipoLibro' => 'ESPECIAL',
-            'TipoEnvio' => 'TOTAL',
+            'RutEnvia'          => '',
+            'FchResol'          => '2006-01-20',
+            'NroResol'          => 102006,
+            'TipoLibro'         => 'ESPECIAL',
+            'TipoEnvio'         => 'TOTAL',
+            'TipoOperacion'     => 'COMPRA',
+            'RutEmisorLibro'    => '',
             'FolioNotificacion' => 102006,
+            'PeriodoTributario' => '2000-03',
         ];
         $this->certification->build([], $caratula);
         $this->assertIsInt($this->certification->export($file));
         $this->assertFileExists($file);
-        //unlink('/tmp/file.xml');
     }
 }
