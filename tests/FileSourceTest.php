@@ -2,10 +2,7 @@
 
 namespace HSDCL\DteCl\Tests;
 
-use HSDCL\DteCl\DteCl;
 use HSDCL\DteCl\Sii\Certification\FileSource;
-use Orchestra\Testbench\TestCase;
-use HSDCL\DteCl\DteClServiceProvider;
 
 /**
  * Class ExampleTest
@@ -21,7 +18,6 @@ class FileSourceTest extends TestCase
     public function canGetCases()
     {
         $source = new FileSource(__DIR__ . '/../resources/assets/set_pruebas/001-basico.txt');
-        dd($source->getCases());
         $this->assertIsArray($source->getCases());
         $this->assertNotEmpty($source->getCases());
     }
