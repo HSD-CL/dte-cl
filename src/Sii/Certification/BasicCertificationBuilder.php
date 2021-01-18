@@ -35,16 +35,17 @@ class BasicCertificationBuilder extends CertificationBuilder
     public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null, array $receiver = null)
     {
         parent::__construct($firma, $source, $folios, $issuing, $receiver);
+        $this->agent = new EnvioDte();
     }
 
     /**
-     * @param array $startFolio
+     * @param array $startFolios
      * @return $this|CertificationBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function parse(array $startFolio = null): CertificationBuilder
+    public function parse(array $startFolios = null): CertificationBuilder
     {
-        $this->parsed = $this->source->getCases($startFolio);
+        $this->parsed = $this->source->getCases($startFolios);
 
         return $this;
     }
@@ -58,7 +59,6 @@ class BasicCertificationBuilder extends CertificationBuilder
      */
     public function setStampAndSign(array $startFolio = null): CertificationBuilder
     {
-        $this->agent = new EnvioDte();
         foreach ($this->parsed as $document) {
             # TODO Utilizar una estrategia como prototype para validar que el documento parseado
             # sea standar al diseño
