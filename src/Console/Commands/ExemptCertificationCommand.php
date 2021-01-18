@@ -1,55 +1,59 @@
 <?php
+/**
+ * @version 14/1/21 1:39 p. m.
+ * @author  David Lopez <dleo.lopez@gmail.com>
+ */
 
 namespace HSDCL\DteCl\Console\Commands;
 
-use Carbon\Carbon;
+
 use HSDCL\DteCl\Sii\Base\Dte;
+use HSDCL\DteCl\Sii\Certification\ExemptCertificationBuilder;
 use HSDCL\DteCl\Sii\Certification\FileSource;
-use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Util\Configuration;
-use \Illuminate\Console\Command;
+use Illuminate\Console\Command;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Folios;
 
 /**
- * @author David Lopez <dleo.lopez@gmail.com>
- * @version 11/8/20 7:35 p. m.
+ * Class ExemptCertificationCommand
+ *
+ * Comando para certificar las facturas exentas
+ * @package HSDCL\DteCl\Console\Commands
+ * @author  David Lopez <dleo.lopez@gmail.com>
  */
-class BasicCertificationCommand extends Command
+class ExemptCertificationCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = "dte:basic-certification {--resolucion} {--folios-fe} {--folios-nc} {--folios-nd}
+    protected $signature = 'dte:exempt-certification {--resolucion} {--folios-fe} {--folios-nc} {--folios-nd}
         {--start-fe=1} {--start-nc=1} {--start-nd=1} {--firma} {--source} {--pass} {--output}
         {--RUTEmisor} {--RznSoc} {--GiroEmis} {--Acteco} {--DirOrigen} {--CmnaOrigen} {--RUTRecep} {--RznSocRecep}
         {--GiroRecep} {--DirRecep} {--CmnaRecep} {--RutEnvia} {--RutReceptor}
-    ";
+    ';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Proceso de certificación básico';
+    protected $description = 'Comando para la certificacion de facturas exentas';
 
     /**
      * Execute the console command.
      *
-     * @return void
      */
     public function handle(): void
     {
         # Constuir la firma desde la configuracion
         $firma = new FirmaElectronica(['file' => $this->option('firma'), 'pass' => $this->option('pass')]);
         # Construir los folios desde los archivos
-
-        $folios[Dte::FACTURA_ELECTRONICA] = new Folios(
-            file_get_contents(Configuration::getInstance('folios-' . Dte::FACTURA_ELECTRONICA, $this->option('folios-fe'))->getFilename())
+        $folios[Dte::FACTURA_EXENTA_ELECTRONICA] = new Folios(
+            file_get_contents(Configuration::getInstance('folios-' . Dte::FACTURA_EXENTA_ELECTRONICA, $this->option('folios-fe'))->getFilename())
         );
-
         $folios[Dte::NOTA_DE_CREDITO_ELECTRONICA] = new Folios(
             file_get_contents(Configuration::getInstance(
                 'folios-' . Dte::NOTA_DE_CREDITO_ELECTRONICA,
@@ -68,24 +72,24 @@ class BasicCertificationCommand extends Command
             'GiroEmis'   => $this->option('GiroEmis'),
             'Acteco'     => $this->option('Acteco'),
             'DirOrigen'  => $this->option('DirOrigen'),
-            'CmnaOrigen' => $this->option('CmnaOrigen') #'Monte Patria',
+            'CmnaOrigen' => $this->option('CmnaOrigen')
         ];
         $receptor = [
-            'RUTRecep'    => $this->option('RUTRecep'),    #'81515100-3',
-            'RznSocRecep' => $this->option('RznSocRecep'), #'SELIM DABED SPA.',
-            'GiroRecep'   => $this->option('GiroRecep'),   #'BARRACA Y FERRETERIA',
-            'DirRecep'    => $this->option('DirRecep'),    #'BENAVENTE 516',
-            'CmnaRecep'   => $this->option('CmnaRecep')    #'OVALLE',
+            'RUTRecep'    => $this->option('RUTRecep'),
+            'RznSocRecep' => $this->option('RznSocRecep'),
+            'GiroRecep'   => $this->option('GiroRecep'),
+            'DirRecep'    => $this->option('DirRecep'),
+            'CmnaRecep'   => $this->option('CmnaRecep')
         ];
-        $builder = new BasicCertificationBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
+        $builder = new ExemptCertificationBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
         $caratula = [
-            'RutEnvia'    => $this->option('RutEnvia'),    #'12021283-4',
-            'RutReceptor' => $this->option('RutReceptor'), #'60803000-K',
+            'RutEnvia'    => $this->option('RutEnvia'),
+            'RutReceptor' => $this->option('RutReceptor'),
             'FchResol'    => $this->option('resolucion'),
             'NroResol'    => 0,
         ];
         $startFolios = [
-            Dte::FACTURA_ELECTRONICA         => $this->option('start-fe'),
+            Dte::FACTURA_EXENTA_ELECTRONICA  => $this->option('start-fe'),
             Dte::NOTA_DE_DEBITO_ELECTRONICA  => $this->option('start-nd'),
             Dte::NOTA_DE_CREDITO_ELECTRONICA => $this->option('start-nc')
         ];
