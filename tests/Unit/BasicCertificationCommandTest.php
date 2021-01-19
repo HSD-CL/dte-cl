@@ -47,7 +47,7 @@ class BasicCertificationCommandTest extends TestCase
             '--start-fe'    => '95',
             '--start-nd'    => '60',
             '--start-nc'    => '76',
-            '--resolucion'  => '2020-07-27',
+            '--resolucion'  => env('FechaResolucion'),
             '--RUTEmisor'   => env('RUTEmisor'),
             '--RznSoc'      => env('RznSoc'),
             '--GiroEmis'    => env('GiroEmis'),
