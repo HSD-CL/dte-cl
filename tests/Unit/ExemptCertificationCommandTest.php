@@ -30,7 +30,7 @@ class ExemptCertificationCommandTest extends TestCase
      */
     public function canCallCommand()
     {
-        $fileName = '/tmp/' . Str::uuid();
+        $fileName = '/tmp/' . Str::uuid() . '.xml';
         // make sure we're starting from a clean state
         if (File::exists($fileName)) {
             unlink($fileName);
@@ -45,9 +45,9 @@ class ExemptCertificationCommandTest extends TestCase
             '--output'      => $fileName,
             '--pass'        => env('FIRMA_PASS'),
             '--start-fe'    => '51',
-            '--start-nd'    => '59',
-            '--start-nc'    => '73',
-            '--resolucion'  => '0',
+            '--start-nd'    => '61',
+            '--start-nc'    => '79',
+            '--resolucion'  => env('FechaResolucion'),
             '--RUTEmisor'   => env('RUTEmisor'),
             '--RznSoc'      => env('RznSoc'),
             '--GiroEmis'    => env('GiroEmis'),

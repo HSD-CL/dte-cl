@@ -15,44 +15,54 @@ use Illuminate\Support\Str;
 class BasicCertificationCommandTest extends TestCase
 {
     /**
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
+        $dotenv->load();
+    }
+
+    /**
      * @test
      * @author David Lopez <dlopez@hsd.cl>
      */
     public function canCallCommand()
     {
-        $uuid = Str::uuid();
+        $fileName = '/tmp/' . Str::uuid() . '.xml';
         // make sure we're starting from a clean state
-        if (File::exists("/tmp/{$uuid}.xml")) {
-            unlink("/tmp/{$uuid}.xml");
+        if (File::exists($fileName)) {
+            unlink($fileName);
         }
-        $this->assertFalse(File::exists("/tmp/{$uuid}.xml"));
+        $this->assertFalse(File::exists($fileName));
         $this->artisan('dte:basic-certification', [
-            '--folios-fe'   => '',
-            '--folios-nc'   => '',
-            '--folios-nd'   => '',
-            '--firma'       => '',
-            '--source'      => '',
-            '--output'      => '',
-            '--pass'        => '',
-            '--start-fe'    => '',
-            '--start-nd'    => '',
-            '--start-nc'    => '',
-            '--resolucion'  => '',
-            '--RUTEmisor'   => '',
-            '--RznSoc'      => '',
-            '--GiroEmis'    => '',
-            '--Acteco'      => '',
-            '--DirOrigen'   => '',
-            '--CmnaOrigen'  => '',
-            '--RUTRecep'    => '',
-            '--RznSocRecep' => '',
-            '--GiroRecep'   => '',
-            '--DirRecep'    => '',
-            '--CmnaRecep'   => '',
-            '--RutEnvia'    => '',
-            '--RutReceptor' => '',
+            '--folios-fe'   => __DIR__ . '/../../resources/assets/xml/folios/33.xml',
+            '--folios-nc'   => __DIR__ . '/../../resources/assets/xml/folios/61.xml',
+            '--folios-nd'   => __DIR__ . '/../../resources/assets/xml/folios/56.xml',
+            '--firma'       => __DIR__ . '/../../resources/assets/certs/cert.pfx',
+            '--source'      => __DIR__ . '/../../resources/assets/set_pruebas/001-basico.txt',
+            '--output'      => $fileName,
+            '--pass'        => env('FIRMA_PASS'),
+            '--start-fe'    => '95',
+            '--start-nd'    => '60',
+            '--start-nc'    => '76',
+            '--resolucion'  => env('FechaResolucion'),
+            '--RUTEmisor'   => env('RUTEmisor'),
+            '--RznSoc'      => env('RznSoc'),
+            '--GiroEmis'    => env('GiroEmis'),
+            '--Acteco'      => env('Acteco'),
+            '--DirOrigen'   => env('DirOrigen'),
+            '--CmnaOrigen'  => env('CmnaOrigen'),
+            '--RUTRecep'    => env('RUTRecep'),
+            '--RznSocRecep' => env('RznSocRecep'),
+            '--GiroRecep'   => env('GiroRecep'),
+            '--DirRecep'    => env('DirRecep'),
+            '--CmnaRecep'   => env('CmnaRecep'),
+            '--RutEnvia'    => env('RutEnvia'),
+            '--RutReceptor' => env('RutReceptor'),
         ])->assertExitCode(0);
 
-        $this->assertTrue(File::exists("/tmp/{$uuid}.xml"));
+        $this->assertTrue(File::exists($fileName));
     }
 }
