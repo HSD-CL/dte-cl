@@ -23,7 +23,7 @@ class ExemptCertificationCommandTest extends TestCase
         $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
         $dotenv->load();
     }
-export LC_ALL="es_CH.UTF-8" & export LC_CTYPE="es_CH.UTF-8" & sudo dpkg-reconfigure locales
+
     /**
      * @test
      * @author David Lopez <dlopez@hsd.cl>
