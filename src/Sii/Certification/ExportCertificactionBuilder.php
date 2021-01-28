@@ -15,12 +15,12 @@ use \sasco\LibreDTE\Sii\Folios;
 use \sasco\LibreDTE\Sii\Certificacion\SetPruebas;
 
 /**
- * Class OfficeGuideCertificactionBuilder
+ * Class ExportCertificactionBuilder
  * Clase para manejar la certificacion de guia de despacho
  * @package HSDCL\DteCl\Sii\Certification
  * @author Danilo Vasques <dvasquezr.ko@gmail.com>
  */
-class OfficeGuideCertificactionBuilder extends CertificationBuilder
+class ExportCertificactionBuilder extends CertificationBuilder
 {
     /**
      * @var array
@@ -31,7 +31,7 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
     public $data;
 
     /**
-     * OfficeGuideCertificactionBuilder constructor.
+     * ExportCertificactionBuilder constructor.
      * @param FirmaElectronica $firma
      * @param array $folios
      * @param Source $source
@@ -82,8 +82,14 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
             $document['Encabezado']['Receptor'] = $this->receiver;
 
             $dte = new Dte($document);
-            if (!$dte->timbrar($this->folios[52])) {
-                throw new Exception('No se pudo timbrar el dte');
+            if (!$dte->timbrar($this->folios[110])) {
+                throw new Exception('No se pudo timbrar el dolio 110');
+            }
+            if (!$dte->timbrar($this->folios[111])) {
+                throw new Exception('No se pudo timbrar el dolio 111');
+            }
+            if (!$dte->timbrar($this->folios[112])) {
+                throw new Exception('No se pudo timbrar el dolio 112');
             }
             if (!$dte->firmar($this->firma)) {
                 throw new Exception('No se pudo firmar el dte');

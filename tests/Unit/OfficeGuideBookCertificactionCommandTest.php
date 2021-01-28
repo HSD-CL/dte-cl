@@ -26,15 +26,16 @@ class OfficeGuideBookCertificactionCommandTest extends TestCase
         }
         $this->assertFalse(File::exists($file));
         $this->artisan('dte:office-guide-book-certification', [
-            '--firma'     => base_path() . '/../../../../resources/assets/certs/cert.pfx',
-            '--source'    => base_path() . '/../../../../resources/assets/set_pruebas/libro_guias.csv',
-            '--output'    => $file,
-            '--pass'      => 'Aaraneda1*'
+            '--firma'               => base_path() . '/../../../../resources/assets/certs/danilo.p12',
+            '--source'              => base_path() . '/../../../../resources/assets/set_pruebas/libro_guias.csv',
+            '--output'              => $file,
+            '--pass'                => 'Antumalal1*',
+            '--RutEmisorLibro'      => '78465260-2',
+            '--FchResol'            => '2020-07-27',
+            '--NroResol'            => 0,
+            '--FolioNotificacion'   => 102006
         ])->assertExitCode(0);
 
         $this->assertTrue(File::exists($file));
     }
 }
-
-
-// revisar /Volumes/DEVS/WEB/libredte-lib/examples/009-dte_33.php

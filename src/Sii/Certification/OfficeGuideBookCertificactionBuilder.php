@@ -34,8 +34,7 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
     public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null, array $receiver = null)
     {
         parent::__construct($firma, $source, $folios, $issuing, $receiver);
-
-        parent::__construct($firma, $source, $folios, $issuing, $receiver);
+        
         $this->agent = new LibroGuia();
     }
 
@@ -108,12 +107,13 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
      * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
      */
     public function build(array $startFolio, array $caratula): CertificationBuilder
-    {
-        $this->parse()
-            ->setCaratula($caratula);
-        # Generar XML sin firma
-        $this->agent->generar();
+    {   
+        $this->parse();
+        
         $this->setStampAndSign();
+
+        $this->agent->setCaratula($caratula);
+        $this->agent->generar();
 
         return $this;
     }

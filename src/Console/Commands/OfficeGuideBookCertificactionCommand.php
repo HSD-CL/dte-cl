@@ -19,7 +19,7 @@ class OfficeGuideBookCertificactionCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'dte:office-guide-book-certification {--firma} {--source} {--pass} {--output}';
+    protected $signature = 'dte:office-guide-book-certification {--firma} {--source} {--pass} {--output} {--RutEmisorLibro} {--FchResol} {--NroResol} {--FolioNotificacion}';
 
     /**
      * The console command description.
@@ -38,14 +38,10 @@ class OfficeGuideBookCertificactionCommand extends Command
         $sign = new FirmaElectronica(['file' => $this->option('firma'), 'pass' => $this->option('pass')]);
         # Construir la caratula
         $caratula = [
-            'RutEmisorLibro' => '78465260-2',
-            'RutEnvia' => '12021283-4',
-            'PeriodoTributario' => '2000-07',
-            'FchResol' => '2020-07-27',
-            'NroResol' => 102006,
-            'TipoLibro' => 'ESPECIAL',
-            'TipoEnvio' => 'TOTAL',
-            'FolioNotificacion' => 102006,
+            'RutEmisorLibro' => $this->option('RutEmisorLibro'),
+            'FchResol' => $this->option('FchResol'),
+            'NroResol' => $this->option('NroResol'),
+            'FolioNotificacion' => $this->option('FolioNotificacion')
         ];
         # Instaciar el builder para la certificacion
         $certification = new OfficeGuideBookCertificactionBuilder($sign, new FileSource($this->option('source')));

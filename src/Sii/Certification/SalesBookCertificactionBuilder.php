@@ -45,7 +45,6 @@ class SalesBookCertificactionBuilder extends CertificationBuilder
     public function parse(array $startFolios = null): CertificationBuilder
     {
         $this->agent->agregarVentasCSV($this->source->getInput());
-        
         return $this;
     }
 

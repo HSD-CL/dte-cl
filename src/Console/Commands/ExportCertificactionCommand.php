@@ -9,21 +9,21 @@ namespace HSDCL\DteCl\Console\Commands;
 
 
 use HSDCL\DteCl\Sii\Certification\FileSource;
-use HSDCL\DteCl\Sii\Certification\OfficeGuideCertificactionBuilder;
+use HSDCL\DteCl\Sii\Certification\ExportCertificactionBuilder;
 use Illuminate\Console\Command;
 use HSDCL\DteCl\Util\Configuration;
 use sasco\LibreDTE\FirmaElectronica;
 use \sasco\LibreDTE\Sii\Folios;
 
-class OfficeGuideCertificactionCommand extends Command
+class ExportCertificactionCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = "dte:office-guide-certification {--firma} {--source} {--folios} {--pass} {--output} 
-    {--resolucion} {--start-folio} {--RUTEmisor} {--RznSoc} {--GiroEmis} {--Acteco} {--DirOrigen} {--CmnaOrigen} 
+    protected $signature = "dte:export-certification {--firma} {--source} {--folios-fe} {--folios-nc} {--folios-nd} {--pass} {--output} 
+    {--resolucion} {--start-folio-fe} {--start-folio-nc} {--start-folio-nd} {--RUTEmisor} {--RznSoc} {--GiroEmis} {--Acteco} {--DirOrigen} {--CmnaOrigen} 
     {--RUTRecep} {--RznSocRecep} {--GiroRecep} {--DirRecep} {--CmnaRecep} {--RutEnvia} {--RutReceptor}";
 
 
@@ -44,8 +44,16 @@ class OfficeGuideCertificactionCommand extends Command
         $firma = new FirmaElectronica(['file' => $this->option('firma'), 'pass' => $this->option('pass')]);
         # Construir los folios desde los archivos
 
-        $folios[52] = new Folios(
-            file_get_contents(Configuration::getInstance('folios-52', $this->option('folios'))->getFilename())
+        $folios[110] = new Folios(
+            file_get_contents(Configuration::getInstance('folios-fe', $this->option('folios-fe'))->getFilename())
+        );
+
+        $folios[111] = new Folios(
+            file_get_contents(Configuration::getInstance('folios-nc', $this->option('folios-nc'))->getFilename())
+        );
+
+        $folios[112] = new Folios(
+            file_get_contents(Configuration::getInstance('folios-nd', $this->option('folios-nd'))->getFilename())
         );
 
         # Construir la caratula
@@ -73,11 +81,13 @@ class OfficeGuideCertificactionCommand extends Command
         ];
 
         $startFolios = [
-            52 => $this->option('start-folio')
+            110 => $this->option('start-folio-fe'),
+            111 => $this->option('start-folio-nc'),
+            112 => $this->option('start-folio-nd')
         ];
 
         # Instaciar el builder para la certificacion
-        $certification = new OfficeGuideCertificactionBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
+        $certification = new ExportCertificactionBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
         $certification->build($startFolios, $caratula);
         $certification->export($this->option('output'));
     }

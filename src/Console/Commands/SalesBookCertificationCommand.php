@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version 25/8/20 9:06 p. m.
  * @author  Danilo Vasquez
@@ -19,7 +20,8 @@ class SalesBookCertificationCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'dte:sales-book-certification {--firma} {--source} {--pass} {--output}';
+    protected $signature = "dte:sales-book-certification {--firma} {--source} {--pass} {--output} {--RutEmisorLibro} {--RutEnvia} 
+    {--PeriodoTributario} {--FchResol} {--NroResol} {--TipoOperacion} {--TipoLibro} {--TipoEnvio} {--FolioNotificacion}";
 
     /**
      * The console command description.
@@ -38,15 +40,15 @@ class SalesBookCertificationCommand extends Command
         $sign = new FirmaElectronica(['file' => $this->option('firma'), 'pass' => $this->option('pass')]);
         # Construir la caratula
         $caratula = [
-            'RutEmisorLibro' => '78465260-2',
-            'RutEnvia' => '12021283-4',
-            'PeriodoTributario' => '2000-07',
-            'FchResol' => '2020-07-27',
-            'NroResol' => 102006,
-            'TipoOperacion' => 'VENTA',
-            'TipoLibro' => 'ESPECIAL',
-            'TipoEnvio' => 'TOTAL',
-            'FolioNotificacion' => 102006,
+            'RutEmisorLibro'    => $this->option('RutEmisorLibro'),
+            'RutEnvia'          => $this->option('RutEnvia'),
+            'PeriodoTributario' => $this->option('PeriodoTributario'),
+            'FchResol'          => $this->option('FchResol'),
+            'NroResol'          => $this->option('NroResol'),
+            'TipoOperacion'     => $this->option('TipoOperacion'),
+            'TipoLibro'         => $this->option('TipoLibro'),
+            'TipoEnvio'         => $this->option('TipoEnvio'),
+            'FolioNotificacion' => $this->option('FolioNotificacion'),
         ];
         # Instaciar el builder para la certificacion
         $certification = new SalesBookCertificactionBuilder($sign, new FileSource($this->option('source')));
