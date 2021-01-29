@@ -3,10 +3,11 @@
 namespace HSDCL\DteCl;
 
 use HSDCL\DteCl\Console\Commands\ExemptCertificationCommand;
-use HSDCL\DteCl\Console\Commands\OfficeGuideBookCertificactionCommand;
-use HSDCL\DteCl\Console\Commands\OfficeGuideCertificactionCommand;
+use HSDCL\DteCl\Console\Commands\ShipmentBookCertificactionCommand;
+use HSDCL\DteCl\Console\Commands\ShipmentCertificactionCommand;
 use HSDCL\DteCl\Console\Commands\PurchaseBookCertificationCommand;
 use HSDCL\DteCl\Console\Commands\BasicCertificationCommand;
+use HSDCL\DteCl\Console\Commands\ExportCertificactionCommand;
 use HSDCL\DteCl\Console\Commands\SalesBookCertificationCommand;
 use Illuminate\Support\ServiceProvider;
 
@@ -49,10 +50,12 @@ class DteClServiceProvider extends ServiceProvider
             $this->commands([
                 BasicCertificationCommand::class,
                 ExemptCertificationCommand::class,
-                OfficeGuideCertificactionCommand::class,
-                OfficeGuideBookCertificactionCommand::class,
+                ShipmentCertificactionCommand::class,
+                ShipmentBookCertificactionCommand::class,
                 PurchaseBookCertificationCommand::class,
                 SalesBookCertificationCommand::class,
+                ShipmentBookCertificactionCommand::class,
+                ExportCertificactionCommand::class
             ]);
         }
     }
