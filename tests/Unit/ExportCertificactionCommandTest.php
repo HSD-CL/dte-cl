@@ -11,49 +11,102 @@ use Illuminate\Support\Str;
  * Class ExampleTest
  * @package HSDCL\DteCl\Tests
  * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
+ * @author David Lopez <dlopez@hsd.cl>
  */
 class ExportCertificactionCommandTest extends TestCase
 {
     /**
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
+        $dotenv->load();
+    }
+
+    /**
      * @test
      * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
+     * @author David Lopez <dleo.lopez@gmail.com>
      */
     public function canCallCommand()
     {
-        //$folios = file_get_contents(base_path() . '/../../../../resources/assets/xml/folios/52.xml');
-        $file = 'xml/' . Str::uuid() . '.xml';
+        $fileName = '/tmp/' . Str::uuid() . '.xml';
         // make sure we're starting from a clean state
-        if (File::exists($file)) {
-            unlink($file);
+        if (File::exists($fileName)) {
+            unlink($fileName);
         }
-        $this->assertFalse(File::exists($file));
+        $this->assertFalse(File::exists($fileName));
         $this->artisan('dte:export-certification', [
-            '--firma'           => base_path() . '/../../../../resources/assets/certs/cert.pfx',
-            '--source'          => base_path() . '/../../../../resources/assets/set_pruebas/009-set_exportacion_a.txt',
-            '--folios-fe'      => base_path() . '/../../../../resources/assets/xml/folios/110.xml',
-            '--folios-nc'      => base_path() . '/../../../../resources/assets/xml/folios/111.xml',
-            '--folios-nd'      => base_path() . '/../../../../resources/assets/xml/folios/112.xml',
-            '--output'          => $file,
-            '--pass'            => 'Aaraneda1*',
-            '--start-folio-fe' => '1',
-            '--start-folio-nc' => '1',
-            '--start-folio-nd' => '1',
-            '--resolucion'      => '2020-07-27',
-            '--RUTEmisor'       => '78465260-2',
-            '--RznSoc'          => 'INVERSIONES ANTUMALAL LIMITADA',
-            '--GiroEmis'        => 'AGRICOLA',
-            '--Acteco'          =>  726000,
-            '--DirOrigen'       => 'FUNDO POTRERILLOS S N',
-            '--CmnaOrigen'      => 'Monte Patria',
-            '--RUTRecep'        => '81515100-3',
-            '--RznSocRecep'     => 'SELIM DABED SPA.',
-            '--GiroRecep'       => 'BARRACA Y FERRETERIA',
-            '--DirRecep'        => 'BENAVENTE 516',
-            '--CmnaRecep'       => 'OVALLE',
-            '--RutEnvia'        => '15751871-2',
-            '--RutReceptor'     => '60803000-K',
+            '--folios-fe'      => __DIR__ . '/../../resources/assets/xml/folios/110.xml',
+            '--folios-nc'      => __DIR__ . '/../../resources/assets/xml/folios/112.xml',
+            '--folios-nd'      => __DIR__ . '/../../resources/assets/xml/folios/111.xml',
+            '--firma'          => __DIR__ . '/../../resources/assets/certs/cert.pfx',
+            '--source'         => __DIR__ . '/../../resources/assets/set_pruebas/009-set_exportacion_1.txt',
+            '--output'         => $fileName,
+            '--pass'           => env('FIRMA_PASS'),
+            '--start-folio-fe' => '2',
+            '--start-folio-nd' => '2',
+            '--start-folio-nc' => '2',
+            '--resolucion'     => env('FechaResolucion'),
+            '--RUTEmisor'      => env('RUTEmisor'),
+            '--RznSoc'         => env('RznSoc'),
+            '--GiroEmis'       => env('GiroEmis'),
+            '--Acteco'         => env('Acteco'),
+            '--DirOrigen'      => env('DirOrigen'),
+            '--CmnaOrigen'     => env('CmnaOrigen'),
+            '--RUTRecep'       => '55555555-5',
+            '--RznSocRecep'    => 'Extranjero',
+            '--GiroRecep'      => 'Extranjero',
+            '--DirRecep'       => 'China',
+            '--CmnaRecep'      => env('CmnaRecep'),
+            '--RutEnvia'       => env('RutEnvia'),
+            '--RutReceptor'    => env('RutReceptor'),
         ])->assertExitCode(0);
 
-        $this->assertTrue(File::exists($file));
+        $this->assertTrue(File::exists($fileName));
+    }
+
+    /**
+     * @test
+     * @author David Lopez <dleo.lopez@gmail.com>
+     */
+    public function canCallCommandSetIi()
+    {
+        $fileName = '/tmp/' . Str::uuid() . '.xml';
+        // make sure we're starting from a clean state
+        if (File::exists($fileName)) {
+            unlink($fileName);
+        }
+        $this->assertFalse(File::exists($fileName));
+        $this->artisan('dte:export-certification', [
+            '--folios-fe'      => __DIR__ . '/../../resources/assets/xml/folios/110.xml',
+            '--folios-nc'      => __DIR__ . '/../../resources/assets/xml/folios/112.xml',
+            '--folios-nd'      => __DIR__ . '/../../resources/assets/xml/folios/111.xml',
+            '--firma'          => __DIR__ . '/../../resources/assets/certs/cert.pfx',
+            '--source'         => __DIR__ . '/../../resources/assets/set_pruebas/010-set_exportacion_2.txt',
+            '--output'         => $fileName,
+            '--pass'           => env('FIRMA_PASS'),
+            '--start-folio-fe' => '3',
+            '--start-folio-nd' => '3',
+            '--start-folio-nc' => '3',
+            '--resolucion'     => env('FechaResolucion'),
+            '--RUTEmisor'      => env('RUTEmisor'),
+            '--RznSoc'         => env('RznSoc'),
+            '--GiroEmis'       => env('GiroEmis'),
+            '--Acteco'         => env('Acteco'),
+            '--DirOrigen'      => env('DirOrigen'),
+            '--CmnaOrigen'     => env('CmnaOrigen'),
+            '--RUTRecep'       => '55555555-5',
+            '--RznSocRecep'    => 'Extranjero',
+            '--GiroRecep'      => 'Extranjero',
+            '--DirRecep'       => 'China',
+            '--CmnaRecep'      => env('CmnaRecep'),
+            '--RutEnvia'       => env('RutEnvia'),
+            '--RutReceptor'    => env('RutReceptor'),
+        ])->assertExitCode(0);
+
+        $this->assertTrue(File::exists($fileName));
     }
 }

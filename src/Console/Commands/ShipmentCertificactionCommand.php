@@ -9,21 +9,21 @@ namespace HSDCL\DteCl\Console\Commands;
 
 
 use HSDCL\DteCl\Sii\Certification\FileSource;
-use HSDCL\DteCl\Sii\Certification\OfficeGuideCertificactionBuilder;
+use HSDCL\DteCl\Sii\Certification\ShipmentCertificactionBuilder;
 use Illuminate\Console\Command;
 use HSDCL\DteCl\Util\Configuration;
 use sasco\LibreDTE\FirmaElectronica;
 use \sasco\LibreDTE\Sii\Folios;
 
-class OfficeGuideCertificactionCommand extends Command
+class ShipmentCertificactionCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = "dte:office-guide-certification {--firma} {--source} {--folios} {--pass} {--output} 
-    {--resolucion} {--start-folio} {--RUTEmisor} {--RznSoc} {--GiroEmis} {--Acteco} {--DirOrigen} {--CmnaOrigen} 
+    protected $signature = "dte:office-guide-certification {--firma} {--source} {--folios} {--pass} {--output}
+    {--resolucion} {--start-folio} {--RUTEmisor} {--RznSoc} {--GiroEmis} {--Acteco} {--DirOrigen} {--CmnaOrigen}
     {--RUTRecep} {--RznSocRecep} {--GiroRecep} {--DirRecep} {--CmnaRecep} {--RutEnvia} {--RutReceptor}";
 
 
@@ -77,7 +77,7 @@ class OfficeGuideCertificactionCommand extends Command
         ];
 
         # Instaciar el builder para la certificacion
-        $certification = new OfficeGuideCertificactionBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
+        $certification = new ShipmentCertificactionBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
         $certification->build($startFolios, $caratula);
         $certification->export($this->option('output'));
     }

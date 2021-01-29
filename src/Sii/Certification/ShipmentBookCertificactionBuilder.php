@@ -7,31 +7,24 @@
 
 namespace HSDCL\DteCl\Sii\Certification;
 
-use HSDCL\DteCl\Util\Exception;
 use sasco\LibreDTE\FirmaElectronica;
-use sasco\LibreDTE\Sii\Dte;
-use sasco\LibreDTE\Sii\EnvioDte;
-use \sasco\LibreDTE\Sii\Folios;
-use \sasco\LibreDTE\Sii\Certificacion\SetPruebas;
+use sasco\LibreDTE\Sii\LibroGuia;
 
 /**
- * Class OfficeGuideCertificactionBuilder
+ * Class ShipmentBookCertificactionBuilder
  * Clase para manejar la certificacion de guia de despacho
  * @package HSDCL\DteCl\Sii\Certification
  * @author Danilo Vasques <dvasquezr.ko@gmail.com>
  */
-class OfficeGuideCertificactionBuilder extends CertificationBuilder
+class ShipmentBookCertificactionBuilder extends CertificationBuilder
 {
     /**
      * @var array
      */
     protected $caratula;
-    protected $DTE;
-
-    public $data;
 
     /**
-     * OfficeGuideCertificactionBuilder constructor.
+     * ShipmentBookCertificactionBuilder constructor.
      * @param FirmaElectronica $firma
      * @param array $folios
      * @param Source $source
@@ -42,7 +35,7 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
     {
         parent::__construct($firma, $source, $folios, $issuing, $receiver);
 
-        $this->agent = new EnvioDte();
+        $this->agent = new LibroGuia();
     }
 
     /**
@@ -52,7 +45,9 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
      */
     public function parse(array $startFolios = null): CertificationBuilder
     {
-        $this->data = $this->source->getCases($startFolios);
+
+        $this->agent->agregarCSV($this->source->getInput());
+
         return $this;
     }
 
@@ -70,28 +65,12 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
     /**
      * @param array|null $startFolio
      * @return CertificationBuilder
-     * @author David Lopez <dleo.lopez@gmail.com>
+     * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
      */
     public function setStampAndSign(array $startFolio = null): CertificationBuilder
     {
-        // generar cada DTE, timbrar, firmar y agregar al sobre de EnvioDTE
-        foreach ($this->data as $document) {
-            # Agregar emisor
-            $document['Encabezado']['Emisor'] = $this->issuing;
-            # Agregar el receptor
-            $document['Encabezado']['Receptor'] = $this->receiver;
+        $this->agent->setFirma($this->firma);
 
-            $dte = new Dte($document);
-            if (!$dte->timbrar($this->folios[52])) {
-                throw new Exception('No se pudo timbrar el dte');
-            }
-            if (!$dte->firmar($this->firma)) {
-                throw new Exception('No se pudo firmar el dte');
-            }
-            if (!$this->agent->agregar($dte)) {
-                throw new Exception('No se pudo agregar el dte');
-            };
-        }
         return $this;
     }
 
@@ -102,6 +81,8 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
      */
     public function setCaratula(array $caratula): CertificationBuilder
     {
+        # Se necesita definir para ser usada luego en el parse
+        $this->caratula = $caratula;
         # Agregar caratula por el agente
         $this->agent->setCaratula($caratula);
 
@@ -127,10 +108,12 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
      */
     public function build(array $startFolio, array $caratula): CertificationBuilder
     {
-        $this->parse($startFolio)
-        ->setStampAndSign($startFolio)
-        ->setCaratula($caratula)
-        ->setSign();
+        $this->parse();
+
+        $this->setStampAndSign();
+
+        $this->agent->setCaratula($caratula);
+        $this->agent->generar();
 
         return $this;
     }
@@ -142,8 +125,6 @@ class OfficeGuideCertificactionBuilder extends CertificationBuilder
      */
     public function export(string $filename)
     {
-        $this->agent->generar();
-
         $doc = new \DOMDocument();
         $doc->loadXML($this->agent->saveXML());
 

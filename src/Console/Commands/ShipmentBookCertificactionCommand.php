@@ -8,11 +8,11 @@ namespace HSDCL\DteCl\Console\Commands;
 
 
 use HSDCL\DteCl\Sii\Certification\FileSource;
-use HSDCL\DteCl\Sii\Certification\OfficeGuideBookCertificactionBuilder;
+use HSDCL\DteCl\Sii\Certification\ShipmentBookCertificactionBuilder;
 use Illuminate\Console\Command;
 use sasco\LibreDTE\FirmaElectronica;
 
-class OfficeGuideBookCertificactionCommand extends Command
+class ShipmentBookCertificactionCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -44,7 +44,7 @@ class OfficeGuideBookCertificactionCommand extends Command
             'FolioNotificacion' => $this->option('FolioNotificacion')
         ];
         # Instaciar el builder para la certificacion
-        $certification = new OfficeGuideBookCertificactionBuilder($sign, new FileSource($this->option('source')));
+        $certification = new ShipmentBookCertificactionBuilder($sign, new FileSource($this->option('source')));
         $certification->build([], $caratula);
         $certification->export($this->option('output'));
     }
