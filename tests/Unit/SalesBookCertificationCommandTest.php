@@ -26,10 +26,19 @@ class SalesBookCertificationCommandTest extends TestCase
         }
         $this->assertFalse(File::exists($file));
         $this->artisan('dte:sales-book-certification', [
-            '--firma'     => base_path() . '/../../../../resources/assets/certs/cert.pfx',
-            '--source'    => base_path() . '/../../../../resources/assets/set_pruebas/libro_ventas.csv',
-            '--output'    => $file,
-            '--pass'      => 'Aaraneda1*'
+            '--firma'               => base_path() . '/../../../../resources/assets/certs/danilo.p12',
+            '--source'              => base_path() . '/../../../../resources/assets/set_pruebas/libro_ventas2.csv',
+            '--output'              => $file,
+            '--pass'                => 'Aaraneda1*',
+            '--RutEmisorLibro'      => '78465260-2',
+            '--RutEnvia'            => '15751871-2',
+            '--PeriodoTributario'   => '1980-02',
+            '--FchResol'            => '2020-07-27',
+            '--NroResol'            => 102006,
+            '--TipoOperacion'       => 'VENTA',
+            '--TipoLibro'           => 'ESPECIAL',
+            '--TipoEnvio'           => 'TOTAL',
+            '--FolioNotificacion'   => 102006,
         ])->assertExitCode(0);
 
         $this->assertTrue(File::exists($file));

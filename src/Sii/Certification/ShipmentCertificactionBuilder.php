@@ -7,24 +7,31 @@
 
 namespace HSDCL\DteCl\Sii\Certification;
 
+use HSDCL\DteCl\Util\Exception;
 use sasco\LibreDTE\FirmaElectronica;
-use sasco\LibreDTE\Sii\LibroGuia;
+use sasco\LibreDTE\Sii\Dte;
+use sasco\LibreDTE\Sii\EnvioDte;
+use \sasco\LibreDTE\Sii\Folios;
+use \sasco\LibreDTE\Sii\Certificacion\SetPruebas;
 
 /**
- * Class OfficeGuideBookCertificactionBuilder
+ * Class ShipmentCertificactionBuilder
  * Clase para manejar la certificacion de guia de despacho
  * @package HSDCL\DteCl\Sii\Certification
  * @author Danilo Vasques <dvasquezr.ko@gmail.com>
  */
-class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
+class ShipmentCertificactionBuilder extends CertificationBuilder
 {
     /**
      * @var array
      */
     protected $caratula;
+    protected $DTE;
+
+    public $data;
 
     /**
-     * OfficeGuideBookCertificactionBuilder constructor.
+     * ShipmentCertificactionBuilder constructor.
      * @param FirmaElectronica $firma
      * @param array $folios
      * @param Source $source
@@ -35,8 +42,7 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
     {
         parent::__construct($firma, $source, $folios, $issuing, $receiver);
 
-        parent::__construct($firma, $source, $folios, $issuing, $receiver);
-        $this->agent = new LibroGuia();
+        $this->agent = new EnvioDte();
     }
 
     /**
@@ -46,9 +52,7 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
      */
     public function parse(array $startFolios = null): CertificationBuilder
     {
-
-        $this->agent->agregarCSV($this->source->getInput());
-
+        $this->data = $this->source->getCases($startFolios);
         return $this;
     }
 
@@ -66,12 +70,28 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
     /**
      * @param array|null $startFolio
      * @return CertificationBuilder
-     * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
+     * @author David Lopez <dleo.lopez@gmail.com>
      */
     public function setStampAndSign(array $startFolio = null): CertificationBuilder
     {
-        $this->agent->setFirma($this->firma);
+        // generar cada DTE, timbrar, firmar y agregar al sobre de EnvioDTE
+        foreach ($this->data as $document) {
+            # Agregar emisor
+            $document['Encabezado']['Emisor'] = $this->issuing;
+            # Agregar el receptor
+            $document['Encabezado']['Receptor'] = $this->receiver;
 
+            $dte = new Dte($document);
+            if (!$dte->timbrar($this->folios[52])) {
+                throw new Exception('No se pudo timbrar el dte');
+            }
+            if (!$dte->firmar($this->firma)) {
+                throw new Exception('No se pudo firmar el dte');
+            }
+            if (!$this->agent->agregar($dte)) {
+                throw new Exception('No se pudo agregar el dte');
+            };
+        }
         return $this;
     }
 
@@ -82,8 +102,6 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
      */
     public function setCaratula(array $caratula): CertificationBuilder
     {
-        # Se necesita definir para ser usada luego en el parse
-        $this->caratula = $caratula;
         # Agregar caratula por el agente
         $this->agent->setCaratula($caratula);
 
@@ -109,11 +127,10 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
      */
     public function build(array $startFolio, array $caratula): CertificationBuilder
     {
-        $this->parse()
-            ->setCaratula($caratula);
-        # Generar XML sin firma
-        $this->agent->generar();
-        $this->setStampAndSign();
+        $this->parse($startFolio)
+        ->setStampAndSign($startFolio)
+        ->setCaratula($caratula)
+        ->setSign();
 
         return $this;
     }
@@ -125,6 +142,8 @@ class OfficeGuideBookCertificactionBuilder extends CertificationBuilder
      */
     public function export(string $filename)
     {
+        $this->agent->generar();
+
         $doc = new \DOMDocument();
         $doc->loadXML($this->agent->saveXML());
 

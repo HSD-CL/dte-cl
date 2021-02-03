@@ -9,7 +9,7 @@
         "laravel"
     ],
     "homepage": "https://github.com/hsd-cl/dte-cl",
-    "license": "GNU AGPLv",
+    "license": "AGPL-3.0+",
     "type": "library",
     "authors": [
         {
