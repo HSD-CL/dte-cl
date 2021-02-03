@@ -66,7 +66,10 @@ class BasicCertificationBuilder extends CertificationBuilder
             # Agregar emisor
             $document['Encabezado']['Emisor'] = $this->issuing;
             # Agregar el receptor
-            $document['Encabezado']['Receptor'] = $this->receiver;
+            $document['Encabezado']['Receptor'] = array_merge(
+                $this->receiver,
+                empty($document['Encabezado']['Receptor']) ? [] : $document['Encabezado']['Receptor']
+            );
             # TODO Agregar emisor
             if (!empty($startFolio)) {
                 $document['Encabezado']['IdDoc']['Folio'] = $startFolio[$typeDte] ?: 0;
