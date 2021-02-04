@@ -9,6 +9,7 @@ use HSDCL\DteCl\Console\Commands\PurchaseBookCertificationCommand;
 use HSDCL\DteCl\Console\Commands\BasicCertificationCommand;
 use HSDCL\DteCl\Console\Commands\ExportCertificactionCommand;
 use HSDCL\DteCl\Console\Commands\SalesBookCertificationCommand;
+use HSDCL\DteCl\Console\Commands\ShipmentCertificactionExportPdfCommand;
 use Illuminate\Support\ServiceProvider;
 
 class DteClServiceProvider extends ServiceProvider
@@ -55,7 +56,8 @@ class DteClServiceProvider extends ServiceProvider
                 PurchaseBookCertificationCommand::class,
                 SalesBookCertificationCommand::class,
                 ShipmentBookCertificactionCommand::class,
-                ExportCertificactionCommand::class
+                ExportCertificactionCommand::class,
+                ShipmentCertificactionExportPdfCommand::class
             ]);
         }
     }
