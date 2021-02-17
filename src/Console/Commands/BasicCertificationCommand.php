@@ -3,7 +3,7 @@
 namespace HSDCL\DteCl\Console\Commands;
 
 use Carbon\Carbon;
-use HSDCL\DteCl\Sii\Base\Dte;
+use HSDCL\DteCl\Sii\Base\PdfDte;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Util\Configuration;
@@ -46,19 +46,19 @@ class BasicCertificationCommand extends Command
         $firma = new FirmaElectronica(['file' => $this->option('firma'), 'pass' => $this->option('pass')]);
         # Construir los folios desde los archivos
 
-        $folios[Dte::FACTURA_ELECTRONICA] = new Folios(
-            file_get_contents(Configuration::getInstance('folios-' . Dte::FACTURA_ELECTRONICA, $this->option('folios-fe'))->getFilename())
+        $folios[PdfDte::FACTURA_ELECTRONICA] = new Folios(
+            file_get_contents(Configuration::getInstance('folios-' . PdfDte::FACTURA_ELECTRONICA, $this->option('folios-fe'))->getFilename())
         );
 
-        $folios[Dte::NOTA_DE_CREDITO_ELECTRONICA] = new Folios(
+        $folios[PdfDte::NOTA_DE_CREDITO_ELECTRONICA] = new Folios(
             file_get_contents(Configuration::getInstance(
-                'folios-' . Dte::NOTA_DE_CREDITO_ELECTRONICA,
+                'folios-' . PdfDte::NOTA_DE_CREDITO_ELECTRONICA,
                 $this->option('folios-nc'))->getFilename()
             )
         );
-        $folios[Dte::NOTA_DE_DEBITO_ELECTRONICA] = new Folios(
+        $folios[PdfDte::NOTA_DE_DEBITO_ELECTRONICA] = new Folios(
             file_get_contents(Configuration::getInstance(
-                'folios-' . Dte::NOTA_DE_DEBITO_ELECTRONICA,
+                'folios-' . PdfDte::NOTA_DE_DEBITO_ELECTRONICA,
                 $this->option('folios-nd'))->getFilename()
             )
         );
@@ -85,9 +85,9 @@ class BasicCertificationCommand extends Command
             'NroResol'    => 0,
         ];
         $startFolios = [
-            Dte::FACTURA_ELECTRONICA         => $this->option('start-fe'),
-            Dte::NOTA_DE_DEBITO_ELECTRONICA  => $this->option('start-nd'),
-            Dte::NOTA_DE_CREDITO_ELECTRONICA => $this->option('start-nc')
+            PdfDte::FACTURA_ELECTRONICA         => $this->option('start-fe'),
+            PdfDte::NOTA_DE_DEBITO_ELECTRONICA  => $this->option('start-nd'),
+            PdfDte::NOTA_DE_CREDITO_ELECTRONICA => $this->option('start-nc')
         ];
 
         $builder->build($startFolios, $caratula);
