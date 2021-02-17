@@ -128,4 +128,19 @@ class ExemptCertificationBuilderTest extends TestCase
         $output = 'file.xml';
         $this->assertGreaterThan(0, $certification->export($output));
     }
+
+    /**
+     * @test
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function canExportToPdf()
+    {
+        $this->assertTrue(
+            BasicCertificationBuilder::exportToPdf(
+                '/home/dlopez/Projects/Php/dte-cl/resources/assets/xml/set_exenta/1.xml',
+                '../../../resources/assets/img/logo.png',
+                __DIR__ . '/../../pdf/exenta/'
+            ))
+        ;
+    }
 }
