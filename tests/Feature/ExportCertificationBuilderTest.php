@@ -7,6 +7,7 @@
 namespace HSDCL\DteCl\Tests\Feature;
 
 
+use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Sii\Certification\ExportCertificactionBuilder;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Tests\TestCase;
@@ -126,5 +127,35 @@ class ExportCertificationBuilderTest extends TestCase
     {
         $output = 'file.xml';
         $this->assertGreaterThan(0, $certification->export($output));
+    }
+
+    /**
+     * @test
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function canExportToPdfSetOne()
+    {
+        $this->assertTrue(
+            BasicCertificationBuilder::exportToPdf(
+                '/home/dlopez/Projects/Php/dte-cl/resources/assets/xml/exportacion_1/1.xml',
+                __DIR__ . '/../../resources/assets/img/logo.png',
+                __DIR__ . '/../../pdf/4_exportacion_1/'
+            ))
+        ;
+    }
+
+    /**
+     * @test
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function canExportToPdfSetTwo()
+    {
+        $this->assertTrue(
+            BasicCertificationBuilder::exportToPdf(
+                '/home/dlopez/Projects/Php/dte-cl/resources/assets/xml/exportacion_2/1.xml',
+                __DIR__ . '/../../resources/assets/img/logo.png',
+                __DIR__ . '/../../pdf/5_exportacion_2/'
+            ))
+        ;
     }
 }
