@@ -51,7 +51,7 @@ abstract class PdfFileFactory
                     'NroResol' => $caratula['NroResol']]
             );
             $pdf->agregar($dte->getDatos(), $dte->getTED());
-            $pdf->Output($dirOutput . '/dte_' . $caratula['RutEmisor'] . '_' . $dte->getID() . '.pdf', 'F');
+            $pdf->Output($dirOutput . '/dte_' . $caratula['RutEmisor'] . '_' . $dte->getID(true) . '.pdf', 'F');
         }
 
         return true;

@@ -642,6 +642,12 @@ class SimulationBuilderTest extends TestCase
      */
     public function canExportToPdf()
     {
-        $this->assertTrue(SimulationBuilder::exportToPdf('/home/dlopez/Projects/Php/dte-cl/resources/assets/xml/set_basico/1.xml'));
+        $this->assertTrue(
+            BasicCertificationBuilder::exportToPdf(
+                '/home/dlopez/Projects/Php/dte-cl/resources/assets/xml/simulacion/1.xml',
+                __DIR__ . '/../../resources/assets/img/logo.png',
+                __DIR__ . '/../../pdf/6_simulacion/'
+            ))
+        ;
     }
 }
