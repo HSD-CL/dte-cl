@@ -152,7 +152,7 @@ class BasicCertificationBuilder extends CertificationBuilder
      * @throws Exception
      * @author David Lopez <dlopez@hsd.cl>
      */
-    public static function exportToPdf(string $filename, string $logoFileName = '../../../resources/assets/img/logo.png', string $dirOutput = '/tmp/set_prueba/'): bool
+    public static function exportToPdf(string $filename, string $logoFileName = __DIR__ . '/../../../resources/assets/img/logo.png', string $dirOutput = '/tmp/set_prueba/'): bool
     {
         try {
             return PdfFileFactory::make($filename, $dirOutput, $logoFileName);

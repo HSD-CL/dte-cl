@@ -138,8 +138,8 @@ class ExemptCertificationBuilderTest extends TestCase
         $this->assertTrue(
             BasicCertificationBuilder::exportToPdf(
                 '/home/dlopez/Projects/Php/dte-cl/resources/assets/xml/set_exenta/1.xml',
-                '../../../resources/assets/img/logo.png',
-                __DIR__ . '/../../pdf/exenta/'
+                __DIR__ . '/../../resources/assets/img/logo.png',
+                __DIR__ . '/../../pdf/2_exenta/'
             ))
         ;
     }
