@@ -88,7 +88,7 @@ class ExportCertificactionCommandTest extends TestCase
             '--source'         => __DIR__ . '/../../resources/assets/set_pruebas/010-set_exportacion_2.txt',
             '--output'         => $fileName,
             '--pass'           => env('FIRMA_PASS'),
-            '--start-folio-fe' => '3',
+            '--start-folio-fe' => '14',
             '--start-folio-nd' => '3',
             '--start-folio-nc' => '3',
             '--resolucion'     => env('FechaResolucion'),

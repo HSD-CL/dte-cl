@@ -16,7 +16,7 @@ interface Source
      * @return array
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function getCases(array $folios): array;
+    public function getCases(array $folios = []): array;
 
     /**
      * @return mixed

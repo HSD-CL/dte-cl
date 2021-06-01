@@ -1,26 +1,23 @@
 <?php
 /**
- * @author David Lopez <dleo.lopez@gmail.com>
  * @version 6/8/20 3:23 p. m.
+ * @author  David Lopez <dleo.lopez@gmail.com>
  */
 
 namespace HSDCL\DteCl\Sii\Certification;
 
 use HSDCL\DteCl\Util\Exception;
-use phpDocumentor\Reflection\Types\Boolean;
-use sasco\LibreDTE\File;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Dte;
 use sasco\LibreDTE\Sii\EnvioDte;
-use sasco\LibreDTE\Sii\Folios;
-use \HSDCL\DteCl\Sii\Base\Dte as HsdDte;
+use HSDCL\DteCl\Sii\Factory\PdfFileFactory;
 
 /**
  * Class BasicCertificationBuilder
  * Funciones para la certificación del set de pruebas
  *
  * @package HSDCL\DteCl\Sii\CertificationBuilder
- * @author David Lopez <dleo.lopez@gmail.com>
+ * @author  David Lopez <dleo.lopez@gmail.com>
  */
 class BasicCertificationBuilder extends CertificationBuilder
 {
@@ -66,7 +63,10 @@ class BasicCertificationBuilder extends CertificationBuilder
             # Agregar emisor
             $document['Encabezado']['Emisor'] = $this->issuing;
             # Agregar el receptor
-            $document['Encabezado']['Receptor'] = $this->receiver;
+            $document['Encabezado']['Receptor'] = array_merge(
+                $this->receiver,
+                empty($document['Encabezado']['Receptor']) ? [] : $document['Encabezado']['Receptor']
+            );
             # TODO Agregar emisor
             if (!empty($startFolio)) {
                 $document['Encabezado']['IdDoc']['Folio'] = $startFolio[$typeDte] ?: 0;
@@ -152,41 +152,12 @@ class BasicCertificationBuilder extends CertificationBuilder
      * @throws Exception
      * @author David Lopez <dlopez@hsd.cl>
      */
-    public static function exportToPdf(string $filename, string $logoFileName = '../../../resources/assets/img/logo.png', string $dirOutput = '/tmp/set_prueba/'): bool
+    public static function exportToPdf(string $filename, string $logoFileName = __DIR__ . '/../../../resources/assets/img/logo.png', string $dirOutput = '/tmp/set_prueba/'): bool
     {
-        # Read the XML
-        $agent = new EnvioDte();
-        $agent->loadXML(file_get_contents($filename));
-        # Prepare the directory
-        if (is_dir($dirOutput)) {
-            File::rmdir($dirOutput);
+        try {
+            return PdfFileFactory::make($filename, $dirOutput, $logoFileName);
+        } catch (\HSDCL\DteCl\Exception $e) {
+            return false;
         }
-        if (!mkdir($dirOutput)) {
-            throw new Exception("No se pudo crear el directorio temporal para DTEs");
-        }
-        # Transform to PDF
-        $caratula = $agent->getCaratula();
-        foreach ($agent->getDocumentos() as $dte) {
-            if (!$dte->getDatos()) {
-                throw new Exception("No se pudo obtener los datos del DTE");
-            }
-            $pdf = new \sasco\LibreDTE\Sii\Dte\PDF\Dte(false);
-            $pdf->setFooterText();
-            $pdf->setLogo($logoFileName);
-            $pdf->setResolucion([
-                    'FchResol' => $caratula['FchResol'],
-                    'NroResol' => $caratula['NroResol']]
-            );
-            $pdf->agregar($dte->getDatos(), $dte->getTED());
-            $pdf->Output($dirOutput . '/dte_' . $caratula['RutEmisor'] . '_' . $dte->getID() . '.pdf', 'F');
-        }
-        # Export to director
-        File::compress($dirOutput, [
-            'format' => 'zip',
-            'delete' => true,
-            'download' => false
-        ]);
-
-        return true;
     }
 }
