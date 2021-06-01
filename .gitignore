@@ -4,12 +4,6 @@ docs
 vendor
 coverage
 resources/assets/*
-pdf/1_set_prueba/*
-pdf/2_exenta/*
-pdf/3_guia_despacho/*
-pdf/4_exportacion_1/*
-pdf/5_exportacion_2/*
-pdf/6_simulacion/*
 .env
 xml
 .phpunit.result.cache
