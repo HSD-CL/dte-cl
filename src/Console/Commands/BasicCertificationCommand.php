@@ -3,7 +3,7 @@
 namespace HSDCL\DteCl\Console\Commands;
 
 use Carbon\Carbon;
-use HSDCL\DteCl\Sii\Base\PdfDte;
+use HSDCL\DteCl\Sii\Base\Pdf\PdfDte;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Util\Configuration;

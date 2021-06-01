@@ -6,6 +6,8 @@
 
 namespace HSDCL\DteCl\Sii\Base\Pdf;
 
+use HSDCL\DteCl\Sii\Base\Dte;
+
 /**
  * Class PdfDte
  *
@@ -14,7 +16,7 @@ namespace HSDCL\DteCl\Sii\Base\Pdf;
  * @package HSDCL\DteCl\Sii\Base
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
-class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
+class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte implements Dte
 {
     /**
      * @param \SimpleXMLElement $xml

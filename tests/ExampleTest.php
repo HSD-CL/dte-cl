@@ -2,7 +2,7 @@
 
 namespace HSDCL\DteCl\Tests;
 
-use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\TestCase;
 use HSDCL\DteCl\DteClServiceProvider;
 
 /**
