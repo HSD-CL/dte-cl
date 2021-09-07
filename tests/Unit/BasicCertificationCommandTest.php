@@ -37,16 +37,16 @@ class BasicCertificationCommandTest extends TestCase
         }
         $this->assertFalse(File::exists($fileName));
         $this->artisan('dte:basic-certification', [
-            '--folios-fe'   => __DIR__ . '/../../resources/assets/xml/folios/33.xml',
-            '--folios-nc'   => __DIR__ . '/../../resources/assets/xml/folios/61.xml',
-            '--folios-nd'   => __DIR__ . '/../../resources/assets/xml/folios/56.xml',
+            '--folios-fe'   => __DIR__ . '/../../resources/assets/xml/folios/33.xml', #51-93
+            '--folios-nc'   => __DIR__ . '/../../resources/assets/xml/folios/61.xml', #51-91
+            '--folios-nd'   => __DIR__ . '/../../resources/assets/xml/folios/56.xml', #51-95
             '--firma'       => __DIR__ . '/../../resources/assets/certs/cert.pfx',
             '--source'      => __DIR__ . '/../../resources/assets/set_pruebas/001-basico.txt',
             '--output'      => $fileName,
             '--pass'        => env('FIRMA_PASS'),
-            '--start-fe'    => '95',
-            '--start-nd'    => '60',
-            '--start-nc'    => '76',
+            '--start-fe'    => '51',
+            '--start-nd'    => '51',
+            '--start-nc'    => '51',
             '--resolucion'  => env('FechaResolucion'),
             '--RUTEmisor'   => env('RUTEmisor'),
             '--RznSoc'      => env('RznSoc'),
