@@ -19,7 +19,7 @@ class PurchaseBookCertificationCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
+        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
         $dotenv->load();
     }
 

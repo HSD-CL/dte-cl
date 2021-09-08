@@ -20,7 +20,7 @@ class ExemptCertificationCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
+        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
         $dotenv->load();
     }
 
@@ -45,8 +45,8 @@ class ExemptCertificationCommandTest extends TestCase
             '--output'      => $fileName,
             '--pass'        => env('FIRMA_PASS'),
             '--start-fe'    => '51',
-            '--start-nd'    => '61',
-            '--start-nc'    => '79',
+            '--start-nd'    => '52',
+            '--start-nc'    => '54',
             '--resolucion'  => env('FechaResolucion'),
             '--RUTEmisor'   => env('RUTEmisor'),
             '--RznSoc'      => env('RznSoc'),
