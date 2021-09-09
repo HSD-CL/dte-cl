@@ -5,15 +5,26 @@ namespace HSDCL\DteCl\Tests\Unit;
 use Illuminate\Support\Facades\File;
 use HSDCL\DteCl\Tests\TestCase;
 use Illuminate\Support\Str;
+
 //use \sasco\LibreDTE\Sii\Folios;
 
 /**
  * Class ExampleTest
  * @package HSDCL\DteCl\Tests
- * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
+ * @author  Danilo Vasquez <dvasquezr.ko@gmail.com>
  */
 class OfficeGuideCertificactionCommandTest extends TestCase
 {
+    /**
+     * @author David Lopez <dlopez@hsd.cl>
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+        $dotenv->load();
+    }
+
     /**
      * @test
      * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
@@ -21,7 +32,7 @@ class OfficeGuideCertificactionCommandTest extends TestCase
     public function canCallCommand()
     {
         //$folios = file_get_contents(base_path() . '/../../../../resources/assets/xml/folios/52.xml');
-        $file = 'xml/' . Str::uuid() . '.xml';
+        $file = '/tmp/' . Str::uuid() . '.xml';
         // make sure we're starting from a clean state
         if (File::exists($file)) {
             unlink($file);
@@ -29,25 +40,25 @@ class OfficeGuideCertificactionCommandTest extends TestCase
         $this->assertFalse(File::exists($file));
         $this->artisan('dte:office-guide-certification', [
             '--firma'       => base_path() . '/../../../../resources/assets/certs/cert.pfx',
-            '--source'      => base_path() . '/../../../../resources/assets/set_pruebas/005-guia_despacho2.txt',
-            '--folios'      => base_path() . '/../../../../resources/assets/xml/folios/52_2.xml',
+            '--source'      => base_path() . '/../../../../resources/assets/set_pruebas/005-guia_despacho.txt',
+            '--folios'      => base_path() . '/../../../../resources/assets/xml/folios/52.xml',
             '--output'      => $file,
-            '--pass'        => 'Aaraneda1*',
-            '--start-folio' => '68',
-            '--resolucion'  => '2020-07-27',
-            '--RUTEmisor'   => '78465260-2',
-            '--RznSoc'      => 'INVERSIONES ANTUMALAL LIMITADA',
-            '--GiroEmis'    => 'AGRICOLA',
-            '--Acteco'      =>  726000,
-            '--DirOrigen'   => 'FUNDO POTRERILLOS S N',
-            '--CmnaOrigen'  => 'Monte Patria',
-            '--RUTRecep'    => '81515100-3',
-            '--RznSocRecep' => 'SELIM DABED SPA.',
-            '--GiroRecep'   => 'BARRACA Y FERRETERIA',
-            '--DirRecep'    => 'BENAVENTE 516',
-            '--CmnaRecep'   => 'OVALLE',
-            '--RutEnvia'    => '15751871-2',
-            '--RutReceptor' => '60803000-K',
+            '--pass'        => env('FIRMA_PASS'),
+            '--start-folio' => '51',
+            '--resolucion'  => env('FechaResolucion'),
+            '--RUTEmisor'   => env('RUTEmisor'),
+            '--RznSoc'      => env('RznSoc'),
+            '--GiroEmis'    => env('GiroEmis'),
+            '--Acteco'      => env('Acteco'),
+            '--DirOrigen'   => env('DirOrigen'),
+            '--CmnaOrigen'  => env('CmnaOrigen'),
+            '--RUTRecep'    => env('RUTRecep'),
+            '--RznSocRecep' => env('RznSocRecep'),
+            '--GiroRecep'   => env('GiroRecep'),
+            '--DirRecep'    => env('DirRecep'),
+            '--CmnaRecep'   => env('CmnaRecep'),
+            '--RutEnvia'    => env('RutEnvia'),
+            '--RutReceptor' => env('RutReceptor'),
         ])->assertExitCode(0);
 
         $this->assertTrue(File::exists($file));
