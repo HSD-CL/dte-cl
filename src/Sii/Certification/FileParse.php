@@ -9,7 +9,7 @@ namespace HSDCL\DteCl\Sii\Certification;
 
 use sasco\LibreDTE\Sii\Certificacion\SetPruebas;
 
-class FileParser
+class FileParse
 {
     /**
      * @version 28/10/20
