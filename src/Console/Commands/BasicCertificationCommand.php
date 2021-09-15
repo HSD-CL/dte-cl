@@ -43,13 +43,11 @@ class BasicCertificationCommand extends Command
     public function handle(): void
     {
         # Constuir la firma desde la configuracion
-        $firma = new FirmaElectronica(['file' => $this->option('firma'), 'pass' => $this->option('pass')]);
+        $firma = BasicCertificationBuilder::makeFirma($this->option('firma'), $this->option('pass'));
         # Construir los folios desde los archivos
-
         $folios[PdfDte::FACTURA_ELECTRONICA] = new Folios(
             file_get_contents(Configuration::getInstance('folios-' . PdfDte::FACTURA_ELECTRONICA, $this->option('folios-fe'))->getFilename())
         );
-
         $folios[PdfDte::NOTA_DE_CREDITO_ELECTRONICA] = new Folios(
             file_get_contents(Configuration::getInstance(
                 'folios-' . PdfDte::NOTA_DE_CREDITO_ELECTRONICA,
