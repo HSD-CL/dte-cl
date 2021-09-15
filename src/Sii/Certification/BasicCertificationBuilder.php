@@ -127,6 +127,7 @@ class BasicCertificationBuilder extends CertificationBuilder
      */
     public function build(array $startFolio, array $caratula): CertificationBuilder
     {
+        # TODO Validation all required is defined
         $this->parse($startFolio)
             ->setStampAndSign($startFolio)
             ->setCaratula($caratula)

@@ -1,6 +1,8 @@
 <?php
 namespace HSDCL\DteCl\Sii\Certification;
 
+use HSDCL\DteCl\Sii\Base\Pdf\PdfDte;
+use HSDCL\DteCl\Util\Configuration;
 use HSDCL\DteCl\Util\Exception;
 use sasco\LibreDTE\File;
 use sasco\LibreDTE\FirmaElectronica;
@@ -136,5 +138,26 @@ abstract class CertificationBuilder
         $this->agent = $agent;
 
         return $this;
+    }
+
+    /**
+     * @author David Lopez <dleo.lopez@gmail.com>
+     */
+    public static function makeFirma(string $file, string $pass): FirmaElectronica
+    {
+        return new FirmaElectronica(['file' => $file, 'pass' => $pass]);
+    }
+
+    /**
+     * @version 15/9/21
+     * @author  David Lopez <dlopez@hsd.cl>
+     */
+    public function addFolios(int $type, string $filename)
+    {
+        $this->folios[$type] = new Folios(
+            file_get_contents(Configuration::getInstance('folios-' . $type, $filename)->getFilename())
+        );
+
+        return $this->folios;
     }
 }
