@@ -20,7 +20,7 @@ class SalesBookCertificationCommand extends Command
      *
      * @var string
      */
-    protected $signature = "dte:sales-book-certification {--firma} {--source} {--pass} {--output} {--RutEmisorLibro} {--RutEnvia} 
+    protected $signature = "dte:sales-book-certification {--firma} {--source} {--pass} {--output} {--RutEmisorLibro} {--RutEnvia}
     {--PeriodoTributario} {--FchResol} {--NroResol} {--TipoOperacion} {--TipoLibro} {--TipoEnvio} {--FolioNotificacion}";
 
     /**
@@ -51,7 +51,7 @@ class SalesBookCertificationCommand extends Command
             'FolioNotificacion' => $this->option('FolioNotificacion'),
         ];
         # Instaciar el builder para la certificacion
-        $certification = new SalesBookCertificactionBuilder($sign, new FileSource($this->option('source')));
+        $certification = new SalesBookCertificactionBuilder($sign, new FileSource($this->option('source')), true);
         $certification->build([], $caratula);
         $certification->export($this->option('output'));
     }

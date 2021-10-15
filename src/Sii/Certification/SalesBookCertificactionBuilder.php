@@ -7,7 +7,9 @@
 
 namespace HSDCL\DteCl\Sii\Certification;
 
+use Illuminate\Support\Facades\Log;
 use sasco\LibreDTE\FirmaElectronica;
+use sasco\LibreDTE\Sii\EnvioDte;
 use sasco\LibreDTE\Sii\LibroCompraVenta;
 
 /**
@@ -24,17 +26,34 @@ class SalesBookCertificactionBuilder extends CertificationBuilder
     protected $caratula;
 
     /**
+     * @var bool
+     */
+    protected $simplify = false;
+
+    /**
+     * @var
+     */
+    protected $xml;
+
+    /**
+     * @var bool
+     */
+    protected $isDirty = true;
+
+    /**
      * SalesBookCertificactionBuilder constructor.
      * @param FirmaElectronica $firma
-     * @param array $folios
      * @param Source $source
-     * @param array $issuing
-     * @param array $receiver
+     * @param bool $simplify                    Check if book is normal or simplify
+     * @param array|null $folios
+     * @param array|null $issuing
+     * @param array|null $receiver
      */
-    public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null, array $receiver = null)
+    public function __construct(FirmaElectronica $firma, Source $source, bool $simplify = false, array $folios = null, array $issuing = null, array $receiver = null)
     {
         parent::__construct($firma, $source, $folios, $issuing, $receiver);
-        $this->agent = new LibroCompraVenta(true);
+        $this->agent = new LibroCompraVenta($simplify);
+        $this->simplify = $simplify;
     }
 
     /**
@@ -44,7 +63,13 @@ class SalesBookCertificactionBuilder extends CertificationBuilder
      */
     public function parse(array $startFolios = null): CertificationBuilder
     {
-        $this->agent->agregarVentasCSV($this->source->getInput());
+        # We need read from xml
+        $handler = new EnvioDte();
+        $handler->loadXML(file_get_contents($this->source->getInput()));
+        $documents = $handler->getDocumentos();
+        foreach ($documents as $document) {
+            $this->agent->agregar($document->getResumen(), false);
+        }
         return $this;
     }
 
@@ -66,8 +91,6 @@ class SalesBookCertificactionBuilder extends CertificationBuilder
      */
     public function setStampAndSign(array $startFolio = null): CertificationBuilder
     {
-        $this->agent->setFirma($this->firma);
-
         return $this;
     }
 
@@ -92,7 +115,9 @@ class SalesBookCertificactionBuilder extends CertificationBuilder
      */
     public function setSign(): CertificationBuilder
     {
-        $this->agent->setFirma($this->firma);
+        if (!$this->simplify) {
+            $this->agent->setFirma($this->firma);
+        }
 
         return $this;
     }
@@ -106,10 +131,17 @@ class SalesBookCertificactionBuilder extends CertificationBuilder
     public function build(array $startFolio, array $caratula): CertificationBuilder
     {
         $this->parse()
-            ->setCaratula($caratula);
+            ->setCaratula($caratula)
+            ->setSign()
+        ;
         # Generar XML sin firma
-        $this->agent->generar();
-        $this->setStampAndSign();
+        $this->xml = $this->agent->generar(!$this->simplify);
+        if (!$this->agent->schemaValidate()) {
+            $this->isDirty = true;
+            Log::error("No se pudo generar el archivo para el libro de venta");
+            return $this;
+        }
+        $this->isDirty = false;
 
         return $this;
     }
@@ -121,9 +153,12 @@ class SalesBookCertificactionBuilder extends CertificationBuilder
      */
     public function export(string $filename)
     {
-        $doc = new \DOMDocument();
-        $doc->loadXML($this->agent->saveXML());
+        if (!$this->isDirty) {
+            $doc = new \DOMDocument();
+            $doc->loadXML($this->xml);
+            return $doc->save($filename);
+        }
 
-        return $doc->save($filename);
+        return false;
     }
 }
