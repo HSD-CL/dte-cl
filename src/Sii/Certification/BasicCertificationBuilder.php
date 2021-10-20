@@ -115,7 +115,7 @@ class BasicCertificationBuilder extends CertificationBuilder
      * This will return the track id
      * @return mixed Track id, false in case of failure
      */
-    public function send(): mixed
+    public function send()
     {
         return $this->agent->enviar();
     }

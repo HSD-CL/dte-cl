@@ -84,10 +84,10 @@ abstract class CertificationBuilder
     /**
      * Enviara los documentos a la certificacion
      * @param array $caratula
-     * @return bool
+     * @return mixed
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    abstract public function send(): mixed;
+    abstract public function send();
 
     /**
      * @param array|null $startFolio
