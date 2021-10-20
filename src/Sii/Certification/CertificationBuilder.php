@@ -66,6 +66,11 @@ abstract class CertificationBuilder
         $this->source = $source;
         $this->issuing = $issuing;
         $this->receiver = $receiver;
+        # Definicion para enviar los archivos
+        // trabajar en ambiente de certificación
+        \sasco\LibreDTE\Sii::setAmbiente(\sasco\LibreDTE\Sii::CERTIFICACION);
+        // trabajar con maullin para certificación
+        \sasco\LibreDTE\Sii::setServidor('maullin');
     }
 
     /**
@@ -82,7 +87,7 @@ abstract class CertificationBuilder
      * @return bool
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    abstract public function send(): bool;
+    abstract public function send(): mixed;
 
     /**
      * @param array|null $startFolio
