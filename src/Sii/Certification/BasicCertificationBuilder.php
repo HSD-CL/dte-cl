@@ -112,9 +112,10 @@ class BasicCertificationBuilder extends CertificationBuilder
     }
 
     /**
-     * @inheritDoc
+     * This will return the track id
+     * @return mixed Track id, false in case of failure
      */
-    public function send(): bool
+    public function send(): mixed
     {
         return $this->agent->enviar();
     }
