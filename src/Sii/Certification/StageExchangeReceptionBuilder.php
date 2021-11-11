@@ -78,7 +78,9 @@ class StageExchangeReceptionBuilder extends CertificationBuilder
     {
         $this->caratula = $this->getAgent()->getCaratula();
         $this->caratula['RutResponde'] = $caratula['RutResponde'];
-        $this->caratula['RutRecibe'] = $caratula['RutEmisor'];
+        $this->caratula['RutRecibe'] = $this->caratula['RutEmisor'];
+        $this->caratula['NmbContacto'] = $caratula['NmbContacto'];
+        $this->caratula['MailContacto'] = $caratula['MailContacto'];
         $this->isDirty = true;
 
         return $this;
@@ -95,7 +97,7 @@ class StageExchangeReceptionBuilder extends CertificationBuilder
      * @return CertificationBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function build(array $startFolio, array $caratula): CertificationBuilder
+    public function build(array $startFolio = null, array $caratula = null): CertificationBuilder
     {
         $receptionDtes = [];
         foreach ($this->getAgent()->getDocumentos() as $document) {
@@ -133,6 +135,7 @@ class StageExchangeReceptionBuilder extends CertificationBuilder
 
         if (!$answerSend->schemaValidate()) {
             $this->isDirty = true;
+
             return $this;
         }
         $this->isDirty = false;
