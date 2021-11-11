@@ -100,7 +100,7 @@ class StageExchangeSendReceiptBuilder extends CertificationBuilder
      * @return CertificationBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function build(array $startFolio, array $caratula): CertificationBuilder
+    public function build(array $startFolio = null, array $caratula = null): CertificationBuilder
     {
         # Objeto EnvioRecibo, asignar carátula y Firma
         $answerSend = new EnvioRecibos();

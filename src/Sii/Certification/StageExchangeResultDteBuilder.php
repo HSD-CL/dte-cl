@@ -21,7 +21,7 @@ use sasco\LibreDTE\Sii\RespuestaEnvio;
  * @package HSDCL\DteCl\Sii\Certification
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
-class StageExchangeSendReceiptBuilder extends CertificationBuilder
+class StageExchangeResultDteBuilder extends CertificationBuilder
 {
     /**
      * @var array
@@ -82,6 +82,7 @@ class StageExchangeSendReceiptBuilder extends CertificationBuilder
         # TODO Agregar una validacion para el array $caratula
         # Definimos la caratula
         $this->caratula = $this->getAgent()->getCaratula();
+        $this->caratula['RutResponde'] = $caratula['RutReceptorEsperado'];
         $this->caratula['RutResponde'] = $caratula['RutReceptorEsperado'];
         $this->caratula['RutRecibe'] = $this->caratula['RutEmisor'];
         $this->caratula['NmbContacto'] = $caratula['NmbContacto'];
