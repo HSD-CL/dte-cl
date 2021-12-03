@@ -1,6 +1,8 @@
 <?php
+namespace HSDCL\DteCl\Sii;
 
 use sasco\LibreDTE\FirmaElectronica;
+use sasco\LibreDTE\Sii;
 use sasco\LibreDTE\Sii\Autenticacion;
 use sasco\LibreDTE\Sii\Token;
 
@@ -14,12 +16,12 @@ class Request
     /**
      * @var FirmaElectronica
      */
-    private FirmaElectronica $signature;
+    private $signature;
 
     /**
      * @var string|false|Token
      */
-    protected string|false|Token $token;
+    protected $token;
 
     /**
      * @param string $filename URL del archivo
@@ -28,12 +30,9 @@ class Request
      * @version 2/12/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function __construct(string $filename, string $pass)
+    public function __construct(array $config)
     {
-        if (!file_exists($filename)) {
-            throw new Exception("File doesn't exist");
-        }
-        $this->signature = new FirmaElectronica(['file' => $filename, 'pass' => $pass]);
+        $this->signature = new FirmaElectronica($config);
     }
 
     /**
@@ -55,8 +54,12 @@ class Request
      * @version 2/12/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function sendDte(string $rutSender, string $rutEmitter, SimpleXMLElement $xml, bool $gzip = false, int $retry = null): SimpleXMLElement|bool|\sasco\LibreDTE\Respuesta
+    public function sendDte(string $rutSender, string $rutEmitter, SimpleXMLElement $xml, int $enviroment = Sii::CERTIFICACION, bool $gzip = false, int $retry = null)
     {
+        # Definir el ambiente, ¿como sera el comportamiento cuando varios esten accediendo
+        # y cambiando el entorno
+        Sii::setAmbiente($enviroment);
+
         return \sasco\LibreDTE\Sii::enviar($rutSender, $rutEmitter, $xml, $this->getToken(), $gzip, $retry);
     }
 }
