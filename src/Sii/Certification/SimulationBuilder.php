@@ -10,6 +10,7 @@ namespace HSDCL\DteCl\Sii\Certification;
 use HSDCL\DteCl\Sii\Base\Dte;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\EnvioDte;
+use HSDCL\DteCl\Sii\Base\PacketDteBuilder;
 
 class SimulationBuilder extends BasicCertificationBuilder
 {
@@ -29,10 +30,10 @@ class SimulationBuilder extends BasicCertificationBuilder
 
     /**
      * @param array $startFolios
-     * @return $this|CertificationBuilder
+     * @return $this|PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function parse(array $startFolios = null): CertificationBuilder
+    public function parse(array $startFolios = null): PacketDteBuilder
     {
         $this->parsed = $this->source->getCases($startFolios);
 

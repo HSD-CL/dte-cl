@@ -7,12 +7,11 @@
 
 namespace HSDCL\DteCl\Sii\Certification;
 
+use HSDCL\DteCl\Sii\Base\PacketDteBuilder;
 use HSDCL\DteCl\Util\Exception;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Dte;
 use sasco\LibreDTE\Sii\EnvioDte;
-use \sasco\LibreDTE\Sii\Folios;
-use \sasco\LibreDTE\Sii\Certificacion\SetPruebas;
 
 /**
  * Class ShipmentCertificactionBuilder
@@ -20,7 +19,7 @@ use \sasco\LibreDTE\Sii\Certificacion\SetPruebas;
  * @package HSDCL\DteCl\Sii\Certification
  * @author Danilo Vasques <dvasquezr.ko@gmail.com>
  */
-class ShipmentCertificactionBuilder extends CertificationBuilder
+class ShipmentCertificactionBuilder extends PacketDteBuilder
 {
     /**
      * @var array
@@ -47,10 +46,10 @@ class ShipmentCertificactionBuilder extends CertificationBuilder
 
     /**
      * @param array $startFolios
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author Danilo Vasquez
      */
-    public function parse(array $startFolios = null): CertificationBuilder
+    public function parse(array $startFolios = null): PacketDteBuilder
     {
         $this->data = $this->source->getCases($startFolios);
         return $this;
@@ -69,10 +68,10 @@ class ShipmentCertificactionBuilder extends CertificationBuilder
 
     /**
      * @param array|null $startFolio
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function setStampAndSign(array $startFolio = null): CertificationBuilder
+    public function setStampAndSign(array $startFolio = null): PacketDteBuilder
     {
         // generar cada DTE, timbrar, firmar y agregar al sobre de EnvioDTE
         foreach ($this->data as $document) {
@@ -97,10 +96,10 @@ class ShipmentCertificactionBuilder extends CertificationBuilder
 
     /**
      * @param array $caratula
-     * @return $this|CertificationBuilder
+     * @return $this|PacketDteBuilder
      * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
      */
-    public function setCaratula(array $caratula): CertificationBuilder
+    public function setCaratula(array $caratula): PacketDteBuilder
     {
         # Agregar caratula por el agente
         $this->agent->setCaratula($caratula);
@@ -109,10 +108,10 @@ class ShipmentCertificactionBuilder extends CertificationBuilder
     }
 
     /**
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
      */
-    public function setSign(): CertificationBuilder
+    public function setSign(): PacketDteBuilder
     {
         $this->agent->setFirma($this->firma);
 
@@ -122,10 +121,10 @@ class ShipmentCertificactionBuilder extends CertificationBuilder
     /**
      * @param array $startFolio
      * @param array $caratula
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
      */
-    public function build(array $startFolio, array $caratula): CertificationBuilder
+    public function build(array $startFolio, array $caratula): PacketDteBuilder
     {
         $this->parse($startFolio)
         ->setStampAndSign($startFolio)

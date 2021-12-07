@@ -7,3 +7,4 @@ resources/assets/*
 .env
 xml
 .phpunit.result.cache
+.idea/*

@@ -4,10 +4,8 @@
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
 
-namespace HSDCL\DteCl\Sii\Certification;
+namespace HSDCL\DteCl\Sii\Base;
 
-
-use sasco\LibreDTE\Sii\Certificacion\SetPruebas;
 
 class JsonSource implements Source
 {
@@ -17,7 +15,12 @@ class JsonSource implements Source
      */
     public function __construct(string $cases)
     {
-        $this->cases = json_decode($cases, true);
+        $decodeCases = json_decode($cases, true);;
+        if (array_keys($decodeCases) !== range(0, count($decodeCases) - 1)) {
+            $this->cases[] = $decodeCases;
+            return;
+        }
+        $this->cases = $decodeCases;
     }
 
     /**

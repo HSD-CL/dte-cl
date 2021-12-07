@@ -3,7 +3,7 @@
 namespace HSDCL\DteCl\Tests\Feature;
 
 use HSDCL\DteCl\Sii\Base\Dte;
-use HSDCL\DteCl\Sii\Certification\CertificationBuilder;
+use HSDCL\DteCl\Sii\Certification\PacketDteBuilder;
 use HSDCL\DteCl\Sii\Certification\ExemptCertificationBuilder;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;

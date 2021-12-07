@@ -2,7 +2,7 @@
 
 namespace HSDCL\DteCl\Tests\Feature;
 
-use HSDCL\DteCl\Sii\Certification\CertificationBuilder;
+use HSDCL\DteCl\Sii\Certification\PacketDteBuilder;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Sii\Certification\BasicCertificationBuilder;
 use HSDCL\DteCl\Sii\Certification\PurchaseBookCertificactionBuilder;
@@ -88,7 +88,7 @@ class PurchaseBookCertificationTest extends TestCase
             'FchResol'    => '2014-12-05',
             'NroResol'    => 0,
         ];
-        $this->assertInstanceOf(CertificationBuilder::class, $this->certification->build(56, $caratula));
+        $this->assertInstanceOf(PacketDteBuilder::class, $this->certification->build(56, $caratula));
     }
 
     /**

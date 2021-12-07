@@ -21,7 +21,7 @@ class ExportCertificactionCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
+        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
         $dotenv->load();
     }
 
@@ -46,9 +46,9 @@ class ExportCertificactionCommandTest extends TestCase
             '--source'         => __DIR__ . '/../../resources/assets/set_pruebas/009-set_exportacion_1.txt',
             '--output'         => $fileName,
             '--pass'           => env('FIRMA_PASS'),
-            '--start-folio-fe' => '2',
-            '--start-folio-nd' => '2',
-            '--start-folio-nc' => '2',
+            '--start-folio-fe' => '1',
+            '--start-folio-nd' => '1',
+            '--start-folio-nc' => '1',
             '--resolucion'     => env('FechaResolucion'),
             '--RUTEmisor'      => env('RUTEmisor'),
             '--RznSoc'         => env('RznSoc'),
@@ -88,9 +88,9 @@ class ExportCertificactionCommandTest extends TestCase
             '--source'         => __DIR__ . '/../../resources/assets/set_pruebas/010-set_exportacion_2.txt',
             '--output'         => $fileName,
             '--pass'           => env('FIRMA_PASS'),
-            '--start-folio-fe' => '14',
-            '--start-folio-nd' => '3',
-            '--start-folio-nc' => '3',
+            '--start-folio-fe' => '2',
+            '--start-folio-nd' => '2',
+            '--start-folio-nc' => '2',
             '--resolucion'     => env('FechaResolucion'),
             '--RUTEmisor'      => env('RUTEmisor'),
             '--RznSoc'         => env('RznSoc'),

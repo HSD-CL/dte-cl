@@ -37,12 +37,12 @@ class SalesBookCertificationCommandTest extends TestCase
         $this->assertFalse(File::exists($file));
         $this->artisan('dte:sales-book-certification', [
             '--firma'             => __DIR__ . '/../../resources/assets/certs/cert.pfx',
-            '--source'            => base_path() . '/../../../../resources/assets/set_pruebas/libro_ventas.csv',
+            '--source'            => '/tmp/f7e204f8-4b84-42e8-ab97-63e254dab09d.xml',
             '--output'            => $file,
             '--pass'              => env('FIRMA_PASS'),
             '--RutEmisorLibro'    => env('RUTEmisor'),
             '--RutEnvia'          => env('RutEnvia'),
-            '--PeriodoTributario' => '1980-02',
+            '--PeriodoTributario' => '1981-02',
             '--FchResol'          => env('FechaResolucion'),
             '--NroResol'          => env('NroResol'),
             '--TipoOperacion'     => 'VENTA',

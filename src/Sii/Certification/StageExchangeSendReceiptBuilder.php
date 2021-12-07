@@ -20,7 +20,7 @@ use sasco\LibreDTE\Sii\RespuestaEnvio;
  * @package HSDCL\DteCl\Sii\Certification
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
-class StageExchangeSendReceiptBuilder extends CertificationBuilder
+class StageExchangeSendReceiptBuilder extends PacketDteBuilder
 {
     /**
      * @var array
@@ -49,10 +49,10 @@ class StageExchangeSendReceiptBuilder extends CertificationBuilder
 
     /**
      * @param array $startFolios
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function parse(array $startFolios = null): CertificationBuilder
+    public function parse(array $startFolios = null): PacketDteBuilder
     {
         # Cargar EnvioDTE y extraer arreglo con datos de carátula y DTEs
         $this->getAgent()->loadXML(file_get_contents($this->source->getInput()));
@@ -66,17 +66,17 @@ class StageExchangeSendReceiptBuilder extends CertificationBuilder
         // TODO: Implement send() method.
     }
 
-    public function setStampAndSign(array $startFolio = null): CertificationBuilder
+    public function setStampAndSign(array $startFolio = null): PacketDteBuilder
     {
         return $this;
     }
 
     /**
      * @param array $caratula
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function setCaratula(array $caratula): CertificationBuilder
+    public function setCaratula(array $caratula): PacketDteBuilder
     {
         # Definimos la caratula
         $this->caratula = $this->getAgent()->getCaratula();
@@ -89,7 +89,7 @@ class StageExchangeSendReceiptBuilder extends CertificationBuilder
         return $this;
     }
 
-    public function setSign(): CertificationBuilder
+    public function setSign(): PacketDteBuilder
     {
         return $this;
     }
@@ -97,10 +97,10 @@ class StageExchangeSendReceiptBuilder extends CertificationBuilder
     /**
      * @param array $startFolio
      * @param array $caratula
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function build(array $startFolio = null, array $caratula = null): CertificationBuilder
+    public function build(array $startFolio = null, array $caratula = null): PacketDteBuilder
     {
         # Objeto EnvioRecibo, asignar carátula y Firma
         $answerSend = new EnvioRecibos();

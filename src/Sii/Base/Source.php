@@ -1,5 +1,5 @@
 <?php
-namespace HSDCL\DteCl\Sii\Certification;
+namespace HSDCL\DteCl\Sii\Base;
 
 /**
  * Interface Fuente

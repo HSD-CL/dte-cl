@@ -1,22 +1,27 @@
 <?php
-namespace HSDCL\DteCl\Sii\Certification;
+namespace HSDCL\DteCl\Sii\Base;
 
 use HSDCL\DteCl\Sii\Base\Pdf\PdfDte;
 use HSDCL\DteCl\Util\Configuration;
 use HSDCL\DteCl\Util\Exception;
+use HSDCL\DteCl\Util\SignatureFactory;
 use sasco\LibreDTE\File;
 use sasco\LibreDTE\FirmaElectronica;
+use sasco\LibreDTE\Sii;
 use sasco\LibreDTE\Sii\Dte\PDF\Dte;
 use sasco\LibreDTE\Sii\EnvioDte;
 use sasco\LibreDTE\Sii\Folios;
 
 /**
+ * Builder para el envio de un DTE
  * @author David Lopez <dleo.lopez@gmail.com>
  * @version 5/8/20 6:32 p. m.
  */
 
-abstract class CertificationBuilder
+abstract class PacketDteBuilder
 {
+    use SignatureFactory;
+
     /**
      * @var array
      */
@@ -59,7 +64,8 @@ abstract class CertificationBuilder
      * @param array $issuing
      * @param array $receiver
      */
-    public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null, array $receiver = null)
+    public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null,
+                                array            $receiver = null, int $environment = Sii::CERTIFICACION)
     {
         $this->firma = $firma;
         $this->folios = $folios;
@@ -68,18 +74,16 @@ abstract class CertificationBuilder
         $this->receiver = $receiver;
         # Definicion para enviar los archivos
         // trabajar en ambiente de certificación
-        \sasco\LibreDTE\Sii::setAmbiente(\sasco\LibreDTE\Sii::CERTIFICACION);
-        // trabajar con maullin para certificación
-        \sasco\LibreDTE\Sii::setServidor('maullin');
+        Sii::setAmbiente($environment);
     }
 
     /**
      * Funcion que convierte desde un origen los datos a un array de documentos
      * para enviar
      * @param \HSDCL\DteCl\Sii\Certification\Source $source
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      */
-    abstract public function parse(array $startFolios): CertificationBuilder;
+    abstract public function parse(array $startFolios): PacketDteBuilder;
 
     /**
      * Enviara los documentos a la certificacion
@@ -91,23 +95,23 @@ abstract class CertificationBuilder
 
     /**
      * @param array|null $startFolio
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    abstract public function setStampAndSign(array $startFolio = null): CertificationBuilder;
+    abstract public function setStampAndSign(array $startFolio = null): PacketDteBuilder;
 
     /**
      * @param array $caratula
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    abstract public function setCaratula(array $caratula): CertificationBuilder;
+    abstract public function setCaratula(array $caratula): PacketDteBuilder;
 
     /**
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    abstract public function setSign(): CertificationBuilder;
+    abstract public function setSign(): PacketDteBuilder;
 
     /**
      * @param int|null $startFolio
@@ -115,7 +119,7 @@ abstract class CertificationBuilder
      * @return bool
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    abstract public function build(array $startFolio, array $caratula): CertificationBuilder;
+    abstract public function build(array $startFolio, array $caratula): PacketDteBuilder;
 
     /**
      * @param string $filename
@@ -135,7 +139,7 @@ abstract class CertificationBuilder
 
     /**
      * @param EnvioDte $agent
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dlopez@hsd.cl>
      */
     public function setAgent(EnvioDte $agent)
@@ -143,14 +147,6 @@ abstract class CertificationBuilder
         $this->agent = $agent;
 
         return $this;
-    }
-
-    /**
-     * @author David Lopez <dleo.lopez@gmail.com>
-     */
-    public static function makeFirma(string $file, string $pass): FirmaElectronica
-    {
-        return new FirmaElectronica(['file' => $file, 'pass' => $pass]);
     }
 
     /**
