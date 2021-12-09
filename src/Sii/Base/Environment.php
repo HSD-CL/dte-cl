@@ -32,11 +32,22 @@ final class Environment
     private function __construct() {}
 
     /**
+     * Definir el ambiente
      * @param int $environment
      * @author David Lopez <dleo.lopez@gmail.com>
      */
     public static function set(int $environment)
     {
         Sii::setAmbiente($environment);
+    }
+
+    /**
+     * Obtener el ambiente
+     * @version 9/12/21
+     * @author  David Lopez <dlopez@hsd.cl>
+     */
+    public static function get()
+    {
+        return Sii::getAmbiente();
     }
 }

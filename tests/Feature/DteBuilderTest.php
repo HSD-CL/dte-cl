@@ -55,7 +55,7 @@ class DteBuilderTest extends TestCase
             'pkey' => file_get_contents(__DIR__ . '/../../resources/assets/certs/private.key')
         ]);
         $this->folios = [
-            Dte::FACTURA_ELECTRONICA => new Folios(file_get_contents(Configuration::getInstance('folios-' . Dte::FACTURA_ELECTRONICA, __DIR__ . '/../../resources/assets/xml/folios/33.xml')->getFilename()))
+            Dte::FACTURA_ELECTRONICA => file_get_contents(Configuration::getInstance('folios-' . Dte::FACTURA_ELECTRONICA, __DIR__ . '/../../resources/assets/xml/folios/33.xml')->getFilename())
         ];
         $this->builder = new DteBuilder(
             $this->firma,
