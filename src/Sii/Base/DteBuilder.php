@@ -31,7 +31,12 @@ class DteBuilder extends PacketDteBuilder
     public function __construct(FirmaElectronica $firma, Source $source, array $folios = null, array $issuing = null,
                                 array $receiver = null, int $environment = Sii::CERTIFICACION, bool $normalizar = true)
     {
-        parent::__construct($firma, $source, $folios, $issuing, $receiver, $environment);
+        $tmpFolios = [];
+        # Process folios
+        foreach ($folios as $key => $folio) {
+            $tmpFolios[$key] = new Sii\Folios($folio);
+        }
+        parent::__construct($firma, $source, $tmpFolios, $issuing, $receiver, $environment);
         $this->normalizar = $normalizar;
         $this->agent = new EnvioDte();
     }
@@ -53,7 +58,7 @@ class DteBuilder extends PacketDteBuilder
      * @return false|mixed|Sii\Track
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function send(int $retry = null, bool $gzip = false): mixed
+    public function send(int $retry = null, bool $gzip = false)
     {
         return $this->agent->enviar($retry, $gzip);
     }
@@ -138,7 +143,7 @@ class DteBuilder extends PacketDteBuilder
      * @return mixed|void
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function export(string $filename)
+    public function export(string $filename = null)
     {
         return base64_encode($this->agent->generar());
     }
