@@ -1,7 +1,7 @@
 <?php
 /**
- * @author David Lopez <dleo.lopez@gmail.com>
  * @version 5/8/20 12:36 p. m.
+ * @author  David Lopez <dleo.lopez@gmail.com>
  */
 
 
@@ -11,11 +11,13 @@ namespace HSDCL\DteCl\Sii\Base;
  * Interface Dte
  *
  * Esta interface sirve para mapear un DTE
- * @author David Lopez <dleo.lopez@gmail.com>
+ * @author  David Lopez <dleo.lopez@gmail.com>
  * @package App
  */
 interface Dte
 {
+    const FACTURA_INICIO = 29;
+
     /**
      * @const
      */
@@ -59,12 +61,27 @@ interface Dte
     /**
      * @const
      */
+    const BOLETA_NO_AFECTA = 41;
+
+    /**
+     * @const
+     */
+    const LIQUIDACION_FACTURA_ELECTRONICA = 43;
+
+    /**
+     * @const
+     */
     const FACTURA_DE_COMPRA = 45;
 
     /**
      * @const
      */
     const FACTURA_DE_COMPRA_ELECTRONICA = 46;
+
+    /**
+     * @const
+     */
+    const COMPROBANTE_PAGO_ELECTRONICO = 48;
 
     /**
      * @const
@@ -101,6 +118,7 @@ interface Dte
      */
     const BOLETA_ELECTRONICA_HONORARIOS = 66;
 
+
     /**
      * @const
      */
@@ -120,25 +138,29 @@ interface Dte
      * @const
      */
     const TPO_DOC_REF = [
-        self::FACTURA                        => "FACTURA",
-        self::FACTURA_EXENTA                 => "FACTURA EXENTA",
-        self::FACTURA_ELECTRONICA            => "FACTURA ELECTRONICA",
-        self::FACTURA_EXENTA_ELECTRONICA     => "FACTURA EXENTA ELECTRONICA",
-        self::BOLETA                         => "BOLETA",
-        self::BOLETA_EXENTA                  => "BOLETA EXENTA",
-        self::BOLETA_ELECTRONICA             => "BOLETA ELECTRONICA",
-        self::BOLETA_ELECTRONICA_HONORARIOS  => "BOLETA DE HONORARIOS ELECTRONICA",
-        self::LIQUIDACION_FACTURA            => "LIQUIDACION FACTURA",
-        self::FACTURA_DE_COMPRA              => "FACTURA DE COMPRA",
-        self::FACTURA_DE_COMPRA_ELECTRONICA  => "FACTURA DE COMPRA ELECTRONICA",
-        self::GUIA_DE_DESPACHO               => "GUIA DE DESPACHO",
-        self::GUIA_DE_DESPACHO_ELECTRONICA   => "GUIA DE DESPACHO ELECTRONICA",
-        self::NOTA_DE_DEBITO                 => "NOTA DE DEBITO",
-        self::NOTA_DE_DEBITO_ELECTRONICA     => "NOTA DE DEBITO ELECTRONICA",
-        self::NOTA_DE_CREDITO                => "NOTA DE CREDITO",
-        self::NOTA_DE_CREDITO_ELECTRONICA    => "NOTA DE CREDITO ELECTRONICA",
-        self::FACTURA_DE_EXPORTACION         => "FACTURA DE EXPORTACION",
-        self::NOTA_DE_DEBITO_DE_EXPORTACION  => "NOTA DE DEBITO DE EXPORTACION",
-        self::NOTA_DE_CREDITO_DE_EXPORTACION => "NOTA DE CREDITO DE EXPORTACION"
+        self::FACTURA_INICIO                  => 'FACTURA DE INICIO',
+        self::FACTURA                         => "FACTURA",
+        self::FACTURA_EXENTA                  => "FACTURA EXENTA",
+        self::FACTURA_ELECTRONICA             => "FACTURA ELECTRONICA",
+        self::FACTURA_EXENTA_ELECTRONICA      => "FACTURA EXENTA ELECTRONICA",
+        self::BOLETA                          => "BOLETA",
+        self::BOLETA_EXENTA                   => "BOLETA EXENTA",
+        self::BOLETA_ELECTRONICA              => "BOLETA ELECTRONICA",
+        self::BOLETA_ELECTRONICA_HONORARIOS   => "BOLETA DE HONORARIOS ELECTRONICA",
+        self::LIQUIDACION_FACTURA             => "LIQUIDACION FACTURA",
+        self::LIQUIDACION_FACTURA_ELECTRONICA => "LIQUIDACION FACTURA ELECTRONICA",
+        self::BOLETA_NO_AFECTA                => "BOLETA NO AFECTA O EXENTA ELECTRONICA",
+        self::FACTURA_DE_COMPRA               => "FACTURA DE COMPRA",
+        self::FACTURA_DE_COMPRA_ELECTRONICA   => "FACTURA DE COMPRA ELECTRONICA",
+        self::COMPROBANTE_PAGO_ELECTRONICO    => "COMPROBANTE DE PAGO ELECTRÓNICO'",
+        self::GUIA_DE_DESPACHO                => "GUIA DE DESPACHO",
+        self::GUIA_DE_DESPACHO_ELECTRONICA    => "GUIA DE DESPACHO ELECTRONICA",
+        self::NOTA_DE_DEBITO                  => "NOTA DE DEBITO",
+        self::NOTA_DE_DEBITO_ELECTRONICA      => "NOTA DE DEBITO ELECTRONICA",
+        self::NOTA_DE_CREDITO                 => "NOTA DE CREDITO",
+        self::NOTA_DE_CREDITO_ELECTRONICA     => "NOTA DE CREDITO ELECTRONICA",
+        self::FACTURA_DE_EXPORTACION          => "FACTURA DE EXPORTACION",
+        self::NOTA_DE_DEBITO_DE_EXPORTACION   => "NOTA DE DEBITO DE EXPORTACION",
+        self::NOTA_DE_CREDITO_DE_EXPORTACION  => "NOTA DE CREDITO DE EXPORTACION"
     ];
 }
