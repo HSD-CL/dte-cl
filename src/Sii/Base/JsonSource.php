@@ -6,7 +6,14 @@
 
 namespace HSDCL\DteCl\Sii\Base;
 
-
+/**
+ * Class JsonSource
+ *
+ * Clase que sirve para ser la fuente desde un JSON
+ * @package HSDCL\DteCl\Sii\Base
+ * @author  David Lopez <dleo.lopez@gmail.com>
+ * @version 202207211450
+ */
 class JsonSource implements Source
 {
     /**
@@ -29,7 +36,7 @@ class JsonSource implements Source
      * @return array
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function getCases(array $folios = []): array
+    public function getCases(array $folios = [], array $options = []): array
     {
         return $this->cases;
     }

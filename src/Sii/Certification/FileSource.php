@@ -1,4 +1,5 @@
 <?php
+
 namespace HSDCL\DteCl\Sii\Certification;
 
 use HSDCL\DteCl\Sii\Base\Source;
@@ -7,8 +8,8 @@ use sasco\LibreDTE\Sii\Certificacion\SetPruebas;
 
 /**
  * Clase que leera de un archivo los casos
- * @author David Lopez <dleo.lopez@gmail.com>
  * @version 5/8/20 7:05 p. m.
+ * @author  David Lopez <dleo.lopez@gmail.com>
  */
 class FileSource implements Source
 {
@@ -31,12 +32,18 @@ class FileSource implements Source
      * Obtendra los casos desde un archivo
      * @param array $folios
      * @return array
-     * @author David Lopez <dleo.lopez@gmail.com>
      * @version 2020-08-05
+     * @author  David Lopez <dleo.lopez@gmail.com>
      */
-    public function getCases(array $folios = []): array
+    public function getCases(array $folios = [], array $options = []): array
     {
-        if (empty($cases = json_decode(SetPruebas::getJSON(file_get_contents($this->config->getFilename()), $folios), true))) {
+        if (empty(
+        $cases = json_decode(
+            SetPruebas::getJSON(
+                file_get_contents($this->config->getFilename()),
+                $folios,
+                $options['separator'] ?? "=============="
+            ), true))) {
             return [];
         }
 
@@ -44,8 +51,8 @@ class FileSource implements Source
     }
 
     /**
-     * @author David Lopez <dlopez@hsd.cl>
      * @version
+     * @author David Lopez <dlopez@hsd.cl>
      */
     public function getInput()
     {
@@ -62,8 +69,8 @@ class FileSource implements Source
     {
         foreach ($cases as &$case) {
             if (isset($case['Referencia'][1]['RazonRef']) &&
-                (strpos($case['Referencia'][1]['RazonRef'], 'CORRIGE GIRO')===0 ||
-                    strpos($case['Referencia'][1]['RazonRef'], 'ANULA NOTA DE CREDITO')===0)) {
+                (strpos($case['Referencia'][1]['RazonRef'], 'CORRIGE GIRO') === 0 ||
+                    strpos($case['Referencia'][1]['RazonRef'], 'ANULA NOTA DE CREDITO') === 0)) {
                 $case['Detalle'][0]['NmbItem'] = 'CORRIGE DATO';
                 continue;
             }
