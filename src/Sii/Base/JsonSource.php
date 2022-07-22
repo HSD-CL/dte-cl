@@ -4,11 +4,16 @@
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
 
-namespace HSDCL\DteCl\Sii\Certification;
+namespace HSDCL\DteCl\Sii\Base;
 
-
-use sasco\LibreDTE\Sii\Certificacion\SetPruebas;
-
+/**
+ * Class JsonSource
+ *
+ * Clase que sirve para ser la fuente desde un JSON
+ * @package HSDCL\DteCl\Sii\Base
+ * @author  David Lopez <dleo.lopez@gmail.com>
+ * @version 202207211450
+ */
 class JsonSource implements Source
 {
     /**
@@ -17,7 +22,12 @@ class JsonSource implements Source
      */
     public function __construct(string $cases)
     {
-        $this->cases = json_decode($cases, true);
+        $decodeCases = json_decode($cases, true);;
+        if (array_keys($decodeCases) !== range(0, count($decodeCases) - 1)) {
+            $this->cases[] = $decodeCases;
+            return;
+        }
+        $this->cases = $decodeCases;
     }
 
     /**
@@ -26,7 +36,7 @@ class JsonSource implements Source
      * @return array
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function getCases(array $folios = []): array
+    public function getCases(array $folios = [], array $options = []): array
     {
         return $this->cases;
     }

@@ -1,5 +1,5 @@
 <?php
-namespace HSDCL\DteCl\Sii\Certification;
+namespace HSDCL\DteCl\Sii\Base;
 
 /**
  * Interface Fuente
@@ -16,7 +16,7 @@ interface Source
      * @return array
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function getCases(array $folios = []): array;
+    public function getCases(array $folios = [], array $options = []): array;
 
     /**
      * @return mixed

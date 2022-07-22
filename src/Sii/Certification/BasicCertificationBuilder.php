@@ -6,6 +6,8 @@
 
 namespace HSDCL\DteCl\Sii\Certification;
 
+use HSDCL\DteCl\Sii\Base\PacketDteBuilder;
+use HSDCL\DteCl\Sii\Base\Source;
 use HSDCL\DteCl\Util\Exception;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Dte;
@@ -16,15 +18,15 @@ use HSDCL\DteCl\Sii\Factory\PdfFileFactory;
  * Class BasicCertificationBuilder
  * Funciones para la certificación del set de pruebas
  *
- * @package HSDCL\DteCl\Sii\CertificationBuilder
+ * @package HSDCL\DteCl\Sii\PacketDteBuilder
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
-class BasicCertificationBuilder extends CertificationBuilder
+class BasicCertificationBuilder extends PacketDteBuilder
 {
     /**
      * @param FirmaElectronica $firma
      * @param array $folios
-     * @param \HSDCL\DteCl\Sii\Certification\Source $source
+     * @param Source $source
      * @param array $issuing
      * @param array $receiver
      * @author David Lopez <dlopez@hsd.cl>
@@ -37,10 +39,10 @@ class BasicCertificationBuilder extends CertificationBuilder
 
     /**
      * @param array $startFolios
-     * @return $this|CertificationBuilder
+     * @return $this|PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function parse(array $startFolios = null): CertificationBuilder
+    public function parse(array $startFolios = null): PacketDteBuilder
     {
         $this->parsed = $this->source->getCases($startFolios);
 
@@ -54,7 +56,7 @@ class BasicCertificationBuilder extends CertificationBuilder
      * @throws Exception
      * @author David Lopez <dlopez@hsd.cl>
      */
-    public function setStampAndSign(array $startFolio = null): CertificationBuilder
+    public function setStampAndSign(array $startFolio = null): PacketDteBuilder
     {
         foreach ($this->parsed as $document) {
             # TODO Utilizar una estrategia como prototype para validar que el documento parseado
@@ -88,10 +90,10 @@ class BasicCertificationBuilder extends CertificationBuilder
     }
 
     /**
-     * @return $this|CertificationBuilder
+     * @return $this|PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function setSign(): CertificationBuilder
+    public function setSign(): PacketDteBuilder
     {
         $this->agent->setFirma($this->firma);
 
@@ -100,10 +102,10 @@ class BasicCertificationBuilder extends CertificationBuilder
 
     /**
      * @param array $caratula
-     * @return $this|CertificationBuilder
+     * @return $this|PacketDteBuilder
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function setCaratula(array $caratula): CertificationBuilder
+    public function setCaratula(array $caratula): PacketDteBuilder
     {
         # TODO Investigar formato caratula correcta
         $this->agent->setCaratula($caratula);
@@ -123,10 +125,10 @@ class BasicCertificationBuilder extends CertificationBuilder
     /**
      * @param array $startFolio
      * @param array $caratula
-     * @return CertificationBuilder
+     * @return PacketDteBuilder
      * @author David Lopez <dlopez@hsd.cl>
      */
-    public function build(array $startFolio, array $caratula): CertificationBuilder
+    public function build(array $startFolio, array $caratula): PacketDteBuilder
     {
         # TODO Validation all required is defined
         $this->parse($startFolio)
