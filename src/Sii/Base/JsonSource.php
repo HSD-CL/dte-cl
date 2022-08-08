@@ -6,28 +6,40 @@
 
 namespace HSDCL\DteCl\Sii\Base;
 
-/**
+use Symfony\Component\OptionsResolver\OptionsResolver;/**
  * Class JsonSource
  *
  * Clase que sirve para ser la fuente desde un JSON
- * @package HSDCL\DteCl\Sii\Base
- * @author  David Lopez <dleo.lopez@gmail.com>
  * @version 202207211450
+ *@author  David Lopez <dleo.lopez@gmail.com>
+ * @package HSDCL\DteCl\Sii\Base
  */
 class JsonSource implements Source
 {
+    /**
+     * @var array DTE
+     */
+    protected array $cases;
+
     /**
      * JsonSource constructor.
      * @param string $cases
      */
     public function __construct(string $cases)
     {
-        $decodeCases = json_decode($cases, true);;
+        $decodeCases = json_decode($cases, true);
+        # Podríamos identificar si es un key array o indexed array
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
         if (array_keys($decodeCases) !== range(0, count($decodeCases) - 1)) {
-            $this->cases[] = $decodeCases;
+            # Solo hay un DTE, validamos la forma
+            $this->cases[] = $resolver->resolve($decodeCases);
             return;
         }
-        $this->cases = $decodeCases;
+        # Si hay más de un caso debemos validar caso por caso
+        foreach ($decodeCases as $case) {
+            $this->cases[] = $resolver->resolve($case);
+        }
     }
 
     /**
@@ -48,5 +60,30 @@ class JsonSource implements Source
     public function getInput()
     {
         return $this->cases;
+    }
+
+    /**
+     * Configurar la opciones recibidas
+     * @version 8/8/22
+     * @author  David Lopez <dleo.lopez@gmail.com>
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault('Encabezado', function (OptionsResolver $sResolver) {
+            $sResolver->setDefault('IdDoc', function (OptionsResolver $ssResolver) {
+                $ssResolver->setDefined(['TipoDTE', 'Folio']);
+                $ssResolver->setRequired(['TipoDTE', 'Folio']);
+            });
+            $sResolver->setDefault('Emisor', function (OptionsResolver $ssResolver) {
+                $ssResolver->setRequired(['RUTEmisor', 'RznSoc', 'GiroEmis', 'Acteco', 'DirOrigen', 'CmnaOrigen']);
+            });
+            $sResolver->setDefault('Receptor', function (OptionsResolver $ssResolver) {
+                $ssResolver->setRequired(['RUTRecep', 'RznSocRecep', 'GiroRecep', 'DirRecep', 'CmnaRecep']);
+            });
+        });
+        $resolver->setDefault('Detalle', function (OptionsResolver $sResolver) {
+            $sResolver->setPrototype(true)
+                ->setRequired(['NmbItem', 'QtyItem', 'PrcItem']);
+        });
     }
 }

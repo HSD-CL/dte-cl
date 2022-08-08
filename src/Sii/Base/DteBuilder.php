@@ -13,6 +13,13 @@ use sasco\LibreDTE\Sii;
 use sasco\LibreDTE\Sii\Dte;
 use sasco\LibreDTE\Sii\EnvioDte;
 
+/**
+ * Class DteBuilder
+ *
+ * Clase que permite crear un DTE
+ * @package HSDCL\DteCl\Sii\Base
+ * @author  David Lopez <dleo.lopez@gmail.com>
+ */
 class DteBuilder extends PacketDteBuilder
 {
     /**
