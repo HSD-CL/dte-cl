@@ -80,7 +80,7 @@ class JsonSource implements Source
                                          'TpoTranCompra', 'TpoTranVenta', 'FmaPago', 'FmaPagExp', 'MntCancel',
                                          'SaldoInsol', 'FchCancel', 'MntPagos', 'PeriodoDesde', 'PeriodoHasta',
                                          'MedioPago', 'TpoCtaPago', 'NumCtaPago', 'BcoPago', 'TermPagoCdg',
-                                         'TermPagoGlosa', 'TermPagoDias', 'FchVenc']);
+                                         'TermPagoGlosa', 'TermPagoDias', 'FchVenc', 'TipoRetencion']);
                 $ssResolver->setRequired(['TipoDTE', 'Folio']);
             });
             $sResolver->setDefault('Emisor', function (OptionsResolver $ssResolver) {
