@@ -6,12 +6,15 @@
 
 namespace HSDCL\DteCl\Sii\Base;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;/**
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+
+/**
  * Class JsonSource
  *
  * Clase que sirve para ser la fuente desde un JSON
  * @version 202207211450
- *@author  David Lopez <dleo.lopez@gmail.com>
+ * @author  David Lopez <dleo.lopez@gmail.com>
  * @package HSDCL\DteCl\Sii\Base
  */
 class JsonSource implements Source
@@ -34,6 +37,7 @@ class JsonSource implements Source
         if (array_keys($decodeCases) !== range(0, count($decodeCases) - 1)) {
             # Solo hay un DTE, validamos la forma
             $this->cases[] = $resolver->resolve($decodeCases);
+
             return;
         }
         # Si hay más de un caso debemos validar caso por caso
@@ -71,18 +75,33 @@ class JsonSource implements Source
     {
         $resolver->setDefault('Encabezado', function (OptionsResolver $sResolver) {
             $sResolver->setDefault('IdDoc', function (OptionsResolver $ssResolver) {
-                $ssResolver->setDefined(['TipoDTE', 'Folio']);
+                $ssResolver->setDefined(['TipoDTE', 'Folio', 'MntPagos', 'TpoTranVenta', 'FchEmis', 'IndNoRebaja',
+                                         'TipoDespacho', 'IndTraslado', 'TpoImpresion', 'IndServicio', 'MntBruto',
+                                         'TpoTranCompra', 'TpoTranVenta', 'FmaPago', 'FmaPagExp', 'MntCancel',
+                                         'SaldoInsol', 'FchCancel', 'MntPagos', 'PeriodoDesde', 'PeriodoHasta',
+                                         'MedioPago', 'TpoCtaPago', 'NumCtaPago', 'BcoPago', 'TermPagoCdg',
+                                         'TermPagoGlosa', 'TermPagoDias', 'FchVenc']);
                 $ssResolver->setRequired(['TipoDTE', 'Folio']);
             });
             $sResolver->setDefault('Emisor', function (OptionsResolver $ssResolver) {
+                $ssResolver->setDefined(['RUTEmisor', 'RznSoc', 'GiroEmis', 'Telefono', 'CorreoEmisor', 'Acteco',
+                                         'GuiaExport', 'Sucursal', 'CdgSIISucur', 'DirOrigen', 'CmnaOrigen',
+                                         'CiudadOrigen', 'CdgVendedor', 'IdAdicEmisor']);
                 $ssResolver->setRequired(['RUTEmisor', 'RznSoc', 'GiroEmis', 'Acteco', 'DirOrigen', 'CmnaOrigen']);
             });
             $sResolver->setDefault('Receptor', function (OptionsResolver $ssResolver) {
+                $ssResolver->setDefined(['RUTRecep', 'CdgIntRecep', 'RznSocRecep', 'Extranjero', 'GiroRecep',
+                                         'Contacto', 'CorreoRecep', 'DirRecep', 'CmnaRecep', 'CiudadRecep',
+                                         'DirPostal', 'CmnaPostal', 'CiudadPostal']);
                 $ssResolver->setRequired(['RUTRecep', 'RznSocRecep', 'GiroRecep', 'DirRecep', 'CmnaRecep']);
             });
         });
         $resolver->setDefault('Detalle', function (OptionsResolver $sResolver) {
             $sResolver->setPrototype(true)
+                ->setDefined(['NroLinDet', 'CdgItem', 'IndExe', 'Retenedor', 'NmbItem', 'DscItem', 'QtyRef', 'UnmdRef',
+                              'PrcRef', 'QtyItem', 'Subcantidad', 'FchElabor', 'FchVencim', 'UnmdItem', 'PrcItem',
+                              'DescuentoPct', 'DescuentoMonto', 'RecargoPct', 'RecargoMonto', 'CodImpAdic',
+                              'MontoItem'])
                 ->setRequired(['NmbItem', 'QtyItem', 'PrcItem']);
         });
     }

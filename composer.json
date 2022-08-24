@@ -24,6 +24,7 @@
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "laravel/framework": "^8.44",
         "sasco/libredte": "^21.10",
+        "symfony/options-resolver": "^5.4",
         "vlucas/phpdotenv": "^5.2"
     },
     "require-dev": {
