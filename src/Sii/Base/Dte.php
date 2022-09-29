@@ -10,12 +10,21 @@ namespace HSDCL\DteCl\Sii\Base;
 /**
  * Interface Dte
  *
- * Esta interface sirve para mapear un DTE
+ * Esta interface sirve para contrato un DTE
  * @author  David Lopez <dleo.lopez@gmail.com>
  * @package App
  */
 interface Dte
 {
+    /**
+     * Metodo converToArray
+     *
+     * Este metodo debera convertir el dte al formato estandar de un Dte
+     * @return mixed
+     * @author David Lopez <dleo.lopez@gmail.com>
+     */
+    public function convertToArray(): DteStructure;
+
     const FACTURA_INICIO = 29;
 
     /**
@@ -136,6 +145,7 @@ interface Dte
 
     /**
      * @const
+     * @see https://www4.sii.cl/complementoscvui/services/data/facadeServiceCompCompraService/obtieneTiposDocumento
      */
     const TPO_DOC_REF = [
         self::FACTURA_INICIO                  => 'FACTURA DE INICIO',
