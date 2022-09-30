@@ -16,12 +16,26 @@ use sasco\LibreDTE\XML;
  */
 class DteXml extends XML implements Dte
 {
+    protected $xml;
+
+    /**
+     * @param string $version
+     * @param string $encoding
+     */
+    public function __construct(string $xml, $version = '1.0', $encoding = 'ISO-8859-1')
+    {
+        $this->xml = $xml;
+        parent::__construct($version, $encoding);
+    }
+
     /**
      * @return DteStructure
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function convertToArray(): DteStructure
+    public function convertToArray(): array
     {
-        return new DteStructure($this->toArray());
+        $this->loadXML($this->xml);
+
+        return $this->toArray($this->documentElement);
     }
 }

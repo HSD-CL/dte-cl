@@ -23,7 +23,7 @@ interface Dte
      * @return mixed
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function convertToArray(): DteStructure;
+    public function convertToArray(): array;
 
     const FACTURA_INICIO = 29;
 
