@@ -24,12 +24,32 @@ class Arr
      */
     public static function validateKeys(array $data, array $keys): bool
     {
-
         $keysArgs = array_keys($data);
         if (!empty(array_diff($keys, $keysArgs))) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * http://uk1.php.net/array_walk_recursive implementation that is used to remove nodes from the array.
+     *
+     * @param array The input array.
+     * @param callable $callback Function must return boolean value indicating whether to remove the node.
+     * @return array
+     */
+    public static function walkRecursiveRemove (array $array, callable $callback) {
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
+                $array[$k] = self::walkRecursiveRemove($v, $callback);
+            } else {
+                if ($callback($v, $k)) {
+                    unset($array[$k]);
+                }
+            }
+        }
+
+        return $array;
     }
 }
