@@ -41,12 +41,12 @@ class Arr
      */
     public static function walkRecursiveRemove (array $array, callable $callback) {
         foreach ($array as $k => $v) {
+            if ($callback($v, $k)) {
+                unset($array[$k]);
+                continue;
+            }
             if (is_array($v)) {
                 $array[$k] = self::walkRecursiveRemove($v, $callback);
-            } else {
-                if ($callback($v, $k)) {
-                    unset($array[$k]);
-                }
             }
         }
 
