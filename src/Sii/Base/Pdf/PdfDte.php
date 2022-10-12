@@ -16,7 +16,7 @@ use HSDCL\DteCl\Sii\Base\Dte;
  * @package HSDCL\DteCl\Sii\Base
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
-class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte implements Dte
+class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
 {
     /**
      * @param \SimpleXMLElement $xml
