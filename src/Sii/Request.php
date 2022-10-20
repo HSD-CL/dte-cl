@@ -150,10 +150,6 @@ class Request
      */
     public function __construct(array $config, string $id = null)
     {
-        $keys = ['cert', 'pkey'];
-        if (!Arr::validateKeys($config, $keys)) {
-            throw new Exception("No se encuentran los datos para la conexión. Asegurese de que cert y pkey esten");
-        }
         $this->signature = new FirmaElectronica($config);
         $this->id = $id;
     }
