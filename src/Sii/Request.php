@@ -183,7 +183,7 @@ class Request
      * @version 2/12/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function sendDte(string $rutSender, string $rutEmitter, \SimpleXMLElement $xml, int $enviroment = Sii::CERTIFICACION, bool $gzip = false, int $retry = null)
+    public function sendDte(string $rutSender, string $rutEmitter, string $xml, int $enviroment = Sii::CERTIFICACION, bool $gzip = false, int $retry = null)
     {
         # Definir el ambiente, ¿como sera el comportamiento cuando varios esten accediendo
         # y cambiando el entorno
