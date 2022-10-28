@@ -63,6 +63,7 @@ class DteStructure extends \ArrayObject
                 $ssResolver->setRequired(['RUTRecep', 'RznSocRecep', 'GiroRecep', 'DirRecep', 'CmnaRecep']);
             });
             $sResolver->setDefault('Totales', function (OptionsResolver $ssResolver) {
+                $ssResolver->setDefined(['MntNeto', 'TasaIVA', 'IVA', 'MntTotal', 'ImptoReten']);
                 $ssResolver->setRequired(['MntNeto', 'TasaIVA', 'IVA', 'MntTotal']);
             });
         });
