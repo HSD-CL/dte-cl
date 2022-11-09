@@ -62,9 +62,12 @@ class DteStructure extends \ArrayObject
                                          'DirPostal', 'CmnaPostal', 'CiudadPostal']);
                 $ssResolver->setRequired(['RUTRecep', 'RznSocRecep', 'GiroRecep', 'DirRecep', 'CmnaRecep']);
             });
+            $sResolver->setDefault('Transporte', function (OptionsResolver $ssResolver) {
+                $ssResolver->setDefined(['Patente', 'RUTTrans', 'Chofer', 'DirDest', 'CmnaDest']);
+                $ssResolver->setRequired(['Patente', 'DirDest', 'CmnaDest']);
+            });
             $sResolver->setDefault('Totales', function (OptionsResolver $ssResolver) {
                 $ssResolver->setDefined(['MntNeto', 'TasaIVA', 'IVA', 'MntTotal', 'ImptoReten']);
-                $ssResolver->setRequired(['MntNeto', 'TasaIVA', 'IVA', 'MntTotal']);
             });
         });
         $resolver->setDefault('Detalle', function (OptionsResolver $sResolver) {
