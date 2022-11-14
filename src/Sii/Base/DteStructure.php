@@ -64,7 +64,6 @@ class DteStructure extends \ArrayObject
             });
             $sResolver->setDefault('Transporte', function (OptionsResolver $ssResolver) {
                 $ssResolver->setDefined(['Patente', 'RUTTrans', 'Chofer', 'DirDest', 'CmnaDest']);
-                $ssResolver->setRequired(['Patente', 'DirDest', 'CmnaDest']);
             });
             $sResolver->setDefault('Totales', function (OptionsResolver $ssResolver) {
                 $ssResolver->setDefined(['MntNeto', 'TasaIVA', 'IVA', 'MntTotal', 'ImptoReten']);
