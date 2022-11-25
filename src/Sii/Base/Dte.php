@@ -173,4 +173,28 @@ interface Dte
         self::NOTA_DE_DEBITO_DE_EXPORTACION   => "NOTA DE DEBITO DE EXPORTACION",
         self::NOTA_DE_CREDITO_DE_EXPORTACION  => "NOTA DE CREDITO DE EXPORTACION"
     ];
+
+    /**
+     * Anula Documento de Referencia
+     */
+    const COD_REFERENCIA_ANULA = 1;
+
+    /**
+     * Corrige Texto Documento de NUM Referencia
+     */
+    const COD_REFERENCIA_CORRIGE = 2;
+
+    /**
+     * Corrige montos
+     */
+    const COD_REFERENCIA_CORRIGE_MONTOS = 3;
+
+    /**
+     * Traduccion de los codigos de referencia
+     */
+    const COD_REFERENCIA = [
+        self::COD_REFERENCIA_CORRIGE_MONTOS => "CORRIGE MONTOS",
+        self::COD_REFERENCIA_ANULA          => "ANULA DOCUMENTO DE REFERENCIA",
+        self::COD_REFERENCIA_CORRIGE        => "CORRIGE TEXTO DOCUMENTO DE NUM REFERENCIA"
+    ]
 }
