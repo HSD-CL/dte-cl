@@ -72,6 +72,11 @@ class CessionBuilder
     protected $dteAssignment;
 
     /**
+     * @var array
+     */
+    protected $data = [];
+
+    /**
      * @param FirmaElectronica $signature
      * @param string $xml
      * @param array|null $assignee Cesionario
@@ -79,7 +84,13 @@ class CessionBuilder
      * @param int $environment
      * @author David Lopez <dlopez@hsd.cl>
      */
-    public function __construct(FirmaElectronica $signature, string $xml, array $assignee, array $assignor, int $environment = Sii::CERTIFICACION)
+    public function __construct(FirmaElectronica $signature,
+                                string           $xml,
+                                array            $assignee,
+                                array            $assignor,
+                                int              $environment = Sii::CERTIFICACION,
+                                array            $data = []
+    )
     {
         $this->xml = $xml;
         $this->signature = $signature;
@@ -90,6 +101,11 @@ class CessionBuilder
         $this->configureOptionsForAssignor($resolverAssignor);
         $this->assignor = $resolverAssignor->resolve($assignor);
         $this->environment = $environment;
+        if (!empty($data)) {
+            $resolverData = new OptionsResolver();
+            $this->configureOptionsForData($resolverData);
+            $this->data = $resolverData->resolve($data);
+        }
     }
 
     /**
@@ -117,6 +133,18 @@ class CessionBuilder
     {
         $resolver->setDefined(['RUT', 'RazonSocial', 'Direccion', 'eMail']);
         $resolver->setRequired(['RUT', 'RazonSocial', 'Direccion', 'eMail']);
+    }
+
+    /**
+     * Configuracion de los datos extra para la cesión
+     *
+     * @param OptionsResolver $resolver
+     * @author David Lopez <dleo.lopez@gmail.com>
+     * @version 10/1/23
+     */
+    protected function configureOptionsForData(OptionsResolver $resolver)
+    {
+        $resolver->setDefined(['MontoCesion', 'UltimoVencimiento', 'OtrasCondiciones', 'eMailDeudor']);
     }
 
     /**
@@ -172,6 +200,9 @@ class CessionBuilder
         $this->cession = new Sii\Factoring\Cesion($this->dteAssignment);
         $this->cession->setCesionario($this->assignee);
         $this->cession->setCedente($this->assignor);
+        if (!empty($this->data)) {
+            $this->cession->setDatos($this->data);
+        }
         $this->cession->firmar($this->signature);
 
         return $this;
