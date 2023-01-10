@@ -131,7 +131,7 @@ class CessionBuilder
      */
     protected function configureOptionsForAssignee(OptionsResolver $resolver)
     {
-        $resolver->setDefined(['RUT', 'RazonSocial', 'Direccion', 'eMail']);
+        $resolver->setDefined(['RUT', 'RazonSocial', 'Direccion', 'eMail', 'DeclaracionJurada']);
         $resolver->setRequired(['RUT', 'RazonSocial', 'Direccion', 'eMail']);
     }
 
