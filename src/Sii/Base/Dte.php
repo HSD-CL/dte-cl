@@ -145,6 +145,81 @@ interface Dte
 
     /**
      * @const
+     */
+    const ORDEN_DE_COMPRA = 801;
+
+    /**
+     * @const
+     */
+    const NOTA_DE_PEDIDO = 802;
+
+    /**
+     * @const
+     */
+    const CONTRATO = 803;
+
+    /**
+     * @const
+     */
+    const RESOLUCION = 804;
+
+    /**
+     * @const
+     */
+    const PROCESO_CHILECOMPRA = 805;
+
+    /**
+     * @const
+     */
+    const FICHA_CHILECOMPRA = 806;
+
+    /**
+     * @const
+     */
+    const DUS = 807;
+
+    /**
+     * @const
+     */
+    const  CONOCIMIENTO_DE_EMBARQUE = 808;
+
+    /**
+     * Air Will Bill
+     */
+    const  AWB = 809;
+
+    /**
+     * @const
+     */
+    const MIC_DTA = 810;
+
+    /**
+     * @const
+     */
+    const CARTA_DE_PORTE = 811;
+
+    /**
+     * @const
+     */
+    const  RESOLUCION_SNA = 812;
+
+    /**
+     * @const
+     */
+    const  PASAPORTE = 813;
+
+    /**
+     * @const
+     */
+    const  CERTIFICADO_DE_DEPOSITO_BOLSA = 814;
+
+    /**
+     * @const
+     */
+    const  VALE_DE_PRENDA_BOLSA_PROD_CHILE = 815;
+
+    /**
+     * @const
      * @see https://www4.sii.cl/complementoscvui/services/data/facadeServiceCompCompraService/obtieneTiposDocumento
      */
     const TPO_DOC_REF = [
@@ -171,7 +246,22 @@ interface Dte
         self::NOTA_DE_CREDITO_ELECTRONICA     => "NOTA DE CREDITO ELECTRONICA",
         self::FACTURA_DE_EXPORTACION          => "FACTURA DE EXPORTACION",
         self::NOTA_DE_DEBITO_DE_EXPORTACION   => "NOTA DE DEBITO DE EXPORTACION",
-        self::NOTA_DE_CREDITO_DE_EXPORTACION  => "NOTA DE CREDITO DE EXPORTACION"
+        self::NOTA_DE_CREDITO_DE_EXPORTACION  => "NOTA DE CREDITO DE EXPORTACION",
+        self::ORDEN_DE_COMPRA                 => "ORDEN DE COMPRA",
+        self::NOTA_DE_PEDIDO                  => "NOTA DE PEDIDO",
+        self::CONTRATO                        => "CONTRATO",
+        self::RESOLUCION                      => "RESOLUCIÓN",
+        self::PROCESO_CHILECOMPRA             => "PROCESO CHILECOMPRA",
+        self::FICHA_CHILECOMPRA               => "Ficha ChileCompra",
+        self::DUS                             => "DUS",
+        self::CONOCIMIENTO_DE_EMBARQUE        => "B/L (CONOCIMIENTO DE EMBARQUE)",
+        self::AWB                             => "AWB (Air Will Bill)",
+        self::MIC_DTA                         => "MIC/DTA",
+        self::CARTA_DE_PORTE                  => "CARTA DE PORTE",
+        self::RESOLUCION_SNA                  => "RESOLUCIÓN DEL SNA DONDE CALIFICA SERVICIOS DE EXPORTACIÓN",
+        self::PASAPORTE                       => "PASAPORTE",
+        self::CERTIFICADO_DE_DEPOSITO_BOLSA   => "CERTIFICADO DE DEPÓSITO BOLSA PROD. CHILE.",
+        self::VALE_DE_PRENDA_BOLSA_PROD_CHILE => "VALE DE PRENDA BOLSA PROD. CHILE",
     ];
 
     /**
