@@ -66,7 +66,32 @@ class DteStructure extends \ArrayObject
                 $ssResolver->setDefined(['Patente', 'RUTTrans', 'Chofer', 'DirDest', 'CmnaDest']);
             });
             $sResolver->setDefault('Totales', function (OptionsResolver $ssResolver) {
-                $ssResolver->setDefined(['MntNeto', 'TasaIVA', 'IVA', 'MntTotal', 'ImptoReten']);
+                $ssResolver->setDefined([
+                    'MntNeto',
+                    'TasaIVA',
+                    'IVA',
+                    'MntTotal',
+                    'TpoMoneda',
+                    'MntExe',
+                    'MntBase',
+                    'MntMargenCom',
+                    'IVAProp',
+                    'IVATerc',
+                    'IVANoRet',
+                    'CredEC',
+                    'GrntDep',
+                    'ValComNeto',
+                    'ValComExe',
+                    'ValComIVA',
+                    'MontoNF',
+                    'MontoPeriodo',
+                    'SaldoAnterior',
+                    'VlrPagar'
+                ]);
+                $ssResolver->setDefault('ImptoReten', function (OptionsResolver $sssResolver) {
+                    $sssResolver->setPrototype(true)
+                        ->setDefined(['TipoImp', 'TasaImp', 'MontoImp']);
+                });
             });
         });
         $resolver->setDefault('Detalle', function (OptionsResolver $sResolver) {
@@ -81,8 +106,7 @@ class DteStructure extends \ArrayObject
             $sResolver->setPrototype(true)
                 ->setDefined(['NroLinRef', 'TpoDocRef', 'IndGlobal', 'FolioRef', 'RUTOtr', 'IdAdicOtr', 'FchRef',
                               'CodRef', 'RazonRef'])
-                ->setRequired(['TpoDocRef', 'FolioRef', 'CodRef', 'RazonRef'])
-            ;
+                ->setRequired(['TpoDocRef', 'FolioRef', 'CodRef', 'RazonRef']);
         });
     }
 }
