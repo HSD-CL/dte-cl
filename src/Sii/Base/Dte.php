@@ -17,6 +17,56 @@ namespace HSDCL\DteCl\Sii\Base;
 interface Dte
 {
     /**
+     * Forma de Pago Contado
+     */
+    const FORMA_PAGO_CONTADO = 1;
+
+    /**
+     * Forma de Pago Credito
+     */
+    const FORMA_PAGO_CREDITO = 2;
+
+    /**
+     * Forma de Pago Sin Costo
+     */
+    const FORMA_PAGO_SIN_COSTO = 3;
+
+    /**
+     * Efectivo
+     */
+    const METODO_PAGO_EFECTIVO = 'EF';
+
+    /**
+     * Depósito o transferencia
+     */
+    const METODO_PAGO_DEPOSITO = 'PE';
+
+    /**
+     * Tarjeta de crédito o débito
+     */
+    const METODO_PAGO_TARJETA = 'TC';
+
+    /**
+     * Cheque
+     */
+    const METODO_PAGO_CHEQUE = 'CH';
+
+    /**
+     * Cheque a fecha
+     */
+    const METODO_PAGO_CHEQUE_FECHA = 'EF';
+
+    /**
+     * Letra
+     */
+    const METODO_PAGO_LETRA = 'LT';
+
+    /**
+     * Otro
+     */
+    const METODO_PAGO_OTRO = 'OT';
+
+    /**
      * Metodo converToArray
      *
      * Este metodo debera convertir el dte al formato estandar de un Dte
