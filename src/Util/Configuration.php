@@ -6,6 +6,7 @@
 namespace HSDCL\DteCl\Util;
 
 use HSDCL\DteCl\Util\Exception;
+
 /**
  * Class configuration
  * Mantendra un registro de los archivos de configuracion

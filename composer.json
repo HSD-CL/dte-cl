@@ -38,7 +38,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "HSDCL\\DteCl\\Tests\\": "tests"
+            "HSDCL\\DteCl\\Tests\\": "tests",
+            "HSDCL\\DteCl\\Tests\\Feature\\": "tests/Feature"
         }
     },
     "scripts": {

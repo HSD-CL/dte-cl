@@ -2,7 +2,6 @@
 namespace HSDCL\DteCl\Sii\Base;
 
 use HSDCL\DteCl\Sii\Base\Pdf\PdfDte;
-use HSDCL\DteCl\Util\Configuration;
 use HSDCL\DteCl\Util\Exception;
 use HSDCL\DteCl\Util\SignatureFactory;
 use sasco\LibreDTE\File;
@@ -153,11 +152,9 @@ abstract class PacketDteBuilder
      * @version 15/9/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function addFolios(int $type, string $filename)
+    public function addFolios(int $type, FolioSource $source)
     {
-        $this->folios[$type] = new Folios(
-            file_get_contents(Configuration::getInstance('folios-' . $type, $filename)->getFilename())
-        );
+        $this->folios[$type] = new Folios($source->getFolio());
 
         return $this->folios;
     }
