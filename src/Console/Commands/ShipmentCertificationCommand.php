@@ -9,13 +9,18 @@ namespace HSDCL\DteCl\Console\Commands;
 
 
 use HSDCL\DteCl\Sii\Certification\FileSource;
-use HSDCL\DteCl\Sii\Certification\ShipmentCertificactionBuilder;
+use HSDCL\DteCl\Sii\Certification\ShipmentCertificationBuilder;
 use Illuminate\Console\Command;
 use HSDCL\DteCl\Util\Configuration;
 use sasco\LibreDTE\FirmaElectronica;
 use \sasco\LibreDTE\Sii\Folios;
 
-class ShipmentCertificactionCommand extends Command
+/**
+ * Class ShipmentCertificationCommand
+ * @package HSDCL\DteCl\Console\Commands
+ * @author  David Lopez <dleo.lopez@gmail.com>
+ */
+class ShipmentCertificationCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -77,7 +82,7 @@ class ShipmentCertificactionCommand extends Command
         ];
 
         # Instaciar el builder para la certificacion
-        $certification = new ShipmentCertificactionBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
+        $certification = new ShipmentCertificationBuilder($firma, new FileSource($this->option('source')), $folios, $emisor, $receptor);
         $certification->build($startFolios, $caratula);
         $certification->export($this->option('output'));
     }

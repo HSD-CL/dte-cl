@@ -6,6 +6,8 @@
 
 namespace HSDCL\DteCl\Sii\Certification;
 
+use HSDCL\DteCl\Sii\Base\PacketDteBuilder;
+use HSDCL\DteCl\Sii\Base\Source;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\EnvioDte;
 use sasco\LibreDTE\Sii\EnvioRecibos;

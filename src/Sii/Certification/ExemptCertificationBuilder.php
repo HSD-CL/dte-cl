@@ -7,11 +7,15 @@
 namespace HSDCL\DteCl\Sii\Certification;
 
 
-use HSDCL\DteCl\Util\Exception;
+use HSDCL\DteCl\Sii\Base\Source;
 use sasco\LibreDTE\FirmaElectronica;
-use sasco\LibreDTE\Sii\Dte;
-use sasco\LibreDTE\Sii\EnvioDte;
 
+/**
+ * Class ExemptCertificationBuilder
+ * Funciones para la certificación del set de pruebas exento
+ * @package HSDCL\DteCl\Sii\Certification
+ * @author  David Lopez <dleo.lopez@gmail.com>
+ */
 class ExemptCertificationBuilder extends BasicCertificationBuilder
 {
     /**
