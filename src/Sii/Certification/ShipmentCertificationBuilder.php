@@ -60,11 +60,9 @@ class ShipmentCertificationBuilder extends PacketDteBuilder
      * @return bool
      * @author Danilo Vasquez <dvasquezr.ko@gmail.com>
      */
-    public function send(): bool
+    public function send()
     {
-        $this->agent->enviar();
-
-        return true;
+        return $this->agent->enviar();
     }
 
     /**

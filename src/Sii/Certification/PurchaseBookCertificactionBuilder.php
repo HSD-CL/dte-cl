@@ -64,11 +64,9 @@ class PurchaseBookCertificactionBuilder extends PacketDteBuilder
      * @return bool
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public function send(): bool
+    public function send()
     {
-        $this->agent->enviar();
-
-        return true;
+        return $this->agent->enviar();
     }
 
     /**

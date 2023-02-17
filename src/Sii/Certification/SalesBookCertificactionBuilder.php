@@ -81,9 +81,7 @@ class SalesBookCertificactionBuilder extends PacketDteBuilder
      */
     public function send(): bool
     {
-        $this->agent->enviar();
-
-        return true;
+        return $this->agent->enviar();
     }
 
     /**
