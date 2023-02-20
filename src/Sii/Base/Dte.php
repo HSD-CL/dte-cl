@@ -54,7 +54,7 @@ interface Dte
     /**
      * Cheque a fecha
      */
-    const METODO_PAGO_CHEQUE_FECHA = 'EF';
+    const METODO_PAGO_CHEQUE_FECHA = 'CF';
 
     /**
      * Letra
