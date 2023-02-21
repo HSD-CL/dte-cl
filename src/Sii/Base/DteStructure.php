@@ -41,6 +41,7 @@ class DteStructure extends \ArrayObject
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('Encabezado', function (OptionsResolver $sResolver) {
+            $sResolver->setDefined(['OtraMoneda']);
             $sResolver->setDefault('IdDoc', function (OptionsResolver $ssResolver) {
                 $ssResolver->setDefined(['TipoDTE', 'Folio', 'MntPagos', 'TpoTranVenta', 'FchEmis', 'IndNoRebaja',
                                          'TipoDespacho', 'IndTraslado', 'TpoImpresion', 'IndServicio', 'MntBruto',
@@ -63,7 +64,7 @@ class DteStructure extends \ArrayObject
                 $ssResolver->setRequired(['RUTRecep', 'RznSocRecep', 'GiroRecep', 'DirRecep', 'CmnaRecep']);
             });
             $sResolver->setDefault('Transporte', function (OptionsResolver $ssResolver) {
-                $ssResolver->setDefined(['Patente', 'RUTTrans', 'Chofer', 'DirDest', 'CmnaDest']);
+                $ssResolver->setDefined(['Patente', 'RUTTrans', 'Chofer', 'DirDest', 'CmnaDest', 'Aduana']);
             });
             $sResolver->setDefault('Totales', function (OptionsResolver $ssResolver) {
                 $ssResolver->setDefined([
@@ -100,13 +101,18 @@ class DteStructure extends \ArrayObject
                               'PrcRef', 'QtyItem', 'Subcantidad', 'FchElabor', 'FchVencim', 'UnmdItem', 'PrcItem',
                               'DescuentoPct', 'DescuentoMonto', 'RecargoPct', 'RecargoMonto', 'CodImpAdic',
                               'MontoItem'])
-                ->setRequired(['NmbItem', 'QtyItem', 'PrcItem']);
+                ->setRequired(['NmbItem']);
         });
         $resolver->setDefault('Referencia', function (OptionsResolver $sResolver) {
             $sResolver->setPrototype(true)
                 ->setDefined(['NroLinRef', 'TpoDocRef', 'IndGlobal', 'FolioRef', 'RUTOtr', 'IdAdicOtr', 'FchRef',
                               'CodRef', 'RazonRef'])
                 ->setRequired(['TpoDocRef', 'FolioRef', 'CodRef', 'RazonRef']);
+        });
+
+        $resolver->setDefault('DscRcgGlobal', function (OptionsResolver $sResolver) {
+            $sResolver->setPrototype(true)
+                ->setDefined(['TpoMov', 'TpoValor', 'ValorDR', 'IndExeDR']);
         });
     }
 }

@@ -6,8 +6,6 @@
 
 namespace HSDCL\DteCl\Sii\Base;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 
 /**
  * Class JsonSource
