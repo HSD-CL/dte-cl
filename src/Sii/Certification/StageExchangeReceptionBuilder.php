@@ -83,6 +83,7 @@ class StageExchangeReceptionBuilder extends PacketDteBuilder
         $this->caratula['RutRecibe'] = $this->caratula['RutEmisor'];
         $this->caratula['NmbContacto'] = $caratula['NmbContacto'];
         $this->caratula['MailContacto'] = $caratula['MailContacto'];
+        $this->caratula['IdRespuesta'] = 1;
         $this->isDirty = true;
 
         return $this;
@@ -103,8 +104,8 @@ class StageExchangeReceptionBuilder extends PacketDteBuilder
     {
         $receptionDtes = [];
         foreach ($this->getAgent()->getDocumentos() as $document) {
-            $state = $document->getEstadoValidacion(['RUTEmisor' => $this->caratula['RutResponde'],
-                                                     'RUTRecep'  => $this->caratula['RutRecibe']]);
+            $state = $document->getEstadoValidacion(['RUTEmisor' => $this->caratula['RutRecibe'],
+                                                     'RUTRecep'  => $this->caratula['RutResponde']]);
             $receptionDtes[] = [
                 'TipoDTE'        => $document->getTipo(),
                 'Folio'          => $document->getFolio(),
@@ -130,7 +131,13 @@ class StageExchangeReceptionBuilder extends PacketDteBuilder
             'NroDTE'         => count($receptionDtes),
             'RecepcionDTE'   => $receptionDtes,
         ]);
-        $answerSend->setCaratula($this->caratula);
+        $answerSend->setCaratula([
+            'RutResponde'  => $this->caratula['RutResponde'],
+            'RutRecibe'    => $this->caratula['RutRecibe'],
+            'IdRespuesta'  => $this->caratula['IdRespuesta'],
+            'NmbContacto'  => $this->caratula['NmbContacto'],
+            'MailContacto' => $this->caratula['MailContacto']
+        ]);
         $answerSend->setFirma($this->firma);
 
         $this->xml = $answerSend->generar();

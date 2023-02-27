@@ -83,8 +83,7 @@ class StageExchangeResultDteBuilder extends PacketDteBuilder
         # TODO Agregar una validacion para el array $caratula
         # Definimos la caratula
         $this->caratula = $this->getAgent()->getCaratula();
-        $this->caratula['RutResponde'] = $caratula['RutReceptorEsperado'];
-        $this->caratula['RutResponde'] = $caratula['RutReceptorEsperado'];
+        $this->caratula['RutResponde'] = $caratula['RutResponde'];
         $this->caratula['RutRecibe'] = $this->caratula['RutEmisor'];
         $this->caratula['NmbContacto'] = $caratula['NmbContacto'];
         $this->caratula['MailContacto'] = $caratula['MailContacto'];
@@ -111,9 +110,9 @@ class StageExchangeResultDteBuilder extends PacketDteBuilder
         # Procesar cada DTE
         $i = 1;
         foreach ($this->getAgent()->getDocumentos() as $document) {
-            $state = !$document->getEstadoValidacion(['RUTEmisor' => $caratula['RutEmisorEsperado'],
-                                                      'RUTRecep'  => $caratula['RutReceptorEsperado']]) ? 0 : 2;
-            $answerSend->agregar([
+            $state = !$document->getEstadoValidacion(['RUTEmisor' => $this->caratula['RutRecibe'],
+                                                      'RUTRecep'  => $this->caratula['RutResponde']]) ? 0 : 2;
+            $answerSend->agregarRespuestaDocumento([
                 'TipoDTE'        => $document->getTipo(),
                 'Folio'          => $document->getFolio(),
                 'FchEmis'        => $document->getFechaEmision(),
@@ -126,7 +125,13 @@ class StageExchangeResultDteBuilder extends PacketDteBuilder
             ]);
         }
         # Aqui podríamos usar un especie dirty o clean para saber si la caratula esta
-        $answerSend->setCaratula($this->caratula);
+        $answerSend->setCaratula([
+            'RutResponde'  => $this->caratula['RutResponde'],
+            'RutRecibe'    => $this->caratula['RutRecibe'],
+            'IdRespuesta'  => 1,
+            'NmbContacto'  => $this->caratula['NmbContacto'],
+            'MailContacto' => $this->caratula['MailContacto'],
+        ]);
         $answerSend->setFirma($this->firma);
         # Generar xml
         $this->xml = $answerSend->generar();
