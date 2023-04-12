@@ -6,6 +6,7 @@ use HSDCL\DteCl\Sii\Base\Dte;
 use HSDCL\DteCl\Sii\Base\JsonSource;
 use HSDCL\DteCl\Sii\Certification\FileSource;
 use HSDCL\DteCl\Sii\Certification\TicketCertificationBuilder;
+use HSDCL\DteCl\Tests\TestCase;
 use HSDCL\DteCl\Util\Configuration;
 use sasco\LibreDTE\FirmaElectronica;
 use sasco\LibreDTE\Sii\Folios;
@@ -17,7 +18,7 @@ use sasco\LibreDTE\Sii\Folios;
  * @package Feature
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
-class TicketCertificationBuilderTest extends \Orchestra\Testbench\TestCase
+class TicketCertificationBuilderTest extends TestCase
 {
     /**
      * @var Configuration
@@ -63,14 +64,83 @@ class TicketCertificationBuilderTest extends \Orchestra\Testbench\TestCase
             'DirRecep'    => env('DirRecep'),    #'BENAVENTE 516',
             'CmnaRecep'   => env('CmnaRecep')    #'OVALLE',
         ];
-        $this->config = Configuration::getInstance('folios-', __DIR__ . '/../../resources/assets/xml/folios/39.xml');
-        $this->firma = new FirmaElectronica(['file' => __DIR__ . '/../../resources/assets/certs/cert.pfx',
+        $this->config = Configuration::getInstance('folios-', env('FOLIO_BOLETA'));
+        $this->firma = new FirmaElectronica(['file' => env('FIRMA'),
                                              'pass' => env('FIRMA_PASS')]);
         $this->folios = [
             Dte::BOLETA_ELECTRONICA => new Folios(file_get_contents(Configuration::getInstance('folios-' . Dte::FACTURA_ELECTRONICA, __DIR__ . '/../../resources/assets/xml/folios/39.xml')->getFilename())),
         ];
         $setPruebas = [
-            // CASO 4
+            [
+                'Encabezado' => [
+                    'IdDoc' => [
+                        'TipoDTE' => 39,
+                    ],
+                ],
+                'Detalle'    => [
+                    [
+                        'NmbItem' => 'Cambio de aceite',
+                        'QtyItem' => 1,
+                        'PrcItem' => 19900,
+                    ],
+                    [
+                        'NmbItem' => 'Alineacion y balanceo',
+                        'QtyItem' => 1,
+                        'PrcItem' => 9900,
+                    ]
+                ],
+                'Referencia' => [
+                    [
+                        'CodRef'   => 'SET',
+                        'RazonRef' => 'CASO-1',
+                    ]
+                ],
+            ],
+            [
+                'Encabezado' => [
+                    'IdDoc' => [
+                        'TipoDTE' => 39,
+                    ],
+                ],
+                'Detalle'    => [
+                    [
+                        'NmbItem' => 'Papel de regalo',
+                        'QtyItem' => 17,
+                        'PrcItem' => 120,
+                    ]
+                ],
+                'Referencia' => [
+                    [
+                        'CodRef'   => 'SET',
+                        'RazonRef' => 'CASO-2',
+                    ]
+                ],
+            ],
+            [
+                'Encabezado' => [
+                    'IdDoc' => [
+                        'TipoDTE' => 39,
+                    ],
+                ],
+                'Detalle'    => [
+                    [
+                        'NmbItem' => 'Sandwic',
+                        'QtyItem' => 2,
+                        'PrcItem' => 1500,
+                    ],
+                    [
+                        'NmbItem' => 'Bebida',
+                        'QtyItem' => 2,
+                        'PrcItem' => 550,
+                    ]
+                ],
+                'Referencia' => [
+                    [
+                        'CodRef'   => 'SET',
+                        'RazonRef' => 'CASO-3',
+                    ]
+                ],
+            ],
             [
                 'Encabezado' => [
                     'IdDoc' => [
@@ -94,6 +164,27 @@ class TicketCertificationBuilderTest extends \Orchestra\Testbench\TestCase
                     [
                         'CodRef'   => 'SET',
                         'RazonRef' => 'CASO-4',
+                    ]
+                ],
+            ],
+            [
+                'Encabezado' => [
+                    'IdDoc' => [
+                        'TipoDTE' => 39,
+                    ],
+                ],
+                'Detalle'    => [
+                    [
+                        'NmbItem'  => 'Arroz',
+                        'QtyItem'  => 5,
+                        'PrcItem'  => 700,
+                        'UnmdItem' => 'Kg'
+                    ]
+                ],
+                'Referencia' => [
+                    [
+                        'CodRef'   => 'SET',
+                        'RazonRef' => 'CASO-5',
                     ]
                 ],
             ],

@@ -106,8 +106,7 @@ class DteStructure extends \ArrayObject
         $resolver->setDefault('Referencia', function (OptionsResolver $sResolver) {
             $sResolver->setPrototype(true)
                 ->setDefined(['NroLinRef', 'TpoDocRef', 'IndGlobal', 'FolioRef', 'RUTOtr', 'IdAdicOtr', 'FchRef',
-                              'CodRef', 'RazonRef'])
-                ->setRequired(['TpoDocRef', 'FolioRef']);
+                              'CodRef', 'RazonRef']);
         });
 
         $resolver->setDefault('DscRcgGlobal', function (OptionsResolver $sResolver) {

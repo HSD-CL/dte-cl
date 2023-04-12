@@ -9,7 +9,6 @@ use sasco\LibreDTE\Sii\EnvioDte;
  * @version 16/2/21 3:25 p. m.
  * @author  David Lopez <dleo.lopez@gmail.com>
  */
-
 abstract class PdfFileFactory
 {
     /**
@@ -21,7 +20,12 @@ abstract class PdfFileFactory
      * @throws Exception
      * @author David Lopez <dleo.lopez@gmail.com>
      */
-    public static function make(string $filename, string $dirOutput, string $logoFileName, bool $cedible = false): bool
+    public static function make(
+        string $filename,
+        string $dirOutput,
+        string $logoFileName,
+        bool $cedible = false,
+        bool $withoutTimbre = false): bool
     {
         # Read the XML
         $agent = new EnvioDte();
@@ -53,7 +57,11 @@ abstract class PdfFileFactory
             if ($cedible) {
                 $pdf->setCedible($cedible);
             }
-            $pdf->agregar($dte->getDatos(), $dte->getTED());
+            if ($withoutTimbre) {
+                $pdf->agregar($dte->getDatos(), $dte->getTED());
+            } else {
+                $pdf->addWithoutTimbre($dte->getDatos());
+            }
             $pdf->Output($dirOutput . '/dte_' . $caratula['RutEmisor'] . '_' . $dte->getID(true) . '.pdf', 'F');
         }
 
