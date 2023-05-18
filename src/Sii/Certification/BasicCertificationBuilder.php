@@ -10,6 +10,7 @@ use HSDCL\DteCl\Sii\Base\PacketDteBuilder;
 use HSDCL\DteCl\Sii\Base\Source;
 use HSDCL\DteCl\Util\Exception;
 use sasco\LibreDTE\FirmaElectronica;
+use sasco\LibreDTE\Log;
 use sasco\LibreDTE\Sii\Dte;
 use sasco\LibreDTE\Sii\EnvioDte;
 use HSDCL\DteCl\Sii\Factory\PdfFileFactory;
@@ -76,13 +77,16 @@ class BasicCertificationBuilder extends PacketDteBuilder
             }
             $dte = new Dte($document);
             if (!$dte->timbrar($this->folios[$typeDte])) {
-                throw new Exception('No se pudo timbrar el dte');
+                $error = Log::read();
+                throw new Exception('No se pudo timbrar el dte. Razón ' . $error);
             }
             if (!$dte->firmar($this->firma)) {
-                throw new Exception('No se pudo firmar el dte');
+                $error = Log::read();
+                throw new Exception('No se pudo firmar el dte. Razón ' . $error);
             }
             if (!$this->agent->agregar($dte)) {
-                throw new Exception('No se pudo agregar el dte');
+                $error = Log::read();
+                throw new Exception('No se pudo agregar el dte. Razón ' . $error);
             };
         }
 
