@@ -58,9 +58,9 @@ abstract class PdfFileFactory
                 $pdf->setCedible($cedible);
             }
             if ($withoutTimbre) {
-                $pdf->agregar($dte->getDatos(), $dte->getTED());
-            } else {
                 $pdf->addWithoutTimbre($dte->getDatos());
+            } else {
+                $pdf->agregar($dte->getDatos(), $dte->getTED());
             }
             $pdf->Output($dirOutput . '/dte_' . $caratula['RutEmisor'] . '_' . $dte->getID(true) . '.pdf', 'F');
         }
