@@ -61,7 +61,7 @@ class DteStructure extends \ArrayObject
                 $ssResolver->setDefined(['RUTRecep', 'CdgIntRecep', 'RznSocRecep', 'Extranjero', 'GiroRecep',
                                          'Contacto', 'CorreoRecep', 'DirRecep', 'CmnaRecep', 'CiudadRecep',
                                          'DirPostal', 'CmnaPostal', 'CiudadPostal']);
-                $ssResolver->setRequired(['RUTRecep', 'RznSocRecep', 'GiroRecep', 'DirRecep', 'CmnaRecep']);
+                $ssResolver->setRequired(['RUTRecep']);
             });
             $sResolver->setDefault('Transporte', function (OptionsResolver $ssResolver) {
                 $ssResolver->setDefined(['Patente', 'RUTTrans', 'Chofer', 'DirDest', 'CmnaDest', 'Aduana']);
