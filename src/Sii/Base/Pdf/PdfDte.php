@@ -14,7 +14,7 @@ use HSDCL\DteCl\Sii\Base\Dte;
  * Lo ideal sería que el PDF se creara a partir de un XML
  *
  * @package HSDCL\DteCl\Sii\Base
- * @author  David Lopez <dleo.lopez@gmail.com>
+ * @author  David Lopez <dlopez@arisa.cl>
  */
 class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
 {
@@ -24,13 +24,14 @@ class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
      * @version 5/2/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function __construct(array $options = [])
+    public function __construct(array $options = [], string $encoding = 'ISO-8859-1')
     {
         parent::__construct(false);
         $this->SetTitle('ARISA');
         $this->SetAuthor('ARISA - https://www.arisa.cl');
         $this->SetCreator('ARISA - https://www.arisa.cl');
         $this->setFooterText('ARISA - https://www.arisa.cl');
+        $this->encoding = $encoding;
     }
 
     /**
