@@ -24,9 +24,9 @@ class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
      * @version 5/2/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function __construct(array $options = [], string $encoding = 'ISO-8859-1')
+    public function __construct($continuousPaper = false, array $options = [], string $encoding = 'ISO-8859-1')
     {
-        parent::__construct(false);
+        parent::__construct($continuousPaper);
         $this->SetTitle('ARISA');
         $this->SetAuthor('ARISA - https://www.arisa.cl');
         $this->SetCreator('ARISA - https://www.arisa.cl');
