@@ -30,6 +30,12 @@ class DteStructure extends \ArrayObject
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
         $options = $resolver->resolve($array);
+        if (empty($options['Referencia'])) {
+            unset($options['Referencia']);
+        }
+        if (empty($options['DscRcgGlobal'])) {
+            unset($options['DscRcgGlobal']);
+        }
         parent::__construct($options, $flags, $iteratorClass);
     }
 

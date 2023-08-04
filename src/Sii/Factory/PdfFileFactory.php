@@ -26,6 +26,7 @@ abstract class PdfFileFactory
         # Read the XML
         $agent = new EnvioDte();
         $agent->loadXML(file_get_contents($filename));
+        $caratula = $agent->getCaratula();
         # Remove files
         $files = glob($dirOutput . '/*'); // get all file names
         foreach($files as $file){ // iterate files
@@ -42,7 +43,7 @@ abstract class PdfFileFactory
             if (!$dte->getDatos()) {
                 throw new Exception("No se pudo obtener los datos del DTE");
             }
-            $strategy->build($dte);
+            $strategy->build($dte, $dte->getEmisor(), ['caratula' => $caratula]);
         }
 
         return true;
