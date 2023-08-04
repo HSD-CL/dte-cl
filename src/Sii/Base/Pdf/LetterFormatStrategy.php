@@ -18,35 +18,33 @@ class LetterFormatStrategy extends FormatStrategy
 {
     /**
      * @param string $dirOutput
-     * @param string|null $logo
-     * @param array $caratula
-     * @param bool $cedible
-     * @param bool $withoutTimbre
+     * @param array $options
      */
-    public function __construct(string $dirOutput, string $logo = null, array $caratula = [], bool $cedible = false, bool $withoutTimbre = false)
+    public function __construct(string $dirOutput, array $options)
     {
-        parent::__construct($dirOutput, false, $logo, $caratula, $cedible, $withoutTimbre);
+        $options['thermal_paper'] = false;
+        parent::__construct($dirOutput, $options);
     }
 
     /**
      * @return mixed|void
      * @author  David Lopez <dlopez@arisa.cl>
      */
-    public function build(Dte $dte, string $fileName)
+    public function build(Dte $dte, string $fileName, array $extraInfo = [])
     {
-        if (!empty($this->logo)) {
-            $this->pdf->setLogo($this->logo);
+        if (!empty($this->options['logo'])) {
+            $this->pdf->setLogo($this->options['logo']);
         }
-        if (!empty($this->caratula)) {
+        if (!empty($extraInfo['caratula'])) {
             $this->pdf->setResolucion([
-                'FchResol' => $this->caratula['FchResol'] ?? '',
-                'NroResol' => $this->caratula['NroResol'] ?? ''
+                'FchResol' => $this->options['cartula']['FchResol'] ?? '',
+                'NroResol' => $this->options['cartula']['NroResol'] ?? ''
             ]);
         }
-        if ($this->cedible) {
-            $this->pdf->setCedible($this->cedible);
+        if ($this->options['cedible']) {
+            $this->pdf->setCedible($this->options['cedible']);
         }
-        $this->pdf->agregar($dte->getDatos(), $this->withoutTimbre ? null : $dte->getTED());
+        $this->pdf->agregar($dte->getDatos(), $this->options['without_timbre'] ? null : $dte->getTED());
         $this->pdf->Output($this->dirOuput . '/dte_' . $fileName . '_' . $dte->getID(true) . '.pdf', 'F');
     }
 }

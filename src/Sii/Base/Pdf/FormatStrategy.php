@@ -22,42 +22,32 @@ abstract class FormatStrategy
     protected $pdf;
 
     /**
-     * @var string|null
-     */
-    protected $logo;
-
-    /**
-     * @var array
-     */
-    protected $caratula;
-
-    /**
-     * @var bool
-     */
-    protected $cedible;
-
-    /**
-     * @var bool
-     */
-    protected $withoutTimbre;
-
-    /**
      * @var string
      */
     protected $dirOuput;
 
     /**
-     * @version 2/8/23
-     * @author  David Lopez <dleo.lopez@gmail.com>
+     * @var array
      */
-    public function __construct(string $dirOutput, bool $thermalPaper = false, string $logo = null, array $caratula = [], bool $cedible = false, bool $withoutTimbre = false)
+    protected $options;
+
+    /**
+     * Constructor
+     *
+     * Options puede terner
+     * thermal_paper    Boolean         True Es papel continuo, False Tipo Carta
+     * logo             String          Data de la imagen del logo
+     * cedible          Boolean         True El documento es cedible, False No es cedible
+     * without_timbre   Boolean         True El documento no lleva timbre, False Si lleva timbre fiscal
+     * caratula         Array           Datos de la caratula
+     * @version 2/8/23
+     * @author David Lopez <dlopez@arisa.cl>>
+     */
+    public function __construct(string $dirOutput, array $options = [])
     {
-        $this->pdf = new PdfDte($thermalPaper);
-        $this->logo = $logo;
-        $this->caratula = $caratula;
-        $this->cedible = $cedible;
-        $this->withoutTimbre = $withoutTimbre;
+        $this->pdf = new PdfDte($options['thermal_paper'] ?? false);
         $this->dirOuput = $dirOutput;
+        $this->options = $options;
     }
 
     /**
@@ -65,5 +55,5 @@ abstract class FormatStrategy
      * @return mixed
      * @author David Lopez <dlopez@arisa.cl>
      */
-    abstract public function build(Dte $dte, string $fileName);
+    abstract public function build(Dte $dte, string $fileName, array $extraInfo = []);
 }
