@@ -32,6 +32,7 @@ class LetterFormatStrategy extends FormatStrategy
      */
     public function build(Dte $dte, string $fileName, array $extraInfo = [])
     {
+        $this->pdf = new PdfDte($options['thermal_paper'] ?? false);
         if (!empty($this->options['logo'])) {
             $this->pdf->setLogo($this->options['logo']);
         }
