@@ -45,7 +45,6 @@ abstract class FormatStrategy
      */
     public function __construct(string $dirOutput, array $options = [])
     {
-        $this->pdf = new PdfDte($options['thermal_paper'] ?? false);
         $this->dirOuput = $dirOutput;
         $this->options = $options;
     }
