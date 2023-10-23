@@ -237,17 +237,18 @@ class Request
      * @version 2/12/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function sendDte(string $rutSender, string $rutEmitter, string $xml, int $enviroment = Sii::CERTIFICACION, bool $gzip = false, int $retry = null)
+    public function sendDte(string $rutSender, string $rutEmitter, string $xml, int $environment = Sii::CERTIFICACION, bool $gzip = false, int $retry = null)
     {
         # Definir el ambiente, ¿como sera el comportamiento cuando varios esten accediendo
         # y cambiando el entorno
-        Sii::setAmbiente($enviroment);
+        Sii::setAmbiente($environment);
 
         return \sasco\LibreDTE\Sii::enviar($rutSender, $rutEmitter, $xml, $this->getToken(), $gzip, $retry);
     }
 
     /**
      * Consume el WDSL QueryEstDte
+     *
      *
      * Los parametros necesarios:
      * RutConsultante
@@ -266,8 +267,10 @@ class Request
      * @version 13/12/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function statusDte(array $args)
+    public function statusDte(array $args, int $environment = Sii::CERTIFICACION)
     {
+        Sii::setAmbiente($environment);
+
         # Validar los argumentos enviados correspondan
         $keys = [
             'RutConsultante',
@@ -319,8 +322,10 @@ class Request
      * @version 14/12/21
      * @author  David Lopez <dlopez@hsd.cl>
      */
-    public function statusPacketDte(array $args)
+    public function statusPacketDte(array $args, int $environment = Sii::CERTIFICACION)
     {
+        Sii::setAmbiente($environment);
+
         # Validar los argumentos enviados correspondan
         $keys = [
             'Rut',
