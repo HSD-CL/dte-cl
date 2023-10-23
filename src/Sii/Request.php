@@ -127,6 +127,60 @@ class Request
     ];
 
     /**
+     * Rechazado por Error en Schema
+     */
+    const RESPONSE_STATUS_TRACKING_RSC = 'RSC';
+
+    /**
+     * Schema Validado
+     */
+    const RESPONSE_STATUS_TRACKING_SOK = 'SOK';
+
+    /**
+     * Carátula OK
+     */
+    const RESPONSE_STATUS_TRACKING_CRT = 'CRT';
+
+    /**
+     * Rechazado por Error en Firma
+     */
+    const RESPONSE_STATUS_TRACKING_RFR = 'RFR';
+
+    /**
+     * Firma de Envió Validada
+     */
+    const RESPONSE_STATUS_TRACKING_FOK = 'FOK';
+
+    /**
+     * Envió en Proceso
+     */
+    const RESPONSE_STATUS_TRACKING_PDR = 'PDR';
+
+    /**
+     * Rechazado por Error en Carátula
+     */
+    const RESPONSE_STATUS_TRACKING_RCT = 'RCT';
+
+    /**
+     * Envió Procesado
+     */
+    const RESPONSE_STATUS_TRACKING_EPR = 'EPR';
+
+    /**
+     * Traduccion mensajes tracking status
+     */
+    const RESPONSE_STATUS_TRACKING_MESSAGES = [
+        self::RESPONSE_STATUS_TRACKING_RSC => 'RECHAZADO POR ERROR EN SCHEMA',
+        self::RESPONSE_STATUS_TRACKING_SOK => 'SCHEMA VALIDADO',
+        self::RESPONSE_STATUS_TRACKING_CRT => 'CARÁTULA OK',
+        self::RESPONSE_STATUS_TRACKING_RFR => 'RECHAZADO POR ERROR EN FIRMA',
+        self::RESPONSE_STATUS_TRACKING_FOK => 'FIRMA DE ENVIÓ VALIDADA',
+        self::RESPONSE_STATUS_TRACKING_PDR => 'ENVIÓ EN PROCESO',
+        self::RESPONSE_STATUS_TRACKING_RCT => 'RECHAZADO POR ERROR EN CARÁTULA',
+        self::RESPONSE_STATUS_TRACKING_EPR => 'ENVIÓ PROCESADO',
+    ];
+
+    /**
      * @var FirmaElectronica
      */
     private $signature;
