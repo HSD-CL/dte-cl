@@ -19,17 +19,17 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "sasco/libredte": "^21.10",
         "symfony/options-resolver": "^5.4",
         "vlucas/phpdotenv": "^5.2"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.0",
-        "phpunit/phpunit": "^9.2.2"
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "^10.0"
     },
     "autoload": {
         "psr-4": {
