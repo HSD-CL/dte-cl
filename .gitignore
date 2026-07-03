@@ -1,6 +1,5 @@
 build
 composer.lock
-docs
 vendor
 coverage
 resources/assets/*
@@ -8,3 +7,4 @@ resources/assets/*
 xml
 .phpunit.result.cache
 .idea/*
+.vscode/
