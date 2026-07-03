@@ -27,10 +27,10 @@ class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
     public function __construct($continuousPaper = false, array $options = [], string $encoding = 'ISO-8859-1')
     {
         parent::__construct($continuousPaper);
-        $this->SetTitle('ARISA');
-        $this->SetAuthor('ARISA - https://www.arisa.cl');
-        $this->SetCreator('ARISA - https://www.arisa.cl');
-        $this->setFooterText('ARISA - https://www.arisa.cl');
+        $this->SetTitle($options['title'] ?? config('dte-cl.pdf.title', 'ARISA'));
+        $this->SetAuthor($options['author'] ?? config('dte-cl.pdf.author', 'ARISA - https://www.arisa.cl'));
+        $this->SetCreator($options['creator'] ?? config('dte-cl.pdf.creator', 'ARISA - https://www.arisa.cl'));
+        $this->setFooterText($options['footer'] ?? config('dte-cl.pdf.footer', 'ARISA - https://www.arisa.cl'));
         $this->encoding = $encoding;
     }
 
