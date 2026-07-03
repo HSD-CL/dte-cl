@@ -22,12 +22,21 @@ vendor/bin/phpunit tests/Feature/BasicCertificationBuilderTest.php
 
 Los tests usan `orchestra/testbench` para arrancar un Laravel mínimo (el `post-autoload-dump` de composer ejecuta `package:discover`). El `phpunit.xml` inyecta un `APP_KEY` de prueba. StyleCI aplica el preset `laravel` (ver `.styleci.yml`).
 
+## Publicación de versiones
+
+La rama de trabajo real es **`develop`** (no `master`, que está desactualizada); los releases se cortan desde `develop`. Packagist versiona por **tags** de git (serie `0.10.x`), no por ramas: mergear un PR **no publica** — publica el `git tag`. El proyecto padre suele estar pineado a una versión exacta, así que además hay que subirle el número. Ver el procedimiento completo en [`docs/RELEASING.md`](docs/RELEASING.md).
+
+## Documentación
+
+- [`docs/RELEASING.md`](docs/RELEASING.md) — cómo publicar una nueva versión (tag + Packagist) y consumirla en el proyecto padre.
+- [`docs/PDF_CONFIG.md`](docs/PDF_CONFIG.md) — configurar los metadatos del PDF de los DTE desde el `.env` del padre.
+
 ## Arquitectura
 
 ### Registro en Laravel — `DteClServiceProvider`
 - `register()`: `mergeConfigFrom(config/config.php, 'dte-cl')` (config accesible como `config('dte-cl.*')`) y registra el singleton `dte-cl` (fachada `DteCl`).
 - `boot()` (solo en consola): publica la config a `config_path('dte-cl.php')` (tag `config`) y registra los ~9 comandos `dte:*`.
-- **`config/config.php` está vacío hoy** (`return []`). Es el punto natural para exponer configuración del padre vía `env()` con defaults; nuevos ajustes configurables deberían pasar por aquí y leerse con `config('dte-cl.*')` (patrón seguro ante `config:cache`), no con `env()` directo en el código de dominio.
+- **`config/config.php`** expone la configuración del paquete leyendo del `.env` del padre vía `env()` con defaults (hoy la sección `pdf` con los metadatos del PDF — ver [`docs/PDF_CONFIG.md`](docs/PDF_CONFIG.md)). Es el punto natural para nuevos ajustes configurables: agregarlos aquí y leerlos con `config('dte-cl.*')` (patrón seguro ante `config:cache`), nunca con `env()` directo en el código de dominio.
 
 ### Flujo principal: certificación / envío de DTEs
 Entrada por comandos Artisan en `src/Console/Commands/*` (p. ej. `BasicCertificationCommand`). Cada comando recibe todo por flags CLI (`--firma`, `--pass`, `--folios-*`, `--source`, datos de emisor/receptor, `--output`), arma la firma y los folios, y delega en un *builder*.
