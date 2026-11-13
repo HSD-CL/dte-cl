@@ -269,6 +269,65 @@ class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
     }
 
     /**
+     * Método que agrega el timbre de la factura. Cuando no se conoce la
+     * resolución del SII, replica agregarTimbre() de LibreDTE sin la línea
+     * "Resolución N de AAAA", que de otro modo saldría vacía.
+     *
+     * @param string|null $timbre String con los datos del timbre
+     * @param int|float $x_timbre Posición horizontal del código de barras
+     * @param int|float $x Posición horizontal de los textos
+     * @param int|float $y Posición vertical de inicio en el PDF
+     * @param int|float $w Ancho del timbre
+     * @param int|float $font_size Tamaño de la fuente de los textos
+     * @param string|null $position Alineación del código de barras
+     */
+    protected function agregarTimbre($timbre, $x_timbre = 10, $x = 10, $y = 190, $w = 70, $font_size = 8, $position = null)
+    {
+        if ($timbre === null || $this->tieneResolucion()) {
+            parent::agregarTimbre($timbre, $x_timbre, $x, $y, $w, $font_size, $position);
+
+            return;
+        }
+        $y = (!$this->papelContinuo and !$this->timbre_pie) ? $this->x_fin_datos : $y;
+        $style = [
+            'border' => false,
+            'padding' => 0,
+            'hpadding' => 0,
+            'vpadding' => 0,
+            'module_width' => 1,
+            'module_height' => 1,
+            'fgcolor' => [0, 0, 0],
+            'bgcolor' => false,
+            'position' => $position === null ? ($this->papelContinuo ? 'C' : 'S') : $position,
+        ];
+        $this->write2DBarcode($timbre, 'PDF417,,' . $this->ecl, $x_timbre, $y, $w, 0, $style, 'B');
+        $this->setFont('', 'B', $font_size);
+        $this->Texto('Timbre Electrónico SII', $x, null, 'C', $w);
+        $this->Ln();
+        if ($w >= 60) {
+            $this->Texto('Verifique documento: ' . $this->web_verificacion, $x, null, 'C', $w);
+        } else {
+            $this->Texto('Verifique documento:', $x, null, 'C', $w);
+            $this->Ln();
+            $this->Texto($this->web_verificacion, $x, null, 'C', $w);
+        }
+    }
+
+    /**
+     * Indica si se asignó la resolución del SII con número y fecha. El
+     * número 0 es válido (ambiente de certificación).
+     *
+     * @return bool
+     */
+    protected function tieneResolucion(): bool
+    {
+        return is_array($this->resolucion)
+            && isset($this->resolucion['NroResol'], $this->resolucion['FchResol'])
+            && trim((string)$this->resolucion['NroResol']) !== ''
+            && trim((string)$this->resolucion['FchResol']) !== '';
+    }
+
+    /**
      * Agrega una página nueva cuando los datos del documento terminan dentro
      * de la zona del pie, y registra la distribución resultante. Solo aplica
      * cuando el timbre va al pie (posiciones fijas); si el pie va pegado al

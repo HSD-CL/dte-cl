@@ -2,6 +2,15 @@
 
 All notable changes to `dte-cl` will be documented in this file
 
+## 0.10.45 - Sin publicar
+
+### Fixed
+- PDF de los DTE (carta y papel continuo): la línea bajo el timbre vuelve a mostrar la resolución del SII ("Resolución 80 de 2014"). Las estrategias leían la carátula de una opción inexistente (`options['cartula']`) en vez de la que entrega la fábrica, así que siempre salía "Resolución  de" vacía. El número 0 del ambiente de certificación se muestra como válido.
+
+### Changed
+- Si no se conoce la resolución, la línea se omite en vez de imprimirse vacía.
+- `PdfFileFactory::make()` solo entrega la carátula cuando el XML es un sobre (`EnvioDTE` o `EnvioBOLETA`); para un DTE suelto ya no pasa la carátula que inventa LibreDTE (resolución 9999 y fecha del día).
+
 ## 0.10.44 - 2026-11-12
 
 ### Fixed
