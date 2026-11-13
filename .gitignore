@@ -9,3 +9,4 @@ xml
 .idea/*
 .vscode/
 .DS_Store
+.claude/
