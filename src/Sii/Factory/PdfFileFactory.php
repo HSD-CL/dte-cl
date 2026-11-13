@@ -26,8 +26,11 @@ abstract class PdfFileFactory
     {
         # Read the XML
         $agent = new EnvioDte();
-        $agent->loadXML(XmlEncoding::normalize(file_get_contents($filename)));
-        $caratula = $agent->getCaratula();
+        $xml = XmlEncoding::normalize(file_get_contents($filename));
+        $agent->loadXML($xml);
+        # Si el XML es un DTE suelto, LibreDTE inventa una carátula (resolución
+        # 9999 y fecha de hoy) que no debe llegar al PDF
+        $caratula = self::isEnvelope($xml) ? $agent->getCaratula() : [];
         # Remove files
         $files = glob($dirOutput . '/*'); // get all file names
         foreach($files as $file){ // iterate files
@@ -48,5 +51,22 @@ abstract class PdfFileFactory
         }
 
         return true;
+    }
+
+    /**
+     * Indica si el XML es un sobre (EnvioDTE o EnvioBOLETA), que es el que
+     * trae la carátula real del emisor
+     *
+     * @param string $xml
+     * @return bool
+     */
+    private static function isEnvelope(string $xml): bool
+    {
+        $document = new \DOMDocument();
+        if (!@$document->loadXML($xml) || !$document->documentElement) {
+            return false;
+        }
+
+        return in_array($document->documentElement->localName, ['EnvioDTE', 'EnvioBOLETA'], true);
     }
 }

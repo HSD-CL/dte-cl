@@ -36,11 +36,9 @@ class LetterFormatStrategy extends FormatStrategy
         if (!empty($this->options['logo'])) {
             $this->pdf->setLogo($this->options['logo']);
         }
-        if (!empty($extraInfo['caratula'])) {
-            $this->pdf->setResolucion([
-                'FchResol' => $this->options['cartula']['FchResol'] ?? '',
-                'NroResol' => $this->options['cartula']['NroResol'] ?? ''
-            ]);
+        $resolucion = $this->getResolucion($extraInfo);
+        if ($resolucion) {
+            $this->pdf->setResolucion($resolucion);
         }
         if ($this->options['cedible']) {
             $this->pdf->setCedible($this->options['cedible']);

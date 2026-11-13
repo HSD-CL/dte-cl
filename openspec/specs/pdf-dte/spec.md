@@ -89,3 +89,31 @@ El sistema MUST NOT modificar el contenido de un XML cuya codificación real coi
 
 - **WHEN** se genera el PDF de un XML que declara `ISO-8859-1` y no contiene caracteres fuera de ASCII
 - **THEN** el contenido del XML no se modifica
+
+### Requirement: El PDF muestra la resolución del SII del sobre
+
+Cuando el XML es un sobre (`EnvioDTE` o `EnvioBOLETA`) cuya carátula trae número y fecha de resolución, el PDF SHALL mostrar bajo el timbre la línea "Resolución N de AAAA" con esos datos, tanto en formato carta como en papel continuo. El número de resolución 0 MUST tratarse como válido.
+
+#### Scenario: Sobre con resolución
+
+- **WHEN** se genera el PDF de un sobre cuya carátula indica resolución 80 del 2014-08-22
+- **THEN** bajo el timbre se lee "Resolución 80 de 2014"
+
+#### Scenario: Sobre del ambiente de certificación
+
+- **WHEN** se genera el PDF de un sobre cuya carátula indica resolución 0 del 2014-08-22
+- **THEN** bajo el timbre se lee "Resolución 0 de 2014"
+
+### Requirement: La línea de resolución se omite cuando no se conoce
+
+Cuando no hay una resolución real disponible, el PDF MUST omitir la línea de resolución bajo el timbre y conservar las demás leyendas. El sistema MUST NOT mostrar una resolución que no provenga de la carátula original del XML.
+
+#### Scenario: Carátula sin resolución
+
+- **WHEN** se genera el PDF de un sobre cuya carátula no trae número o fecha de resolución
+- **THEN** bajo el timbre aparecen "Timbre Electrónico SII" y "Verifique documento", sin la línea de resolución
+
+#### Scenario: DTE suelto sin sobre
+
+- **WHEN** se genera el PDF de un XML que contiene solo el DTE, sin sobre
+- **THEN** no se muestra ninguna resolución, tampoco una generada automáticamente
