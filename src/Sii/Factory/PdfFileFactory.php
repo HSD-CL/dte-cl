@@ -4,6 +4,7 @@ namespace HSDCL\DteCl\Sii\Factory;
 use HSDCL\DteCl\Sii\Base\Pdf\FormatStrategy;
 use HSDCL\DteCl\Sii\Base\Pdf\PdfDte;
 use HSDCL\DteCl\Util\Exception;
+use HSDCL\DteCl\Util\XmlEncoding;
 use sasco\LibreDTE\Sii\EnvioDte;
 
 /**
@@ -25,7 +26,7 @@ abstract class PdfFileFactory
     {
         # Read the XML
         $agent = new EnvioDte();
-        $agent->loadXML(file_get_contents($filename));
+        $agent->loadXML(XmlEncoding::normalize(file_get_contents($filename)));
         $caratula = $agent->getCaratula();
         # Remove files
         $files = glob($dirOutput . '/*'); // get all file names
