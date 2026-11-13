@@ -117,3 +117,17 @@ Cuando no hay una resolución real disponible, el PDF MUST omitir la línea de r
 
 - **WHEN** se genera el PDF de un XML que contiene solo el DTE, sin sobre
 - **THEN** no se muestra ninguna resolución, tampoco una generada automáticamente
+
+### Requirement: Los valores numéricos del detalle caben en un renglón
+
+En formato carta, las columnas numéricas del detalle (cantidad, precio unitario, descuento, recargo y total) SHALL ensancharse según el contenido del documento para que cada valor quede en un solo renglón, tomando el espacio de la columna del nombre del ítem. Cuando los valores caben en el ancho habitual, los anchos MUST NOT cambiar.
+
+#### Scenario: Precio unitario con decimales
+
+- **WHEN** se genera el PDF carta de un documento cuyo precio unitario es 1563211.76
+- **THEN** el precio se muestra como "1.563.211,76" en un solo renglón y la fila tiene el mismo alto que con un precio entero
+
+#### Scenario: Valores que caben en el ancho habitual
+
+- **WHEN** se genera el PDF carta de un documento cuyos valores numéricos caben en el ancho habitual de sus columnas
+- **THEN** las columnas conservan su ancho habitual
