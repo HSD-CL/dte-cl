@@ -2,7 +2,12 @@
 
 All notable changes to `dte-cl` will be documented in this file
 
-## 0.10.45 - Sin publicar
+## 0.10.46 - 2026-11-13
+
+### Fixed
+- PDF en formato carta: un precio unitario con decimales (por ejemplo `1.563.211,76`) ya no se parte en dos renglones. Las columnas numéricas del detalle (cantidad, precio unitario, descuento, recargo y total) se ensanchan según el contenido del documento, hasta 45 mm, tomando el espacio de la columna "Item". Si los valores caben, los anchos no cambian.
+
+## 0.10.45 - 2026-11-13
 
 ### Fixed
 - PDF de los DTE (carta y papel continuo): la línea bajo el timbre vuelve a mostrar la resolución del SII ("Resolución 80 de 2014"). Las estrategias leían la carátula de una opción inexistente (`options['cartula']`) en vez de la que entrega la fábrica, así que siempre salía "Resolución  de" vacía. El número 0 del ambiente de certificación se muestra como válido.

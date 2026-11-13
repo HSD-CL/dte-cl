@@ -166,6 +166,60 @@ class PdfDteLetterLayoutTest extends TestCase
     }
 
     /**
+     * Un precio unitario con decimales no cabe en el ancho por defecto de su
+     * columna; la columna debe ensancharse para que la fila no crezca a dos
+     * renglones. Se compara el alto del detalle con el de un precio entero.
+     *
+     * @test
+     * @dataProvider preciosConDecimales
+     */
+    public function elPrecioUnitarioConDecimalesNoPasaADosRenglones(string $precio, string $nombre)
+    {
+        $entero = $this->makePdf();
+        $entero->agregar($this->makeDte(1), $this->makeTimbre());
+        [, $pieEntero] = $this->medirYGuardar($entero);
+
+        $dte = $this->makeDte(1);
+        $dte['Detalle'][0]['PrcItem'] = $precio;
+        $dte['Detalle'][0]['MontoItem'] = (int)round((float)$precio);
+        $decimal = $this->makePdf();
+        $decimal->agregar($dte, $this->makeTimbre());
+        [$paginas, $pieDecimal] = $this->medirYGuardar($decimal, $nombre);
+
+        $this->assertSame(1, $paginas);
+        $this->assertSame($pieEntero['y_fin_datos'], $pieDecimal['y_fin_datos'], 'La fila del detalle creció');
+    }
+
+    public static function preciosConDecimales(): array
+    {
+        return [
+            'dos decimales (caso reportado)' => ['1563211.76', 'carta_precio_con_decimales'],
+            'seis decimales y nueve enteros' => ['999999999.999999', 'carta_precio_con_seis_decimales'],
+        ];
+    }
+
+    /**
+     * El ancho por defecto de las columnas no cambia cuando los valores caben
+     *
+     * @test
+     */
+    public function elAjusteDeColumnasNoQuedaPegadoEntreDocumentos()
+    {
+        $pdf = $this->makePdf();
+        $dte = $this->makeDte(1);
+        $dte['Detalle'][0]['PrcItem'] = '999999999.999999';
+        $pdf->agregar($dte, $this->makeTimbre());
+        $pdf->agregar($this->makeDte(1), $this->makeTimbre());
+        [, $segundo] = $this->medirYGuardar($pdf);
+
+        $solo = $this->makePdf();
+        $solo->agregar($this->makeDte(1), $this->makeTimbre());
+        [, $referencia] = $this->medirYGuardar($solo);
+
+        $this->assertSame($referencia['y_fin_datos'], $segundo['y_fin_datos']);
+    }
+
+    /**
      * Comprueba que en la página del pie los datos terminan antes de que
      * empiece el pie, con la separación mínima
      */

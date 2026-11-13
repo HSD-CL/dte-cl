@@ -39,6 +39,23 @@ class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
     const PIE_MARGEN = 2;
 
     /**
+     * Columnas numéricas del detalle cuyo ancho se ajusta al contenido para
+     * que el valor no se parta en dos renglones
+     */
+    const DETALLE_COLUMNAS_AJUSTABLES = ['QtyItem', 'PrcItem', 'DescuentoMonto', 'RecargoMonto', 'MontoItem'];
+
+    /**
+     * Ancho máximo (mm) que puede tomar una columna numérica del detalle; el
+     * espacio sale de la columna "Item"
+     */
+    const DETALLE_COLUMNA_ANCHO_MAXIMO = 45;
+
+    /**
+     * Holgura (mm) que se suma al ancho medido del texto de una columna
+     */
+    const DETALLE_COLUMNA_HOLGURA = 1;
+
+    /**
      * Distribución del pie del último documento agregado en papel carta
      *
      * @var array|null
@@ -254,7 +271,8 @@ class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
      * desde $x, a la izquierda del margen de la página; cuando el detalle
      * salta de página, TCPDF repite el encabezado de la tabla en el margen y
      * queda corrido respecto de las filas. Para evitarlo, el margen izquierdo
-     * se iguala a $x mientras se dibuja la tabla.
+     * se iguala a $x mientras se dibuja la tabla. Además ajusta el ancho de
+     * las columnas numéricas al contenido de este documento.
      *
      * @param array $detalle Arreglo con el detalle del documento (tag Detalle del XML)
      * @param int|float $x Posición horizontal de inicio en el PDF
@@ -262,10 +280,47 @@ class PdfDte extends \sasco\LibreDTE\Sii\Dte\PDF\Dte
      */
     protected function agregarDetalle($detalle, $x = 10, $html = true)
     {
+        $columnas = $this->detalle_cols;
+        $this->ajustarAnchoColumnasDetalle($detalle);
         $margenIzquierdo = $this->lMargin;
         $this->SetLeftMargin($x);
         parent::agregarDetalle($detalle, $x, $html);
         $this->SetLeftMargin($margenIzquierdo);
+        $this->detalle_cols = $columnas;
+    }
+
+    /**
+     * Ensancha las columnas numéricas del detalle cuando algún valor no cabe
+     * en su ancho por defecto (por ejemplo un precio unitario con decimales),
+     * para que no se parta en dos renglones. Nunca las angosta, y el ancho
+     * extra se descuenta de la columna "Item", que ocupa el espacio restante.
+     *
+     * @param array $detalle Arreglo con el detalle del documento (tag Detalle del XML)
+     */
+    protected function ajustarAnchoColumnasDetalle($detalle)
+    {
+        if (!is_array($detalle)) {
+            return;
+        }
+        if (!isset($detalle[0])) {
+            $detalle = [$detalle];
+        }
+        $margenes = $this->getCellPaddings();
+        $relleno = $margenes['L'] + $margenes['R'] + self::DETALLE_COLUMNA_HOLGURA;
+        foreach (self::DETALLE_COLUMNAS_AJUSTABLES as $columna) {
+            if (!isset($this->detalle_cols[$columna]['width'])) {
+                continue;
+            }
+            $ancho = (float)$this->detalle_cols[$columna]['width'];
+            foreach ($detalle as $item) {
+                if (!isset($item[$columna]) || !is_scalar($item[$columna]) || $item[$columna] === '') {
+                    continue;
+                }
+                $texto = (string)$this->num($item[$columna]);
+                $ancho = max($ancho, $this->GetStringWidth($texto, '', '', $this->detalle_fuente) + $relleno);
+            }
+            $this->detalle_cols[$columna]['width'] = min(ceil($ancho), self::DETALLE_COLUMNA_ANCHO_MAXIMO);
+        }
     }
 
     /**
