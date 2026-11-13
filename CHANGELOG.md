@@ -2,7 +2,7 @@
 
 All notable changes to `dte-cl` will be documented in this file
 
-## 0.10.46 - Sin publicar
+## 0.10.46 - 2026-11-13
 
 ### Fixed
 - PDF en formato carta: un precio unitario con decimales (por ejemplo `1.563.211,76`) ya no se parte en dos renglones. Las columnas numéricas del detalle (cantidad, precio unitario, descuento, recargo y total) se ensanchan según el contenido del documento, hasta 45 mm, tomando el espacio de la columna "Item". Si los valores caben, los anchos no cambian.
